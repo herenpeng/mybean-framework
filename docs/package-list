@@ -3,5 +3,7 @@ com.mybean.beans
 com.mybean.context
 com.mybean.context.support
 com.mybean.core
+com.mybean.listener
+com.mybean.mvc
 com.mybean.test
 com.mybean.util
