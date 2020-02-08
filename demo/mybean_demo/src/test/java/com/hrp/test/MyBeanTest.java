@@ -14,15 +14,12 @@ import java.util.List;
  */
 public class MyBeanTest {
 
-    @Test
-    public void test01(){
-        Application application = new PropertiesApplication();
-        UserController userController = application.getBean("userController");
-        List<User> list = userController.findAll();
-        for (User user : list) {
-            System.out.println(user);
-        }
-    }
+//    @Test
+//    public void test01(){
+//        Application application = new PropertiesApplication();
+//        UserController userController = application.getBean("user");
+//        List<User> list = userController.findAll();
+//    }
 
 
 }

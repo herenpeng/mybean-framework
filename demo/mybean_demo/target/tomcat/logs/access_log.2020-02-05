@@ -1,0 +1,7 @@
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:49:10 +0800] "GET / HTTP/1.1" 500 1542 http-bio-8080-exec-1 130
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:49:11 +0800] "GET /favicon.ico HTTP/1.1" 500 1542 http-bio-8080-exec-2 20
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:49:21 +0800] "GET /one.jsp HTTP/1.1" 500 1542 http-bio-8080-exec-3 10
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:49:37 +0800] "GET /static/index.jsp HTTP/1.1" 200 - http-bio-8080-exec-4 0
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:50:45 +0800] "GET /static/index.jsp HTTP/1.1" 200 - http-bio-8080-exec-6 0
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:52:43 +0800] "GET /static/index.jsp HTTP/1.1" 200 - http-bio-8080-exec-1 30
+0:0:0:0:0:0:0:1 - - [05/Feb/2020:23:56:29 +0800] "GET /static/index.jsp HTTP/1.1" 200 - http-bio-8080-exec-3 0
