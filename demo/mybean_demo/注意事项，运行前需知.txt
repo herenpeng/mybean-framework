@@ -1,1 +1,0 @@
-mybean_demo是作者写的一个demo，由于作者将mybean安装到了Maven的本地仓库，所以使用了Maven工程和依赖坐标导入jar包，如果使用者没有将jar包安装到Maven的本地仓库，那么请创建普通的Java项目，并手动复制粘贴将jar包引入项目中。
