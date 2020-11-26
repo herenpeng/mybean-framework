@@ -1,5 +1,0 @@
-com\hrp\controller\UserController.class
-com\hrp\dao\UserDao.class
-com\hrp\util\DataSource.class
-com\hrp\service\UserService.class
-com\hrp\pojo\User.class
