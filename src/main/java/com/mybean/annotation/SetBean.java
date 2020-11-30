@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface GetBean {
+public @interface SetBean {
 
     /**
      * value属性，用于指定需要赋值的类的id，

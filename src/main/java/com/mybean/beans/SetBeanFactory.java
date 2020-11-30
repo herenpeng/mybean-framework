@@ -1,6 +1,6 @@
 package com.mybean.beans;
 
-import com.mybean.util.GetBeanUtils;
+import com.mybean.util.SetBeanUtils;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 主要用于解析类上的@GetBean注解，并为有该注解的属性注入实例
+ * 主要用于解析类上的@SetBean注解，并为有该注解的属性注入实例
  *
  * @author hrp
  */
-public class GetBeanFactory {
+public class SetBeanFactory {
 
     /**
      * 传入所有被管理的BeanMap，返回属性注入完成的BeanMap
@@ -26,10 +26,10 @@ public class GetBeanFactory {
             for (Map.Entry<String, Object> entry : entries) {
                 Object currentObject = entry.getValue();
                 Class<?> currentBeanClass = currentObject.getClass();
-                Set<Field> fields = GetBeanUtils.getFieldNames(currentBeanClass);
+                Set<Field> fields = SetBeanUtils.getFieldNames(currentBeanClass);
                 for (Field field : fields) {
                     field.setAccessible(true);
-                    String key = GetBeanUtils.getAnnotationValue(field);
+                    String key = SetBeanUtils.getAnnotationValue(field);
                     Object fieldBeanObject = null;
                     if (key != null && key.length() > 0) {
                         fieldBeanObject = beanMap.get(key);

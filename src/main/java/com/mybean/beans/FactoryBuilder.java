@@ -20,7 +20,7 @@ public class FactoryBuilder {
      * @return 返回最终的beanMap, 其中已经封装了Bean实例，Bean中已被注入了属性
      */
     public static Map<String, Object> produce(InputStream inputStream) {
-        return GetBeanFactory.produce(BeanFactory.produce(BeanNameFactory.produce(inputStream)));
+        return SetBeanFactory.produce(BeanFactory.produce(BeanNameFactory.produce(inputStream)));
     }
 
     /**
@@ -31,7 +31,7 @@ public class FactoryBuilder {
      */
     public static Map<String, Object> produce(Class<?> classObject) {
         try {
-            return GetBeanFactory.produce(BeanFactory.produce(MyBeanUtils.filter(classObject)));
+            return SetBeanFactory.produce(BeanFactory.produce(MyBeanUtils.filter(classObject)));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -48,7 +48,7 @@ public class FactoryBuilder {
      */
     public static Map<String, Object> produce(String packageScanName) {
         try {
-            return GetBeanFactory.produce(BeanFactory.produce(MyBeanUtils.filter(packageScanName)));
+            return SetBeanFactory.produce(BeanFactory.produce(MyBeanUtils.filter(packageScanName)));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

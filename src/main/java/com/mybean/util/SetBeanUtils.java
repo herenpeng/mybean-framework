@@ -1,7 +1,6 @@
 package com.mybean.util;
 
-
-import com.mybean.annotation.GetBean;
+import com.mybean.annotation.SetBean;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -12,18 +11,18 @@ import java.util.Set;
  *
  * @author hrp
  */
-public class GetBeanUtils {
+public class SetBeanUtils {
 
     /**
      * 常量：GetBean.class
      */
-    private final static Class<GetBean> ANNOTATION_CLASS = GetBean.class;
+    private final static Class<SetBean> ANNOTATION_CLASS = SetBean.class;
 
     /**
-     * 扫描所有一个类上的被@GetBean注解的属性
+     * 扫描所有一个类上的被@SetBean注解的属性
      *
      * @param currentBeanClass 传入一个类的字节码对象
-     * @return 返回该类上所有被@GetBean注解的属性集合
+     * @return 返回该类上所有被@SetBean注解的属性集合
      */
     public static Set<Field> getFieldNames(Class<?> currentBeanClass) {
         Field[] fields = currentBeanClass.getDeclaredFields();
@@ -38,13 +37,13 @@ public class GetBeanUtils {
     }
 
     /**
-     * 传入一个属性，返回该属性上@GetBean注解的value值
+     * 传入一个属性，返回该属性上@SetBean注解的value值
      *
      * @param field 传入一个属性
-     * @return 返回该属性上@GetBean注解的value值
+     * @return 返回该属性上@SetBean注解的value值
      */
     public static String getAnnotationValue(Field field) {
-        GetBean getBean = field.getAnnotation(ANNOTATION_CLASS);
+        SetBean getBean = field.getAnnotation(ANNOTATION_CLASS);
         return getBean.value();
     }
 
