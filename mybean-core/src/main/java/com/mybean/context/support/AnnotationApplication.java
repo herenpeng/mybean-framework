@@ -34,7 +34,7 @@ public class AnnotationApplication extends AbstractApplication {
     /**
      * 无参构造
      */
-    public AnnotationApplication() {}
+    private AnnotationApplication() {}
 
 
 }
