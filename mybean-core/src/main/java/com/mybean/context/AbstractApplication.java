@@ -1,6 +1,6 @@
 package com.mybean.context;
 
-import com.mybean.core.CoreBeanMap;
+import com.mybean.core.BeanCoreContainer;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author hrp
  * 2020/2/5 9:34
  */
-public abstract class AbstractApplication extends CoreBeanMap implements Application {
+public abstract class AbstractApplication extends BeanCoreContainer implements Application {
 
     @Override
     public <T> T getBean(String name) {

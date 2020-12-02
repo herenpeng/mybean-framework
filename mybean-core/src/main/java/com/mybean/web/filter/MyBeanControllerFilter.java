@@ -34,7 +34,7 @@ public class MyBeanControllerFilter implements Filter {
     /**
      * 常量，默认的视图解析前缀
      */
-    private final static String DEFAULT_VIEW_PREFIX = ".."+SEPARATE+STATIC+SEPARATE;
+    private final static String DEFAULT_VIEW_PREFIX = ".." + SEPARATE + STATIC + SEPARATE;
     /**
      * 类成员变量，框架的核心容器
      */
@@ -57,7 +57,7 @@ public class MyBeanControllerFilter implements Filter {
                 Method method = object.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
                 Object viewName = method.invoke(object, req, resp);
                 if (viewName instanceof String) {
-                    req.getRequestDispatcher(DEFAULT_VIEW_PREFIX+viewName).forward(req,resp);
+                    req.getRequestDispatcher(DEFAULT_VIEW_PREFIX + viewName).forward(req, resp);
                 }
             } else {
                 chain.doFilter(request, response);

@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author hrp
  */
-public abstract class CoreBeanMap {
+public abstract class BeanCoreContainer {
 
     /**
      * 默认加载的配置文件
