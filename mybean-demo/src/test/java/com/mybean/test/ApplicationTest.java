@@ -8,7 +8,6 @@ import com.mybean.context.support.AnnotationApplication;
 import com.mybean.context.support.PropertiesApplication;
 import org.junit.Test;
 
-@MyBean
 @PackageScan("com.mybean.test")
 public class ApplicationTest {
 

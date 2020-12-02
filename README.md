@@ -61,6 +61,23 @@ public class Person {
  
  @PackageScan有一个value属性，为包扫描范围，如果该值为空，则默认扫描标识@PackageScan注解的包下的所有@MyBean实例。
  
+ 例：
+ ```java
+@PackageScan("com.mybean.test")
+public class ApplicationTest {
+
+}
+```
+
+ ```java
+package com.mybean.test;
+
+@PackageScan
+public class ApplicationTest {
+
+}
+```
+ 
  - 配置
  
  在application.properties配置文件中配置package.scan属性即可
@@ -68,5 +85,5 @@ public class Person {
  例：
  
  ```java
-package.scan=com.mybean
+package.scan=com.mybean.test
 ```
