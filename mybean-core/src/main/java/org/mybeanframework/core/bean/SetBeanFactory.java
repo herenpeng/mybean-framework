@@ -1,6 +1,6 @@
-package org.mybeanframework.bean;
+package org.mybeanframework.core.bean;
 
-import org.mybeanframework.util.SetBeanUtils;
+import org.mybeanframework.core.util.SetBeanUtils;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;

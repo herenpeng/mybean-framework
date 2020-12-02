@@ -1,4 +1,4 @@
-package org.mybeanframework.annotation;
+package org.mybeanframework.core.annotation;
 
 import java.lang.annotation.*;
 

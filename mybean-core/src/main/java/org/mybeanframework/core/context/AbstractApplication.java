@@ -1,4 +1,4 @@
-package org.mybeanframework.context;
+package org.mybeanframework.core.context;
 
 import org.mybeanframework.core.BeanCoreContainer;
 

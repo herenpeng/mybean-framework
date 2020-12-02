@@ -1,8 +1,8 @@
-package org.mybeanframework.web.filter;
+package org.mybeanframework.core.filter;
 
-import org.mybeanframework.context.Application;
-import org.mybeanframework.context.support.AnnotationApplication;
-import org.mybeanframework.context.support.PropertiesApplication;
+import org.mybeanframework.core.context.Application;
+import org.mybeanframework.core.context.support.AnnotationApplication;
+import org.mybeanframework.core.context.support.PropertiesApplication;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

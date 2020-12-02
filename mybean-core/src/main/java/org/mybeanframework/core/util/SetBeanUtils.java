@@ -1,6 +1,6 @@
-package org.mybeanframework.util;
+package org.mybeanframework.core.util;
 
-import org.mybeanframework.annotation.SetBean;
+import org.mybeanframework.core.annotation.SetBean;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;

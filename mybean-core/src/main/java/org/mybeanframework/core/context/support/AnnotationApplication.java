@@ -1,7 +1,7 @@
-package org.mybeanframework.context.support;
+package org.mybeanframework.core.context.support;
 
-import org.mybeanframework.bean.FactoryBuilder;
-import org.mybeanframework.context.AbstractApplication;
+import org.mybeanframework.core.bean.FactoryBuilder;
+import org.mybeanframework.core.context.AbstractApplication;
 
 /**
  * Application接口的对外实现类之一，继承AbstractApplication

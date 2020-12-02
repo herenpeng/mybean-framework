@@ -5,21 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 核心容器
+ * MyBean框架的核心容器
  *
  * @author herenpeng
  */
 public abstract class BeanCoreContainer {
 
     /**
-     * 默认加载的配置文件
-     */
-    protected String DEFAULT_CONFIGURATION_FILE = "application.properties";
-
-    /**
      * 核心容器，保证唯一 container
      */
     protected Map<String, Object> beanCoreContainer = new HashMap<>();
+
+    /**
+     * 默认加载的配置文件
+     */
+    protected String DEFAULT_CONFIGURATION_FILE = "application.properties";
 
     /**
      * 声明一个输入流

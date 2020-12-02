@@ -1,6 +1,6 @@
-package org.mybeanframework.util;
+package org.mybeanframework.core.util;
 
-import org.mybeanframework.annotation.MyBean;
+import org.mybeanframework.core.annotation.MyBean;
 
 import java.io.IOException;
 import java.util.HashMap;

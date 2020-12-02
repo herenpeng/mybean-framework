@@ -1,6 +1,6 @@
 package com.mybean.test;
 
-import org.mybeanframework.annotation.MyBean;
+import org.mybeanframework.core.annotation.MyBean;
 
 /**
  * @author herenpeng

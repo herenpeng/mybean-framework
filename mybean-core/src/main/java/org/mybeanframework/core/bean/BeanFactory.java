@@ -1,4 +1,4 @@
-package org.mybeanframework.bean;
+package org.mybeanframework.core.bean;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
