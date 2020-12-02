@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * 核心容器
  *
- * @author hrp
+ * @author herenpeng
  */
 public abstract class BeanCoreContainer {
 

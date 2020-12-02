@@ -6,7 +6,8 @@ import java.util.Map;
 
 /**
  * Bean实例化工厂
- * @author hrp
+ *
+ * @author herenpeng
  */
 public class BeanFactory {
 
@@ -27,7 +28,7 @@ public class BeanFactory {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 Class<Object> classObject = (Class<Object>) Class.forName(value);
-                if(!Modifier.isAbstract(classObject.getModifiers())){
+                if (!Modifier.isAbstract(classObject.getModifiers())) {
                     Object object = classObject.newInstance();
                     beanMap.put(key, object);
                 }

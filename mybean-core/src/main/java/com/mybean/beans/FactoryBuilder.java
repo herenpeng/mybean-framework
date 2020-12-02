@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * 对外工厂接口，封装内部细节
  *
- * @author hrp
+ * @author herenpeng
  */
 public class FactoryBuilder {
 

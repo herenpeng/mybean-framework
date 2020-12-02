@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * 主要用于解析类上的@SetBean注解，并为有该注解的属性注入实例
  *
- * @author hrp
+ * @author herenpeng
  */
 public class SetBeanFactory {
 

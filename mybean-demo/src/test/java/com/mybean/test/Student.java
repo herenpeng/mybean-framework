@@ -3,7 +3,7 @@ package com.mybean.test;
 import com.mybean.annotation.MyBean;
 
 /**
- * @author hrp
+ * @author herenpeng
  * 020/2/4 19:33
  */
 @MyBean

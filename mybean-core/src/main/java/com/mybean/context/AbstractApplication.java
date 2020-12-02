@@ -8,8 +8,8 @@ import java.io.IOException;
  * Application的抽象实现，同时继承了CoreBeanMap
  * 使用的是类的适配器模式的设计思想，将接口和抽象类适配
  *
- * @author hrp
- * 2020/2/5 9:34
+ * @author herenpeng
+ * @since 2020-2-5 9:34
  */
 public abstract class AbstractApplication extends BeanCoreContainer implements Application {
 

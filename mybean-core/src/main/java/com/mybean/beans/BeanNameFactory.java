@@ -11,7 +11,8 @@ import java.util.Set;
 
 /**
  * 主要用于解析properties文件和类上的@MyBean注解
- * @author hrp
+ *
+ * @author herenpeng
  */
 public class BeanNameFactory {
 
@@ -49,9 +50,6 @@ public class BeanNameFactory {
         }
         return beanNameMap;
     }
-
-
-
 
 
 }

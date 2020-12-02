@@ -7,7 +7,8 @@ import com.mybean.context.AbstractApplication;
  * Application接口的对外实现类之一，继承AbstractApplication
  * 使用properties配置文件的启动类
  *
- * @author hrp
+ * @author herenpeng
+ * @since 2020-2-5 9:08
  */
 public class PropertiesApplication extends AbstractApplication {
 

@@ -5,8 +5,8 @@ import java.lang.annotation.*;
 /**
  * 注解，作用于类上，用于指定被MyBean管理的类
  *
- * @author hrp
- * 2020/2/4 8:23
+ * @author herenpeng
+ * @since 2020-2-4 8:23
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

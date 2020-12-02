@@ -5,7 +5,8 @@ import java.lang.annotation.*;
 /**
  * 注解，作用于属性上，用于给属性赋值
  *
- * @author hrp
+ * @author herenpeng
+ * @since 2020-2-5 8:59
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

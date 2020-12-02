@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 注解@MyBean的工具类，用于处理@MyBean注解相关的问题
  *
- * @author hrp
+ * @author herenpeng
  */
 public class MyBeanUtils {
 

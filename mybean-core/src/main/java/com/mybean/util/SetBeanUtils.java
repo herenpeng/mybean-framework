@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 注解@OGetBean的工具类，用于处理@OGetBean注解相关的问题
+ * 注解@SetBean的工具类，用于处理@SetBean注解相关的问题
  *
- * @author hrp
+ * @author herenpeng
  */
 public class SetBeanUtils {
 

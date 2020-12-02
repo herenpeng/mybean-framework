@@ -5,8 +5,8 @@ import java.lang.annotation.*;
 /**
  * 注解，作用于类上，用于指定包扫描的路径
  *
- * @author hrp
- * 2020/2/5 8:59
+ * @author herenpeng
+ * @since 2020-2-5 8:59
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

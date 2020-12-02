@@ -3,7 +3,7 @@ package com.mybean.context;
 /**
  * 启动类的接口
  *
- * @author hrp
+ * @author herenpeng
  */
 public interface Application {
 

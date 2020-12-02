@@ -13,8 +13,8 @@ import java.lang.reflect.Method;
 /**
  * 前端核心控制器，负责分发任务，释放静态资源
  *
- * @author hrp
- * 2020/2/5 15:09
+ * @author herenpeng
+ * @since 2020-2-5 15:09
  */
 public class MyBeanControllerFilter implements Filter {
     private static final long serialVersionUID = 1L;

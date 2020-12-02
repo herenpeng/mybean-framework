@@ -15,7 +15,7 @@ import java.util.*;
  * getBeanNameMap(Class classObject)：
  * 返回这个类上的@PackageScan的属性的包下所有的.class文件的首字母小写类名和全限定类名
  *
- * @author hrp
+ * @author herenpeng
  */
 public class PackageScanUtils {
 

@@ -7,8 +7,8 @@ import com.mybean.context.AbstractApplication;
  * Application接口的对外实现类之一，继承AbstractApplication
  * 使用注解开发的启动类
  *
- * @author hrp
- * 2020/2/5 9:08
+ * @author herenpeng
+ * @since 2020-2-5 9:08
  */
 public class AnnotationApplication extends AbstractApplication {
 
