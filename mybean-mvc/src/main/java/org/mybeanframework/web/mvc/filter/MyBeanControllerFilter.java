@@ -70,16 +70,16 @@ public class MyBeanControllerFilter implements Filter {
     /**
      * 常量：框架配置文件名的参数名
      */
-    private final static String MYBEAN_CONFIG_LOCATION = "ConfigLocation";
+    private final static String CONFIG_LOCATION = "ConfigLocation";
     /**
      * 常量：框架包扫描路径的参数名
      */
-    private final static String MYBEAN_PACKAGE_SCAN = "PackageScan";
+    private final static String PACKAGE_SCAN = "PackageScan";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        String ConfigLocation = filterConfig.getInitParameter(MYBEAN_CONFIG_LOCATION);
-        String PackageScan = filterConfig.getInitParameter(MYBEAN_PACKAGE_SCAN);
+        String ConfigLocation = filterConfig.getInitParameter(CONFIG_LOCATION);
+        String PackageScan = filterConfig.getInitParameter(PACKAGE_SCAN);
         if (ConfigLocation != null && ConfigLocation.length() > 0) {
             application = new PropertiesApplication(ConfigLocation);
         } else if (PackageScan != null && PackageScan.length() > 0) {

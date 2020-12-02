@@ -10,10 +10,7 @@ import java.io.IOException;
  * @since 2020-12-02 15:42
  */
 public class ServiceServlet implements Servlet {
-    @Override
-    public void init(ServletConfig servletConfig) throws ServletException {
 
-    }
 
     @Override
     public ServletConfig getServletConfig() {
@@ -28,6 +25,11 @@ public class ServiceServlet implements Servlet {
     @Override
     public String getServletInfo() {
         return null;
+    }
+
+    @Override
+    public void init(ServletConfig servletConfig) throws ServletException {
+
     }
 
     @Override
