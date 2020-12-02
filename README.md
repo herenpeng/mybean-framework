@@ -20,11 +20,11 @@ public class Student {
 ```
 - 配置
  
- 在application.properties配置文件中进行Java类名和容器Key值的对应配置，即可将JavaBean注入核心容器。
+ 在application.properties配置文件中进行容器Key值和Java类名的对应配置，即可将JavaBean注入核心容器。
  
  例：
  ```java
-com.mybean.test.Student=student
+student=com.mybean.test.Student
 ```
 
 
