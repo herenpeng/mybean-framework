@@ -24,7 +24,7 @@ public class Student {
  
  例：
  ```java
-student=Student
+student=com.mybean.test.Student
 ```
 
 
