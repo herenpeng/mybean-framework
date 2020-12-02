@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.mybean</groupId>
+    <groupId>org.mybeanframework</groupId>
     <artifactId>mybean-framework</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>${mybean-framework.version}</version>
     <modules>
         <module>mybean-core</module>
         <module>mybean-demo</module>
@@ -19,19 +19,16 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <mybean-framework.version>1.1.1-SNAPSHOT</mybean-framework.version>
+        <servlet.version>2.0</servlet.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.0</version>
+            <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

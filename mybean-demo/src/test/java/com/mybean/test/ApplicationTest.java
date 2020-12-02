@@ -23,7 +23,6 @@ public class ApplicationTest {
         student.study();
     }
 
-
     @Test
     public void test3() {
         Application application = new AnnotationApplication(this.getClass());

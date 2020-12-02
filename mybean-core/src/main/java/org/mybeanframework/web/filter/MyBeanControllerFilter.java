@@ -1,4 +1,4 @@
-package org.mybeanframework.core.filter;
+package org.mybeanframework.web.filter;
 
 import org.mybeanframework.core.context.Application;
 import org.mybeanframework.core.context.support.AnnotationApplication;
