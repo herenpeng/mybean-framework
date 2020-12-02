@@ -14,12 +14,12 @@ public abstract class CoreBeanMap {
     /**
      * 默认加载的配置文件
      */
-    protected String DEFAULT_FILE = "application.properties";
+    protected String DEFAULT_CONFIGURATION_FILE = "application.properties";
 
     /**
-     * 核心容器，保证唯一
+     * 核心容器，保证唯一 container
      */
-    protected Map<String, Object> beanMap = new HashMap<>();
+    protected Map<String, Object> beanContainer = new HashMap<>();
 
     /**
      * 声明一个输入流

@@ -12,21 +12,21 @@ import com.mybean.context.AbstractApplication;
 public class PropertiesApplication extends AbstractApplication {
 
     /**
-     * 无参构造，默认加载application.properties文件，并根据配置文件和注解给beanMap赋值
+     * 无参构造，默认加载application.properties文件，并根据配置文件和注解给beanContainer赋值
      */
     public PropertiesApplication() {
-        inputStream = PropertiesApplication.class.getClassLoader().getResourceAsStream(DEFAULT_FILE);
-        beanMap = FactoryBuilder.produce(inputStream);
+        inputStream = PropertiesApplication.class.getClassLoader().getResourceAsStream(DEFAULT_CONFIGURATION_FILE);
+        beanContainer = FactoryBuilder.produce(inputStream);
     }
 
     /**
-     * 有参构造，加载指定的配置文件，并根据配置文件和注解给beanMap赋值
+     * 有参构造，加载指定的配置文件，并根据配置文件和注解给beanContainer赋值
      *
      * @param fileName 指定的配置文件名
      */
     public PropertiesApplication(String fileName) {
         inputStream = PropertiesApplication.class.getClassLoader().getResourceAsStream(fileName);
-        beanMap = FactoryBuilder.produce(inputStream);
+        beanContainer = FactoryBuilder.produce(inputStream);
     }
 
 }
