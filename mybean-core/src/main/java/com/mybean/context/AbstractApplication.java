@@ -15,12 +15,12 @@ public abstract class AbstractApplication extends CoreBeanMap implements Applica
 
     @Override
     public <T> T getBean(String name) {
-        return (T) beanContainer.get(name);
+        return (T) beanCoreContainer.get(name);
     }
 
     @Override
     public <T> T getBean(String name, Class<T> objClass) {
-        Object obj = beanContainer.get(name);
+        Object obj = beanCoreContainer.get(name);
         return objClass.isInstance(obj) ? objClass.cast(obj) : null;
     }
 

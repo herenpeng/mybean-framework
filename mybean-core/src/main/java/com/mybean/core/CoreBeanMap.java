@@ -19,7 +19,7 @@ public abstract class CoreBeanMap {
     /**
      * 核心容器，保证唯一 container
      */
-    protected Map<String, Object> beanContainer = new HashMap<>();
+    protected Map<String, Object> beanCoreContainer = new HashMap<>();
 
     /**
      * 声明一个输入流
