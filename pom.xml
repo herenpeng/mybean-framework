@@ -10,6 +10,7 @@
     <modules>
         <module>mybean-core</module>
         <module>mybean-demo</module>
+        <module>mybean-mvc</module>
     </modules>
     <packaging>pom</packaging>
 
