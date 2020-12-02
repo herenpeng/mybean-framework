@@ -1,6 +1,6 @@
-package com.mybean.context;
+package org.mybeanframework.context;
 
-import com.mybean.core.BeanCoreContainer;
+import org.mybeanframework.core.BeanCoreContainer;
 
 import java.io.IOException;
 

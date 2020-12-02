@@ -1,6 +1,6 @@
-package com.mybean.util;
+package org.mybeanframework.util;
 
-import com.mybean.annotation.PackageScan;
+import org.mybeanframework.annotation.PackageScan;
 
 import java.io.File;
 import java.io.IOException;

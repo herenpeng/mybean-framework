@@ -1,4 +1,4 @@
-package com.mybean.context;
+package org.mybeanframework.context;
 
 /**
  * 启动类的接口

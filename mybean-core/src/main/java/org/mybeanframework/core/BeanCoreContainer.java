@@ -1,4 +1,4 @@
-package com.mybean.core;
+package org.mybeanframework.core;
 
 import java.io.InputStream;
 import java.util.HashMap;

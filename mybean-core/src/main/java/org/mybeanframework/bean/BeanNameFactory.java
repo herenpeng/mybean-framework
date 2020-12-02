@@ -1,6 +1,6 @@
-package com.mybean.beans;
+package org.mybeanframework.bean;
 
-import com.mybean.util.MyBeanUtils;
+import org.mybeanframework.util.MyBeanUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
