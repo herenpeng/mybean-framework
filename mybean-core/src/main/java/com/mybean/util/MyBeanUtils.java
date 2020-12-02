@@ -18,7 +18,7 @@ public class MyBeanUtils {
     /**
      * 常量：MyBean.class
      */
-    private final static Class<MyBean> ANNOTATION_CLASS = MyBean.class;
+    private final static Class<MyBean> MY_BEAN_CLASS = MyBean.class;
 
     /**
      * 获取所有被@MyBean注解的类，
@@ -29,26 +29,24 @@ public class MyBeanUtils {
      * @throws ClassNotFoundException 异常
      */
     private static Map<String, String> filter(Map<String, String> packageScanBeanNameMap) throws ClassNotFoundException {
-        Map<String, String> addMap = new HashMap<>(16);
+        Map<String, String> newMap = new HashMap<>(16);
         Set<Map.Entry<String, String>> entries = packageScanBeanNameMap.entrySet();
         Iterator<Map.Entry<String, String>> iterator = entries.iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String value = entry.getValue();
-            Class<?> beanClass = Class.forName(value);
-            if (!beanClass.isAnnotationPresent(ANNOTATION_CLASS)) {
-                iterator.remove();
-            } else {
-                MyBean myBean = beanClass.getAnnotation(ANNOTATION_CLASS);
+            String entryKey = entry.getKey();
+            String entryValue = entry.getValue();
+            Class<?> beanClass = Class.forName(entryValue);
+            if (beanClass.isAnnotationPresent(MY_BEAN_CLASS)) {
+                MyBean myBean = beanClass.getAnnotation(MY_BEAN_CLASS);
                 String key = myBean.value();
                 if (key != null && key.length() > 0) {
-                    iterator.remove();
-                    addMap.put(key, value);
+                    entryKey = key;
                 }
+                newMap.put(entryKey, entryValue);
             }
         }
-        packageScanBeanNameMap.putAll(addMap);
-        return packageScanBeanNameMap;
+        return newMap;
     }
 
 

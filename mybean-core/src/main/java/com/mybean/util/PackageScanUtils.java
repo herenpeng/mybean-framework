@@ -22,7 +22,7 @@ public class PackageScanUtils {
     /**
      * 系统默认的分隔符字符，windows下为\
      */
-    private final static String SYSTEM_SEPARATOR = File.separator;
+    private final static String SYSTEM_FILE_SEPARATOR = File.separator;
     /**
      * 包之间间隔的符号
      */
@@ -38,7 +38,7 @@ public class PackageScanUtils {
     /**
      * 常量：PackageScan.class
      */
-    private final static Class<PackageScan> ANNOTATION_CLASS = PackageScan.class;
+    private final static Class<PackageScan> PACKAGE_SCAN_CLASS = PackageScan.class;
 
     /**
      * 扫描包路径，返回一个key为类名首字符小写，value为全限定类名的Map
@@ -79,8 +79,8 @@ public class PackageScanUtils {
         if (file.isFile()) {
             String path = file.getPath();
             if (path.endsWith(SUFFIX)) {
-                String className = path.substring(path.lastIndexOf(packageName.replace(PACKAGE_SEPARATOR, SYSTEM_SEPARATOR)), path.lastIndexOf(SUFFIX));
-                fullClassNameSet.add(className.replace(SYSTEM_SEPARATOR, PACKAGE_SEPARATOR));
+                String className = path.substring(path.lastIndexOf(packageName.replace(PACKAGE_SEPARATOR, SYSTEM_FILE_SEPARATOR)), path.lastIndexOf(SUFFIX));
+                fullClassNameSet.add(className.replace(SYSTEM_FILE_SEPARATOR, PACKAGE_SEPARATOR));
             }
         } else {
             File[] files = file.listFiles();
@@ -108,6 +108,27 @@ public class PackageScanUtils {
     }
 
     /**
+     * 输入一个类的字节码对象，取出该类上的@PackageScan注解的属性值，
+     * 扫描该属性值的包，返回一个key为类名首字符小写，value为全限定类名的Map
+     *
+     * @param classObject 一个类的字节码对象
+     * @return 返回一个key为类名首字符小写，value为全限定类名的Map
+     * @throws IOException IO异常
+     */
+    public static Map<String, String> getBeanNameMap(Class<?> classObject) throws IOException {
+        PackageScan packageScan = classObject.getAnnotation(PACKAGE_SCAN_CLASS);
+        if (packageScan != null) {
+            String value = packageScan.value();
+            if (value != null && value.length() > 0) {
+                return PackageScanUtils.getBeanNameMap(value);
+            } else {
+                return PackageScanUtils.getBeanNameMap(classObject.getPackage().getName());
+            }
+        }
+        return null;
+    }
+
+    /**
      * 将类名转换为类名首字母小写的方法
      *
      * @param string 类名
@@ -121,27 +142,6 @@ public class PackageScanUtils {
             chars[0] += 32;
             return String.valueOf(chars);
         }
-    }
-
-    /**
-     * 输入一个类的字节码对象，取出该类上的@PackageScan注解的属性值，
-     * 扫描该属性值的包，返回一个key为类名首字符小写，value为全限定类名的Map
-     *
-     * @param classObject 一个类的字节码对象
-     * @return 返回一个key为类名首字符小写，value为全限定类名的Map
-     * @throws IOException IO异常
-     */
-    public static Map<String, String> getBeanNameMap(Class<?> classObject) throws IOException {
-        PackageScan packageScan = classObject.getAnnotation(ANNOTATION_CLASS);
-        if (packageScan != null) {
-            String value = packageScan.value();
-            if (value != null && value.length() > 0) {
-                return PackageScanUtils.getBeanNameMap(value);
-            } else {
-                return PackageScanUtils.getBeanNameMap(classObject.getPackage().getName());
-            }
-        }
-        return null;
     }
 
 }
