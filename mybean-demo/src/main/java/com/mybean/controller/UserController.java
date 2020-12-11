@@ -2,6 +2,9 @@ package com.mybean.controller;
 
 import org.mybeanframework.core.annotation.MyBean;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author herenpeng
  * @since 2020-12-02 16:06
@@ -9,8 +12,8 @@ import org.mybeanframework.core.annotation.MyBean;
 @MyBean
 public class UserController {
 
-    public void page() {
-        System.out.println("进入页面了==========");
+    public String hello(HttpServletRequest request, HttpServletResponse response) {
+        return "Hello,World!";
     }
 
 }

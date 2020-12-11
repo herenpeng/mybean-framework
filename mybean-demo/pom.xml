@@ -5,17 +5,18 @@
     <parent>
         <groupId>org.mybeanframework</groupId>
         <artifactId>mybean-framework</artifactId>
-        <version>${mybean-framework.version}</version>
+        <version>1.1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mybean-demo</artifactId>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.mybeanframework</groupId>
             <artifactId>mybean-mvc</artifactId>
-            <version>${mybean-framework.version}</version>
+            <version>1.1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
