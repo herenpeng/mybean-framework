@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     public String hello(HttpServletRequest request, HttpServletResponse response) {
-        return "Hello,World!";
+        return "index.html";
     }
 
 }

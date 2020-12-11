@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 /**
@@ -36,7 +37,7 @@ public class ServiceServlet implements Servlet {
     /**
      * 常量，默认的视图解析前缀
      */
-    private final static String DEFAULT_VIEW_PREFIX = "/static/";
+    private final static String DEFAULT_VIEW_PREFIX = "static/";
     /**
      * 类成员变量，框架的核心容器
      */
@@ -63,7 +64,19 @@ public class ServiceServlet implements Servlet {
                 Object applicationBean = application.getBean(className);
                 Method method = applicationBean.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
                 Object object = method.invoke(applicationBean, request, response);
-                response.getWriter().println(object);
+                if (object instanceof String) {
+                    ServletOutputStream out = response.getOutputStream();
+                    String viewPath = (String) object;
+                    InputStream is = this.getClass().getClassLoader().getResourceAsStream(DEFAULT_VIEW_PREFIX + viewPath);
+                    byte[] bytes = new byte[1024];
+                    int len = 0;
+                    while ((len = is.read(bytes)) != -1) {
+                        out.write(bytes, 0, len);
+                    }
+                    out.flush();
+                    out.close();
+                    is.close();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
