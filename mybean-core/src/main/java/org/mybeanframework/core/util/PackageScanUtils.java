@@ -20,10 +20,6 @@ import java.util.*;
 public class PackageScanUtils {
 
     /**
-     * 系统默认的分隔符字符，windows下为\
-     */
-    private static final String SYSTEM_FILE_SEPARATOR = File.separator;
-    /**
      * 包之间间隔的符号
      */
     private static final String PACKAGE_SEPARATOR = ".";
@@ -34,11 +30,13 @@ public class PackageScanUtils {
     /**
      * url中的间隔符号
      */
-    private static final String REPLACEMENT = "/";
+    private static final String URL_SEPARATOR = "/";
     /**
      * 常量：PackageScan.class
      */
     private static final Class<PackageScan> PACKAGE_SCAN_CLASS = PackageScan.class;
+
+    public static final String FILE = "file";
 
     /**
      * 扫描包路径，返回一个key为类名首字符小写，value为全限定类名的Map
@@ -49,10 +47,10 @@ public class PackageScanUtils {
      */
     public static Map<String, String> getBeanNameMap(String packageScanRange) throws IOException {
         Map<String, String> beanNameMap = null;
-        Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(packageScanRange.replace(PACKAGE_SEPARATOR, REPLACEMENT));
+        Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources(packageScanRange.replace(PACKAGE_SEPARATOR, URL_SEPARATOR));
         while (urls.hasMoreElements()) {
             URL url = urls.nextElement();
-            if ("file".equals(url.getProtocol())) {
+            if (FILE.equals(url.getProtocol())) {
                 File file = new File(url.getPath());
                 getClassNameByFile(file, packageScanRange);
                 beanNameMap = getBeanNameMap(fullClassNameSet);
@@ -100,8 +98,8 @@ public class PackageScanUtils {
         if (file.isFile()) {
             String path = file.getPath();
             if (path.endsWith(CLASS_FILE_SUFFIX)) {
-                String className = path.substring(path.lastIndexOf(packageScanRange.replace(PACKAGE_SEPARATOR, SYSTEM_FILE_SEPARATOR)), path.lastIndexOf(CLASS_FILE_SUFFIX));
-                fullClassNameSet.add(className.replace(SYSTEM_FILE_SEPARATOR, PACKAGE_SEPARATOR));
+                String className = path.substring(path.lastIndexOf(packageScanRange.replace(PACKAGE_SEPARATOR, File.separator)), path.lastIndexOf(CLASS_FILE_SUFFIX));
+                fullClassNameSet.add(className.replace(File.separator, PACKAGE_SEPARATOR));
             }
         } else {
             File[] files = file.listFiles();
