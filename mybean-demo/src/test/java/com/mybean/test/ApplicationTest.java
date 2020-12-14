@@ -12,8 +12,8 @@ public class ApplicationTest {
     @Test
     public void test() {
         Application application = new PropertiesApplication();
-        Student student = application.getBean("student");
-        student.study();
+        Person person = application.getBean("person");
+        person.getStudent().study();
     }
 
     @Test

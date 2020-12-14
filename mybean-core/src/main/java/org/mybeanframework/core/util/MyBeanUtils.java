@@ -1,6 +1,7 @@
 package org.mybeanframework.core.util;
 
 import org.mybeanframework.core.annotation.MyBean;
+import org.mybeanframework.core.bean.AbstractBeanFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,24 +14,51 @@ import java.util.Set;
  *
  * @author herenpeng
  */
-public class MyBeanUtils {
+public class MyBeanUtils extends AbstractBeanFactory {
 
     /**
      * 常量：MyBean.class
      */
     private static final Class<MyBean> MY_BEAN_CLASS = MyBean.class;
 
+
+    /**
+     * 注解@MyBean的过滤器
+     *
+     * @param packageScanRange 传入包扫描，经过包扫描，MyBean注解过滤
+     * @return 返回Map集合
+     * @throws IOException            IO异常
+     * @throws ClassNotFoundException 类没有找到异常
+     */
+    public static void getBeanName(String packageScanRange) throws IOException, ClassNotFoundException {
+        // 获取所有被包扫描的beanName的ID和对应的全限定类型Map
+        Map<String, String> packageScanMap = PackageScanUtils.getPackageScanMap(packageScanRange);
+        filter(packageScanMap);
+    }
+
+    /**
+     * 注解@MyBean的过滤器
+     *
+     * @param packageScanClass 被@PanckageScan注解的类的字节码对象，经过包扫描，MyBean注解过滤
+     * @return 返回Map集合
+     * @throws IOException            IO异常
+     * @throws ClassNotFoundException 类没有找到异常
+     */
+    public static void getBeanName(Class<?> packageScanClass) throws IOException, ClassNotFoundException {
+        // 获取所有被包扫描的beanName的ID和对应的全限定类型Map
+        Map<String, String> packageScanMap = PackageScanUtils.getPackageScanMap(packageScanClass);
+        filter(packageScanMap);
+    }
+
     /**
      * 获取所有被@MyBean注解的类，
      * 如果@MyBean有value属性值，就将key修改为@MyBean的value值
      *
-     * @param beanNameMap 传入一个全限定类名Map
-     * @return 返回所有被@MyBean注解标识的类的ID和全限定类名
+     * @param packageScanMap 传入一个全限定类名Map
      * @throws ClassNotFoundException 异常
      */
-    private static Map<String, String> filter(Map<String, String> beanNameMap) throws ClassNotFoundException {
-        Map<String, String> markMyBeanMap = new HashMap<>(16);
-        Set<Map.Entry<String, String>> beanNames = beanNameMap.entrySet();
+    private static void filter(Map<String, String> packageScanMap) throws ClassNotFoundException {
+        Set<Map.Entry<String, String>> beanNames = packageScanMap.entrySet();
         Iterator<Map.Entry<String, String>> iterator = beanNames.iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> beanName = iterator.next();
@@ -44,39 +72,9 @@ public class MyBeanUtils {
                 if (key != null && key.length() > 0) {
                     id = key;
                 }
-                markMyBeanMap.put(id, className);
+                beanNameMap.put(id, className);
             }
         }
-        return markMyBeanMap;
-    }
-
-
-    /**
-     * 注解@MyBean的过滤器
-     *
-     * @param packageScanRange 传入包扫描，经过包扫描，MyBean注解过滤
-     * @return 返回Map集合
-     * @throws IOException            IO异常
-     * @throws ClassNotFoundException 类没有找到异常
-     */
-    public static Map<String, String> filter(String packageScanRange) throws IOException, ClassNotFoundException {
-        // 获取所有被包扫描的beanName的ID和对应的全限定类型Map
-        Map<String, String> beanNameMap = PackageScanUtils.getBeanNameMap(packageScanRange);
-        return filter(beanNameMap);
-    }
-
-    /**
-     * 注解@MyBean的过滤器
-     *
-     * @param classObject 传入字节码对象，经过包扫描，MyBean注解过滤
-     * @return 返回Map集合
-     * @throws IOException            IO异常
-     * @throws ClassNotFoundException 类没有找到异常
-     */
-    public static Map<String, String> filter(Class<?> classObject) throws IOException, ClassNotFoundException {
-        // 获取所有被包扫描的beanName的ID和对应的全限定类型Map
-        Map<String, String> beanNameMap = PackageScanUtils.getBeanNameMap(classObject);
-        return filter(beanNameMap);
     }
 
 

@@ -1,5 +1,8 @@
 package org.mybeanframework.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 启动类的接口
  *
@@ -25,11 +28,5 @@ public interface Application {
      * @return 返回一个泛型的实例对象
      */
     <T> T getBean(String name, Class<T> objClass);
-
-    /**
-     * 关闭输入流
-     */
-    void close();
-
 
 }

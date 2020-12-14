@@ -1,34 +1,16 @@
 package org.mybeanframework.core.context;
 
 import org.mybeanframework.core.Application;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import org.mybeanframework.core.bean.AbstractBeanFactory;
+import org.mybeanframework.core.bean.BeanFactory;
 
 /**
- * Application的抽象实现
+ * Application的抽象实现，实现了两个getBean方法，定义了MyBean框架的核心容器
  *
  * @author herenpeng
  * @since 2020-2-5 9:34
  */
-public abstract class AbstractApplication implements Application {
-
-    /**
-     * MyBean核心容器，唯一
-     */
-    protected Map<String, Object> beanCore = new HashMap<>();
-
-    /**
-     * 默认加载的配置文件
-     */
-    protected String DEFAULT_CONFIGURATION_FILE = "application.properties";
-
-    /**
-     * 声明一个输入流
-     */
-    protected InputStream inputStream = null;
+public abstract class AbstractApplication extends BeanFactory implements Application {
 
     @Override
     public <T> T getBean(String name) {
@@ -41,16 +23,21 @@ public abstract class AbstractApplication implements Application {
         return objClass.isInstance(obj) ? objClass.cast(obj) : null;
     }
 
-    @Override
-    public void close() {
-        try {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * 初始化MyBean框架的核心
+     */
+    protected void initBeanCore() {
+        initBeanNameMap();
+        // 通过Bean的ID和全限定类名实例化Bean
+        instanceBean();
+        // 依赖注入，最后返回已完成依赖注入的BeanMap
+        setBean();
     }
+
+    /**
+     * 初始化beanNameMap，需要各个实现类自己实现该方法
+     */
+    protected abstract void initBeanNameMap();
 
 
 }

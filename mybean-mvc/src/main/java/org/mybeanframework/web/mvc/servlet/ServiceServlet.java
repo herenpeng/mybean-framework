@@ -93,9 +93,5 @@ public class ServiceServlet implements Servlet {
 
     @Override
     public void destroy() {
-        if (application != null) {
-            application.close();
-            application = null;
-        }
     }
 }

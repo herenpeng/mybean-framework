@@ -9,7 +9,7 @@ import org.mybeanframework.core.annotation.MyBean;
 @MyBean
 public class Student {
 
-    public void study(){
+    public void study() {
         System.out.println("好好学习...");
     }
 

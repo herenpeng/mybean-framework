@@ -16,20 +16,20 @@ public class SetBeanUtils {
     /**
      * 常量：GetBean.class
      */
-    private static final Class<SetBean> ANNOTATION_CLASS = SetBean.class;
+    private static final Class<SetBean> SET_BEAN_CLASS = SetBean.class;
 
     /**
      * 扫描所有一个类上的被@SetBean注解的属性
      *
-     * @param currentBeanClass 传入一个类的字节码对象
+     * @param beanClass 传入一个类的字节码对象
      * @return 返回该类上所有被@SetBean注解的属性集合
      */
-    public static Set<Field> getFieldNames(Class<?> currentBeanClass) {
-        Field[] fields = currentBeanClass.getDeclaredFields();
+    public static Set<Field> getFieldNames(Class<?> beanClass) {
+        Field[] fields = beanClass.getDeclaredFields();
         Set<Field> set = new HashSet<>();
         for (Field field : fields) {
             field.setAccessible(true);
-            if (field.isAnnotationPresent(ANNOTATION_CLASS)) {
+            if (field.isAnnotationPresent(SET_BEAN_CLASS)) {
                 set.add(field);
             }
         }
@@ -43,7 +43,8 @@ public class SetBeanUtils {
      * @return 返回该属性上@SetBean注解的value值
      */
     public static String getAnnotationValue(Field field) {
-        SetBean getBean = field.getAnnotation(ANNOTATION_CLASS);
+        field.setAccessible(true);
+        SetBean getBean = field.getAnnotation(SET_BEAN_CLASS);
         return getBean.value();
     }
 
