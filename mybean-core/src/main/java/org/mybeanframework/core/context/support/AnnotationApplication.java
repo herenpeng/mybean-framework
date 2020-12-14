@@ -18,7 +18,7 @@ public class AnnotationApplication extends AbstractApplication {
      * @param classObject 一个类的字节码对象
      */
     public AnnotationApplication(Class<?> classObject) {
-        beanCoreContainer = FactoryBuilder.produce(classObject);
+        beanCore = FactoryBuilder.produce(classObject);
     }
 
     /**
@@ -28,7 +28,7 @@ public class AnnotationApplication extends AbstractApplication {
      * @param packageScanName 一个包路径
      */
     public AnnotationApplication(String packageScanName) {
-        beanCoreContainer = FactoryBuilder.produce(packageScanName);
+        beanCore = FactoryBuilder.produce(packageScanName);
     }
 
     /**

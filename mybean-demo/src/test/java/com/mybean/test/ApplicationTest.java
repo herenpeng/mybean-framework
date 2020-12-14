@@ -1,12 +1,12 @@
 package com.mybean.test;
 
 import org.mybeanframework.core.annotation.PackageScan;
-import org.mybeanframework.core.context.Application;
+import org.mybeanframework.core.Application;
 import org.mybeanframework.core.context.support.AnnotationApplication;
 import org.mybeanframework.core.context.support.PropertiesApplication;
 import org.junit.Test;
 
-@PackageScan("com.mybean.test")
+@PackageScan("com.mybean")
 public class ApplicationTest {
 
     @Test

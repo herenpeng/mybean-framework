@@ -19,12 +19,8 @@ public class BeanNameFactory {
     /**
      * 注解包扫描name
      */
-    private final static String PACKAGE_SCAN = "package.scan";
+    private static final String PACKAGE_SCAN = "package.scan";
 
-    /**
-     * 全限定类名的Map集合，其中key为类名首字母小写，value为全限定类名
-     */
-    private static Map<String, String> beanNameMap = new HashMap<>();
 
     /**
      * BeanNameFactory的生产方法，将配置文件的信息和类上的@MyBean注解，
@@ -33,16 +29,22 @@ public class BeanNameFactory {
      * @param inputStream 一个输入流
      * @return 返回一个key为类名首字母小写，value为全限定类名
      */
-    protected static Map<String, String> produce(InputStream inputStream) {
+    protected static Map<String, String> propertyProduce(InputStream inputStream) {
+        // 全限定类名的Map集合，其中key为类名首字母小写，value为全限定类名
+        Map<String, String> beanNameMap = new HashMap<>(16);
         try {
             Properties properties = new Properties();
             properties.load(inputStream);
-            Set<String> nameSet = properties.stringPropertyNames();
-            for (String name : nameSet) {
-                if (PACKAGE_SCAN.equals(name)) {
-                    beanNameMap.putAll(MyBeanUtils.filter(properties.getProperty(name)));
+            Set<String> propertyNameSet = properties.stringPropertyNames();
+            for (String propertyName : propertyNameSet) {
+                if (PACKAGE_SCAN.equals(propertyName)) {
+                    // 获取包扫描范围
+                    String packageScanRange = properties.getProperty(propertyName);
+                    // 获取所有被@MyBean注解的Bean的ID和对应的全限定类名
+                    Map<String, String> beanName = MyBeanUtils.filter(packageScanRange);
+                    beanNameMap.putAll(beanName);
                 } else {
-                    beanNameMap.put(name, properties.getProperty(name));
+                    beanNameMap.put(propertyName, properties.getProperty(propertyName));
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

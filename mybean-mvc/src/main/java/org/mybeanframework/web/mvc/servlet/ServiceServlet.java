@@ -1,8 +1,6 @@
 package org.mybeanframework.web.mvc.servlet;
 
-import org.mybeanframework.core.annotation.PackageScan;
-import org.mybeanframework.core.context.Application;
-import org.mybeanframework.core.context.support.AnnotationApplication;
+import org.mybeanframework.core.Application;
 import org.mybeanframework.core.context.support.PropertiesApplication;
 
 import javax.servlet.*;
@@ -25,19 +23,19 @@ public class ServiceServlet implements Servlet {
     /**
      * 路径分隔符
      */
-    private final static String SEPARATE = "/";
+    private static final String SEPARATE = "/";
     /**
      * 常量，静态资源路径包
      */
-    private final static String STATIC = "static";
+    private static final String STATIC = "static";
     /**
      * 常量：tomcat页面标签的小图标请求路径
      */
-    private final static String ICO = "/favicon.ico";
+    private static final String ICO = "/favicon.ico";
     /**
      * 常量，默认的视图解析前缀
      */
-    private final static String DEFAULT_VIEW_PREFIX = "static/";
+    private static final String DEFAULT_VIEW_PREFIX = "static/";
     /**
      * 类成员变量，框架的核心容器
      */

@@ -24,13 +24,19 @@ public class BeanFactory {
      */
     protected static Map<String, Object> produce(Map<String, String> beanNameMap) {
         try {
+            // 循环所有的beanName，实例化每一个Bean对象
             for (Map.Entry<String, String> entry : beanNameMap.entrySet()) {
-                String key = entry.getKey();
+                // 获取全限定类名
                 String value = entry.getValue();
+                // 实例化对象
                 Class<Object> classObject = (Class<Object>) Class.forName(value);
+                // 如果不是抽象类
                 if (!Modifier.isAbstract(classObject.getModifiers())) {
                     Object object = classObject.newInstance();
-                    beanMap.put(key, object);
+                    beanMap.put(entry.getKey(), object);
+                } else {
+                    // 如果是抽象类，则移除对应的Bean
+                    beanMap.remove(entry.getKey());
                 }
             }
         } catch (ClassNotFoundException e) {

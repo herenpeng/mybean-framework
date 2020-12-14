@@ -24,6 +24,7 @@
         <mybean-framework.version>1.1.1-SNAPSHOT</mybean-framework.version>
         <servlet.version>4.0.0</servlet.version>
         <jsp.version>2.2</jsp.version>
+        <dom4j.version>2.0.0</dom4j.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,11 @@
             <artifactId>jsp-api</artifactId>
             <version>${jsp.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j.version}</version>
         </dependency>
     </dependencies>
 

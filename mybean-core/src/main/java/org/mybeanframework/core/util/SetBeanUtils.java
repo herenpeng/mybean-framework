@@ -16,7 +16,7 @@ public class SetBeanUtils {
     /**
      * 常量：GetBean.class
      */
-    private final static Class<SetBean> ANNOTATION_CLASS = SetBean.class;
+    private static final Class<SetBean> ANNOTATION_CLASS = SetBean.class;
 
     /**
      * 扫描所有一个类上的被@SetBean注解的属性
