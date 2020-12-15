@@ -8,11 +8,9 @@ import java.lang.reflect.Method;
  */
 public class BeanAndMethod {
 
-
     private Object bean;
 
     private Method method;
-
 
     public Object getBean() {
         return bean;
