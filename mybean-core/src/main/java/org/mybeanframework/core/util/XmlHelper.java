@@ -82,8 +82,11 @@ public class XmlHelper {
     public static List<Element> getBean() {
         Element rootElement = document.getRootElement();
         Element beansElement = rootElement.element(XML_BEANS);
-        List<Element> beanElements = beansElement.elements(XML_BEAN);
-        return beanElements;
+        if (beansElement != null) {
+            List<Element> beanElements = beansElement.elements(XML_BEAN);
+            return beanElements;
+        }
+        return null;
     }
 
     /**
@@ -94,10 +97,12 @@ public class XmlHelper {
      */
     public static Element getBean(String beanId) {
         List<Element> beanElements = getBean();
-        for (Element bean : beanElements) {
-            String xmlBeanId = bean.attributeValue(XML_BEAN_ID);
-            if (beanId.equals(xmlBeanId)) {
-                return bean;
+        if(beanElements != null && beanElements.size() > 0) {
+            for (Element bean : beanElements) {
+                String xmlBeanId = bean.attributeValue(XML_BEAN_ID);
+                if (beanId.equals(xmlBeanId)) {
+                    return bean;
+                }
             }
         }
         return null;

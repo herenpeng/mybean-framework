@@ -45,10 +45,12 @@ public class XmlApplication extends AbstractApplication {
             Document document = reader.read(inputStream);
             XmlHelper.initDocument(document);
             List<Element> beanList = XmlHelper.getBean();
-            for (Element bean : beanList) {
-                String beanId = XmlHelper.getBeanId(bean);
-                String beanClass = XmlHelper.getBeanClass(bean);
-                beanNameMap.put(beanId, beanClass);
+            if (beanList != null && beanList.size() > 0) {
+                for (Element bean : beanList) {
+                    String beanId = XmlHelper.getBeanId(bean);
+                    String beanClass = XmlHelper.getBeanClass(bean);
+                    beanNameMap.put(beanId, beanClass);
+                }
             }
             Element packageScan = XmlHelper.getPackageScan();
             if (packageScan != null) {
@@ -84,15 +86,17 @@ public class XmlApplication extends AbstractApplication {
                 Class<?> beanClass = beanObject.getClass();
                 String beanId = entry.getKey();
                 Element beanElement = XmlHelper.getBean(beanId);
-                List<Element> setElementList = XmlHelper.getSet(beanElement);
-                for (Element setBean : setElementList) {
-                    String setName = XmlHelper.getSetName(setBean);
-                    Field field = beanClass.getDeclaredField(setName);
-                    field.setAccessible(true);
-                    if (field.get(beanObject) == null) {
-                        String setRef = XmlHelper.getSetRef(setBean);
-                        Object setBeanObject = beanCore.get(setRef);
-                        field.set(beanObject, setBeanObject);
+                if (beanElement != null) {
+                    List<Element> setElementList = XmlHelper.getSet(beanElement);
+                    for (Element setBean : setElementList) {
+                        String setName = XmlHelper.getSetName(setBean);
+                        Field field = beanClass.getDeclaredField(setName);
+                        field.setAccessible(true);
+                        if (field.get(beanObject) == null) {
+                            String setRef = XmlHelper.getSetRef(setBean);
+                            Object setBeanObject = beanCore.get(setRef);
+                            field.set(beanObject, setBeanObject);
+                        }
                     }
                 }
             }

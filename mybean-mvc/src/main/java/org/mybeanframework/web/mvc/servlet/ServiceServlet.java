@@ -1,7 +1,8 @@
 package org.mybeanframework.web.mvc.servlet;
 
 import org.mybeanframework.core.Application;
-import org.mybeanframework.core.context.support.PropertiesApplication;
+import org.mybeanframework.core.context.support.XmlApplication;
+import org.mybeanframework.web.mvc.view.ViewResolver;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,7 @@ public class ServiceServlet implements Servlet {
     /**
      * 路径分隔符
      */
-    private static final String SEPARATE = "/";
+    private static final String URL_SEPARATE = "/";
     /**
      * 常量，静态资源路径包
      */
@@ -32,10 +33,7 @@ public class ServiceServlet implements Servlet {
      * 常量：tomcat页面标签的小图标请求路径
      */
     private static final String ICO = "/favicon.ico";
-    /**
-     * 常量，默认的视图解析前缀
-     */
-    private static final String DEFAULT_VIEW_PREFIX = "static/";
+
     /**
      * 类成员变量，框架的核心容器
      */
@@ -57,23 +55,14 @@ public class ServiceServlet implements Servlet {
                 if (projectName != null && projectName.length() > 0) {
                     uri = uri.substring(uri.indexOf(projectName) + projectName.length());
                 }
-                String className = uri.substring(uri.indexOf(SEPARATE) + 1, uri.lastIndexOf(SEPARATE));
-                String methodName = uri.substring(uri.lastIndexOf(SEPARATE) + 1);
+                String className = uri.substring(uri.indexOf(URL_SEPARATE) + 1, uri.lastIndexOf(URL_SEPARATE));
+                String methodName = uri.substring(uri.lastIndexOf(URL_SEPARATE) + 1);
                 Object applicationBean = application.getBean(className);
                 Method method = applicationBean.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
                 Object object = method.invoke(applicationBean, request, response);
                 if (object instanceof String) {
-                    ServletOutputStream out = response.getOutputStream();
-                    String viewPath = (String) object;
-                    InputStream is = this.getClass().getClassLoader().getResourceAsStream(DEFAULT_VIEW_PREFIX + viewPath);
-                    byte[] bytes = new byte[1024];
-                    int len = 0;
-                    while ((len = is.read(bytes)) != -1) {
-                        out.write(bytes, 0, len);
-                    }
-                    out.flush();
-                    out.close();
-                    is.close();
+                    String viewName = (String) object;
+                    ViewResolver.resolver(response, viewName);
                 }
             }
         } catch (Exception e) {
@@ -88,7 +77,7 @@ public class ServiceServlet implements Servlet {
 
     @Override
     public void init(ServletConfig servletConfig) {
-        application = new PropertiesApplication();
+        application = new XmlApplication();
     }
 
     @Override
