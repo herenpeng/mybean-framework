@@ -6,7 +6,7 @@
 
     <groupId>org.mybeanframework</groupId>
     <artifactId>mybean-framework</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>mybean-core</module>
@@ -21,7 +21,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
-        <mybean-framework.version>1.1.1-SNAPSHOT</mybean-framework.version>
+        <mybean-framework.version>1.0.0-SNAPSHOT</mybean-framework.version>
         <servlet.version>4.0.0</servlet.version>
         <jsp.version>2.2</jsp.version>
         <dom4j.version>2.0.0</dom4j.version>
