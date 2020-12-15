@@ -93,13 +93,13 @@ public abstract class AbstractApplication extends BeanFactory implements Applica
         while (iterator.hasNext()) {
             Map.Entry<String, Object> entry = iterator.next();
             // 循环取出每一个Bean实例
-            Object currentBean = entry.getValue();
+            Object beanObject = entry.getValue();
             // 获取Bean实例的字节码对象
-            Class<?> currentBeanClass = currentBean.getClass();
+            Class<?> currentBeanClass = beanObject.getClass();
             // 如果Bean实例的字节码对象等于属性类型的字节码对象，或者属性类型的字节码对象是当前Bean实例的父类或接口
             if (currentBeanClass == fieldTypeClass || fieldTypeClass.isAssignableFrom(currentBeanClass)) {
                 // 返回当前的Bean实例
-                return currentBean;
+                return beanObject;
             }
         }
         // 如果未找到匹配的实例，返回null

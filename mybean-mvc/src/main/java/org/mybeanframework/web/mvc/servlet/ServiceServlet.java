@@ -2,6 +2,7 @@ package org.mybeanframework.web.mvc.servlet;
 
 import org.mybeanframework.core.Application;
 import org.mybeanframework.core.context.support.XmlApplication;
+import org.mybeanframework.web.mvc.MvcApplication;
 import org.mybeanframework.web.mvc.view.ViewResolver;
 
 import javax.servlet.*;
@@ -9,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Method;
 
 /**
@@ -77,7 +77,8 @@ public class ServiceServlet implements Servlet {
 
     @Override
     public void init(ServletConfig servletConfig) {
-        application = new XmlApplication();
+        MvcApplication mvcApplication = new MvcApplication();
+        mvcApplication.start();
     }
 
     @Override

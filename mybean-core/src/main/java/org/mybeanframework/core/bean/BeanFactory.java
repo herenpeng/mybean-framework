@@ -18,9 +18,9 @@ public class BeanFactory extends AbstractBeanFactory {
             // 循环所有的beanName，实例化每一个Bean对象
             for (Map.Entry<String, String> entry : beanNameMap.entrySet()) {
                 // 获取全限定类名
-                String value = entry.getValue();
+                String fullClassName = entry.getValue();
                 // 实例化对象
-                Class<Object> classObject = (Class<Object>) Class.forName(value);
+                Class<Object> classObject = (Class<Object>) Class.forName(fullClassName);
                 // 如果不是抽象类，将Bean实例注入核心容器
                 if (!Modifier.isAbstract(classObject.getModifiers())) {
                     Object object = classObject.newInstance();
