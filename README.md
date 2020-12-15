@@ -44,7 +44,7 @@ student=com.mybean.test.Student
 
 ## Bean实例注入
 
-MyBean框架目前只允许通过注解的方式注入一个Bean实例属性。
+MyBean框架目前允许通过注解的方式和xml配置的方式注入一个Bean实例属性。
 
 - 注解
  
@@ -61,6 +61,27 @@ public class Person {
     private Student student;
 
 }
+```
+
+
+- xml配置
+ 
+ [备注]注入属性的Java类必须是已经在xml配置文件中配置过的JavaBean，否则无法注入。
+ 
+ 
+ `<set>`标签有两个属性，其中name属性为Java类中对应的属性名称，ref为已经在xml配置文件中注册，或者开启包扫描后使用@MyBean注解标识的JavaBean的Id。
+
+ 例：
+ ```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<mybean>
+    <beans>
+        <bean id="person" class="com.mybean.test.Person">
+            <set name="student" ref="student"></set>
+        </bean>
+        <bean id="student" class="com.mybean.test.Student"></bean>
+    </beans>
+</mybean>
 ```
 
 # 包扫描
