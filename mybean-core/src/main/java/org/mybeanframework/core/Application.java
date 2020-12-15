@@ -1,8 +1,5 @@
 package org.mybeanframework.core;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 启动类的接口
  *

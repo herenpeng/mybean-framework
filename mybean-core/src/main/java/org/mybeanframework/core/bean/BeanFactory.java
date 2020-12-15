@@ -1,6 +1,7 @@
 package org.mybeanframework.core.bean;
 
 import org.mybeanframework.core.util.SetBeanUtils;
+import org.mybeanframework.core.util.XmlHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -49,10 +50,10 @@ public class BeanFactory extends AbstractBeanFactory {
         try {
             Set<Map.Entry<String, Object>> entries = beanCore.entrySet();
             for (Map.Entry<String, Object> entry : entries) {
-                Object currentObject = entry.getValue();
-                Class<?> currentBeanClass = currentObject.getClass();
-                // 获取所有被@SetBean注解的属性集合
-                Set<Field> fields = SetBeanUtils.getFieldNames(currentBeanClass);
+                Object beanObject = entry.getValue();
+                Class<?> beanClass = beanObject.getClass();
+                // 获取所有被@SetBean注解，或者配置文件引入的属性集合
+                Set<Field> fields = SetBeanUtils.getAnnotationFieldNames(beanClass);
                 for (Field field : fields) {
                     String name = SetBeanUtils.getAnnotationValue(field);
                     Object setBeanObject = null;
@@ -64,7 +65,7 @@ public class BeanFactory extends AbstractBeanFactory {
                         setBeanObject = findSetBean(field.getType());
                     }
                     // 将Bean实例注入到属性中去
-                    field.set(currentObject, setBeanObject);
+                    field.set(beanObject, setBeanObject);
                 }
             }
         } catch (IllegalAccessException e) {

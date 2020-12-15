@@ -5,8 +5,6 @@ import org.mybeanframework.core.util.MyBeanUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -22,12 +20,17 @@ public class PropertiesApplication extends AbstractApplication {
     /**
      * 声明一个输入流
      */
-    protected InputStream inputStream = null;
+    protected InputStream inputStream;
 
     /**
      * 默认加载的配置文件
      */
     protected static final String DEFAULT_CONFIGURATION_FILE = "application.properties";
+
+    /**
+     * 注解包扫描name
+     */
+    private static final String PACKAGE_SCAN = "package.scan";
 
     /**
      * 无参构造，默认加载application.properties文件，并根据配置文件和注解给beanCore赋值
@@ -46,11 +49,6 @@ public class PropertiesApplication extends AbstractApplication {
         inputStream = PropertiesApplication.class.getClassLoader().getResourceAsStream(configFileName);
         initBeanCore();
     }
-
-    /**
-     * 注解包扫描name
-     */
-    private static final String PACKAGE_SCAN = "package.scan";
 
     @Override
     protected void initBeanNameMap() {

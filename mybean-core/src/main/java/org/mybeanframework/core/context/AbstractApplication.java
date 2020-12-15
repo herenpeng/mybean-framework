@@ -1,7 +1,6 @@
 package org.mybeanframework.core.context;
 
 import org.mybeanframework.core.Application;
-import org.mybeanframework.core.bean.AbstractBeanFactory;
 import org.mybeanframework.core.bean.BeanFactory;
 
 /**

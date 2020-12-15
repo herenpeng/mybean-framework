@@ -18,9 +18,23 @@ MyBean框架可以通过注解和配置文件两种方式注册一个Bean实例�
 public class Student {
 }
 ```
-- 配置
+- xml配置
  
- 在application.properties配置文件中进行容器Key值和Java类名的对应配置，即可将JavaBean注入核心容器。
+ 在application.xml配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
+ 
+ 例：
+ ```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<mybean>
+    <beans>
+        <bean id="person" class="com.mybean.test.Person"></bean>
+        <bean id="student" class="com.mybean.test.Student"></bean>
+    </beans>
+</mybean>
+```
+- properties配置
+ 
+ 在application.properties配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
  
  例：
  ```java
@@ -77,10 +91,23 @@ public class ApplicationTest {
 
 }
 ```
+ - xml配置
  
- - 配置
+  
+ 在application.xml配置文件中配置package-scan标签即可，range属性即为包扫描范围值。
  
- 在application.properties配置文件中配置package.scan属性即可
+ 例：
+ 
+ ```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<mybean>
+    <package-scan range="com.test"></package-scan>
+</mybean>
+```
+ 
+ - properties配置
+ 
+ 在application.properties配置文件中配置package.scan属性即可。
  
  例：
  

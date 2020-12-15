@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mybean>
+    <beans>
+        <bean id="person" class="com.mybean.test.Person">
+            <set name="student" ref="student"></set>
+        </bean>
+        <bean id="student" class="com.mybean.test.Student"></bean>
+    </beans>
+
+    <package-scan range="com.test"></package-scan>
+</mybean>

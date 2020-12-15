@@ -58,14 +58,14 @@ public class MyBeanUtils extends AbstractBeanFactory {
      * @throws ClassNotFoundException 异常
      */
     private static void filter(Map<String, String> packageScanMap) throws ClassNotFoundException {
-        Set<Map.Entry<String, String>> beanNames = packageScanMap.entrySet();
-        Iterator<Map.Entry<String, String>> iterator = beanNames.iterator();
+        Set<Map.Entry<String, String>> beanNameSet = packageScanMap.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = beanNameSet.iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> beanName = iterator.next();
             String id = beanName.getKey();
             String className = beanName.getValue();
             Class<?> beanClass = Class.forName(className);
-            // 如果该类上面有@MyBean注解，则进行实例化
+            // 如果该类上面有@MyBean注解，则将对对应的ID和全限定类型存储进beanNameMap中
             if (beanClass.isAnnotationPresent(MY_BEAN_CLASS)) {
                 MyBean myBean = beanClass.getAnnotation(MY_BEAN_CLASS);
                 String key = myBean.value();

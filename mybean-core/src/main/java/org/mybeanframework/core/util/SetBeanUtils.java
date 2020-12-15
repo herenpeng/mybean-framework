@@ -24,7 +24,7 @@ public class SetBeanUtils {
      * @param beanClass 传入一个类的字节码对象
      * @return 返回该类上所有被@SetBean注解的属性集合
      */
-    public static Set<Field> getFieldNames(Class<?> beanClass) {
+    public static Set<Field> getAnnotationFieldNames(Class<?> beanClass) {
         Field[] fields = beanClass.getDeclaredFields();
         Set<Field> set = new HashSet<>();
         for (Field field : fields) {
