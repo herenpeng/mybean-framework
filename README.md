@@ -8,6 +8,8 @@
 MyBean框架可以通过注解、xml配置文件、properties配置文件三种方式注册一个Bean实例，被注册的Bean实例会进入MyBean框架的核心容器之中。
 
 - 注解
+
+**注意事项：**
  
  1、在Java类上标注@MyBean注解，即可将JavaBean注入核心容器。
  
@@ -22,6 +24,8 @@ public class Student {
 }
 ```
 - xml配置
+
+**注意事项：**
  
  1、在application.xml配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
  
@@ -40,6 +44,8 @@ public class Student {
 </mybean>
 ```
 - properties配置
+
+**注意事项：**
  
  1、在application.properties配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
  
@@ -109,6 +115,8 @@ public class Person {
 
 - 注解
 
+**注意事项：**
+
  1、在启动类或者测试类上添加@PackageScan注解，即可扫描对应包下的所有@MyBean注解实例。
  
  2、@PackageScan有一个value属性，为包扫描范围，如果该值为空，则默认扫描标识@PackageScan注解的包下的所有@MyBean实例。
@@ -131,6 +139,7 @@ public class ApplicationTest {
 ```
  - xml配置
  
+ **注意事项：**
   
  1、在application.xml配置文件中配置package-scan标签即可，range属性即为包扫描范围值。
  
@@ -144,6 +153,8 @@ public class ApplicationTest {
 ```
  
  - properties配置
+ 
+ **注意事项：**
  
  1、在application.properties配置文件中配置package.scan属性即可。
  
