@@ -6,8 +6,6 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.mybeanframework.core.context.AbstractApplication;
 import org.mybeanframework.core.util.MyBeanUtils;
-import org.mybeanframework.core.util.PackageScanUtils;
-import org.mybeanframework.core.util.SetBeanUtils;
 import org.mybeanframework.core.util.XmlHelper;
 
 import java.io.IOException;
@@ -90,10 +88,12 @@ public class XmlApplication extends AbstractApplication {
                 for (Element setBean : setElementList) {
                     String setName = XmlHelper.getSetName(setBean);
                     Field field = beanClass.getDeclaredField(setName);
-                    String setRef = XmlHelper.getSetRef(setBean);
-                    Object setBeanObject = beanCore.get(setRef);
                     field.setAccessible(true);
-                    field.set(beanObject, setBeanObject);
+                    if (field.get(beanObject) == null) {
+                        String setRef = XmlHelper.getSetRef(setBean);
+                        Object setBeanObject = beanCore.get(setRef);
+                        field.set(beanObject, setBeanObject);
+                    }
                 }
             }
         } catch (NoSuchFieldException e) {

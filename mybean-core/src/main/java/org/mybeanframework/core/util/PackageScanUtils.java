@@ -45,7 +45,7 @@ public final class PackageScanUtils {
     private static final Set<String> fullClassNameSet = new HashSet<>();
 
     /**
-     * 包扫描下的所有类的ID和全限定类名，
+     * 包扫描下的所有类的ID和全限定类名
      */
     public static final Map<String, String> packageScanMap = new HashMap<>();
 

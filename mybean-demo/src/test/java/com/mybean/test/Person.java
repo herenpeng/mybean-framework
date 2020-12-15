@@ -10,7 +10,7 @@ import org.mybeanframework.core.annotation.SetBean;
 @MyBean
 public class Person {
 
-    // @SetBean
+    @SetBean
     private Student student;
 
     public Student getStudent() {

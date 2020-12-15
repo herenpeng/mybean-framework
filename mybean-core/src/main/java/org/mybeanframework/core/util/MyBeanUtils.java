@@ -4,7 +4,6 @@ import org.mybeanframework.core.annotation.MyBean;
 import org.mybeanframework.core.bean.AbstractBeanFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
