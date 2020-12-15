@@ -1,9 +1,17 @@
 package org.mybeanframework.core.context.support;
 
+import org.dom4j.Element;
 import org.mybeanframework.core.context.AbstractApplication;
 import org.mybeanframework.core.util.MyBeanUtils;
+import org.mybeanframework.core.util.SetBeanUtils;
+import org.mybeanframework.core.util.XmlHelper;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Application接口的对外实现类之一，继承AbstractApplication
@@ -58,7 +66,11 @@ public class AnnotationApplication extends AbstractApplication {
 
 
     @Override
-    protected void initBeanNameMap() {
+    protected void initBeanNameMap() {}
 
+    @Override
+    protected void setBean() {
+        annotationSetBean();
     }
+
 }

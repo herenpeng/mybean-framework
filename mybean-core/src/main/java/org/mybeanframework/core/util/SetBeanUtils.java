@@ -4,6 +4,8 @@ import org.mybeanframework.core.annotation.SetBean;
 
 import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -47,6 +49,5 @@ public class SetBeanUtils {
         SetBean getBean = field.getAnnotation(SET_BEAN_CLASS);
         return getBean.value();
     }
-
 
 }

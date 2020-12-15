@@ -7,11 +7,15 @@ import org.dom4j.io.SAXReader;
 import org.mybeanframework.core.context.AbstractApplication;
 import org.mybeanframework.core.util.MyBeanUtils;
 import org.mybeanframework.core.util.PackageScanUtils;
+import org.mybeanframework.core.util.SetBeanUtils;
 import org.mybeanframework.core.util.XmlHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author herenpeng
@@ -41,13 +45,14 @@ public class XmlApplication extends AbstractApplication {
             SAXReader reader = new SAXReader();
             // 解析XML
             Document document = reader.read(inputStream);
-            List<Element> beanList = XmlHelper.getBean(document);
+            XmlHelper.initDocument(document);
+            List<Element> beanList = XmlHelper.getBean();
             for (Element bean : beanList) {
                 String beanId = XmlHelper.getBeanId(bean);
                 String beanClass = XmlHelper.getBeanClass(bean);
                 beanNameMap.put(beanId, beanClass);
             }
-            Element packageScan = XmlHelper.getPackageScan(document);
+            Element packageScan = XmlHelper.getPackageScan();
             if (packageScan != null) {
                 String packageScanRange = XmlHelper.getPackageScanRange(packageScan);
                 // 获取所有被@MyBean注解的Bean的ID和对应的全限定类名
@@ -67,6 +72,34 @@ public class XmlApplication extends AbstractApplication {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    protected void setBean() {
+        annotationSetBean();
+        try {
+            // 解析xml配置文件的内容
+            Set<Map.Entry<String, Object>> entries = beanCore.entrySet();
+            for (Map.Entry<String, Object> entry : entries) {
+                Object beanObject = entry.getValue();
+                Class<?> beanClass = beanObject.getClass();
+                String beanId = entry.getKey();
+                Element beanElement = XmlHelper.getBean(beanId);
+                List<Element> setElementList = XmlHelper.getSet(beanElement);
+                for (Element setBean : setElementList) {
+                    String setName = XmlHelper.getSetName(setBean);
+                    Field field = beanClass.getDeclaredField(setName);
+                    String setRef = XmlHelper.getSetRef(setBean);
+                    Object setBeanObject = beanCore.get(setRef);
+                    field.setAccessible(true);
+                    field.set(beanObject, setBeanObject);
+                }
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }

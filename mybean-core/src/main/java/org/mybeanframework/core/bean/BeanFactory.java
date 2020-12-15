@@ -1,11 +1,13 @@
 package org.mybeanframework.core.bean;
 
+import org.dom4j.Element;
 import org.mybeanframework.core.util.SetBeanUtils;
 import org.mybeanframework.core.util.XmlHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,60 +45,45 @@ public class BeanFactory extends AbstractBeanFactory {
     }
 
 
-    /**
-     * 传入所有被管理的BeanMap，返回属性注入完成的BeanMap
-     */
-    protected static void setBean() {
-        try {
-            Set<Map.Entry<String, Object>> entries = beanCore.entrySet();
-            for (Map.Entry<String, Object> entry : entries) {
-                Object beanObject = entry.getValue();
-                Class<?> beanClass = beanObject.getClass();
-                // 获取所有被@SetBean注解，或者配置文件引入的属性集合
-                Set<Field> fields = SetBeanUtils.getAnnotationFieldNames(beanClass);
-                for (Field field : fields) {
-                    String name = SetBeanUtils.getAnnotationValue(field);
-                    Object setBeanObject = null;
-                    // 如果@SetBean的value值不为null并且不为空，则使用名称注入的方式
-                    if (name != null && name.length() > 0) {
-                        setBeanObject = beanCore.get(name);
-                        // 如果@SetBean的value值为null或为空，则使用类型注入的方式
-                    } else {
-                        setBeanObject = findSetBean(field.getType());
-                    }
-                    // 将Bean实例注入到属性中去
-                    field.set(beanObject, setBeanObject);
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
 
-    /**
-     * 查找BeanMap中的同一个类或者这个类的子类或实现
-     *
-     * @param fieldTypeClass 需要查找的类的字节码对象
-     * @return
-     */
-    private static Object findSetBean(Class<?> fieldTypeClass) {
-        Set<Map.Entry<String, Object>> entries = beanCore.entrySet();
-        Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
-        // 使用迭代器循环Bean实例对象
-        while (iterator.hasNext()) {
-            Map.Entry<String, Object> entry = iterator.next();
-            // 循环取出每一个Bean实例
-            Object currentBean = entry.getValue();
-            // 获取Bean实例的字节码对象
-            Class<?> currentBeanClass = currentBean.getClass();
-            // 如果Bean实例的字节码对象等于属性类型的字节码对象，或者属性类型的字节码对象是当前Bean实例的父类或接口
-            if (currentBeanClass == fieldTypeClass || fieldTypeClass.isAssignableFrom(currentBeanClass)) {
-                // 返回当前的Bean实例
-                return currentBean;
-            }
-        }
-        // 如果未找到匹配的实例，返回null
-        return null;
-    }
+    // protected static void setBean() {
+    //     try {
+    //         Set<Map.Entry<String, Object>> entries = beanCore.entrySet();
+    //         for (Map.Entry<String, Object> entry : entries) {
+    //             Object beanObject = entry.getValue();
+    //             Class<?> beanClass = beanObject.getClass();
+    //             // 获取所有被@SetBean注解，或者配置文件引入的属性集合
+    //             Set<Field> fields = SetBeanUtils.getAnnotationFieldNames(beanClass);
+    //             for (Field field : fields) {
+    //                 String name = SetBeanUtils.getAnnotationValue(field);
+    //                 Object setBeanObject = null;
+    //                 // 如果@SetBean的value值不为null并且不为空，则使用名称注入的方式
+    //                 if (name != null && name.length() > 0) {
+    //                     setBeanObject = beanCore.get(name);
+    //                     // 如果@SetBean的value值为null或为空，则使用类型注入的方式
+    //                 } else {
+    //                     setBeanObject = findSetBean(field.getType());
+    //                 }
+    //                 // 将Bean实例注入到属性中去
+    //                 field.set(beanObject, setBeanObject);
+    //             }
+    //             // 解析xml配置文件的内容
+    //             String beanId = entry.getKey();
+    //             Element beanElement = XmlHelper.getBean(beanId);
+    //             List<Element> setElementList = XmlHelper.getSet(beanElement);
+    //             for (Element setBean : setElementList) {
+    //                 String setName = XmlHelper.getSetName(setBean);
+    //                 Field field = beanClass.getField(setName);
+    //                 String setRef = XmlHelper.getSetRef(setBean);
+    //                 Object setBeanObject = beanCore.get(setRef);
+    //                 field.set(beanObject, setBeanObject);
+    //             }
+    //         }
+    //     } catch (IllegalAccessException | NoSuchFieldException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+
 
 }

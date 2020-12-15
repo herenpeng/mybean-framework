@@ -64,12 +64,22 @@ public class XmlHelper {
     public static final String XML_PACKAGE_SCAN_RANGE = "range";
 
     /**
+     * 定义一个私有的document对象
+     */
+    private static Document document = null;
+
+    public static void initDocument(Document document) {
+        if (XmlHelper.document == null) {
+            XmlHelper.document = document;
+        }
+    }
+
+    /**
      * 获取所有的bean属性
      *
-     * @param document document对象
      * @return bean节点集合
      */
-    public static List<Element> getBean(Document document) {
+    public static List<Element> getBean() {
         Element rootElement = document.getRootElement();
         Element beansElement = rootElement.element(XML_BEANS);
         List<Element> beanElements = beansElement.elements(XML_BEAN);
@@ -79,12 +89,11 @@ public class XmlHelper {
     /**
      * 通过beanId查找对应的bean节点
      *
-     * @param document document对象
-     * @param beanId   beanId
+     * @param beanId beanId
      * @return bean节点
      */
-    public static Element getBean(Document document, String beanId) {
-        List<Element> beanElements = getBean(document);
+    public static Element getBean(String beanId) {
+        List<Element> beanElements = getBean();
         for (Element bean : beanElements) {
             String xmlBeanId = bean.attributeValue(XML_BEAN_ID);
             if (beanId.equals(xmlBeanId)) {
@@ -148,10 +157,9 @@ public class XmlHelper {
     /**
      * 获取package-scan节点，配置该节点，开启包扫描
      *
-     * @param document document对象
      * @return package-scan节点
      */
-    public static Element getPackageScan(Document document) {
+    public static Element getPackageScan() {
         Element rootElement = document.getRootElement();
         Element packageScanElement = rootElement.element(XML_PACKAGE_SCAN);
         return packageScanElement;

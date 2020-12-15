@@ -79,5 +79,10 @@ public class PropertiesApplication extends AbstractApplication {
         }
     }
 
+    @Override
+    protected void setBean() {
+        annotationSetBean();
+    }
+
 
 }
