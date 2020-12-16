@@ -27,8 +27,8 @@ public class ResolverHandler {
                 case DATA:
                     DataResolver.resolver(object, response);
                     break;
-                case JSON:
-                    break;
+                // case JSON:
+                //     break;
                 default:
             }
         } else {

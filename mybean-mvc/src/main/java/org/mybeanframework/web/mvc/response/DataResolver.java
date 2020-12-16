@@ -1,5 +1,6 @@
 package org.mybeanframework.web.mvc.response;
 
+import org.mybeanframework.web.mvc.response.enums.CharSetEnum;
 import org.mybeanframework.web.mvc.response.enums.ContentTypeEnum;
 
 import javax.servlet.ServletOutputStream;
@@ -20,7 +21,7 @@ public class DataResolver {
                 response.setContentType(ContentTypeEnum.TEXT_HTML_UTF_8.getValue());
                 String data = (String) object;
                 ServletOutputStream out = response.getOutputStream();
-                out.write(data.getBytes("UTF-8"));
+                out.write(data.getBytes(CharSetEnum.UTF_8.getValue()));
                 out.flush();
                 out.close();
             }
