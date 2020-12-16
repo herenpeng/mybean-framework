@@ -48,7 +48,9 @@ public class ServiceServlet implements Servlet {
             // 执行对应的方法
             Object object = method.invoke(bean, request, response);
             // 处理返回结果
-            ResolverHandler.resolver(object, method, response);
+            if (object != null) {
+                ResolverHandler.resolver(object, method, response);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
