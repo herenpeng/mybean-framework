@@ -1,6 +1,6 @@
 # mybean-framework
 
-> MyBean框架是一个仿Spring的轻量级框架，拥有IOC和DI两种功能。
+> MyBean框架是一个类似于Spring的简化版本的轻量级框架，拥有IOC和DI两种功能。
 
 
 ## Bean实例注册
@@ -9,8 +9,6 @@ MyBean框架可以通过注解、xml配置文件、properties配置文件三种�
 
 - 注解
 
-**注意事项：**
- 
  1、在Java类上标注@MyBean注解，即可将JavaBean注入核心容器。
  
  2、使用@MyBean注解方式注册Bean实例，必须开启包扫描。
@@ -24,8 +22,6 @@ public class Student {
 }
 ```
 - xml配置
-
-**注意事项：**
  
  1、在application.xml配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
  
@@ -44,8 +40,6 @@ public class Student {
 </mybean>
 ```
 - properties配置
-
-**注意事项：**
  
  1、在application.properties配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
  
@@ -61,15 +55,13 @@ MyBean框架目前允许通过注解的方式和xml配置的方式注入一个Be
 
 - 注解
  
- 在类属性上添加@SetBean注解，即可将对应的实例注入类属性中。
- 
-**注意事项：**
+1、 在类属性上添加@SetBean注解，即可将对应的实例注入类属性中。
 
-1、注入属性的Java类必须是已经在MyBean框架核心容器注册的JavaBean，否则无法注入。
+2、注入属性的Java类必须是已经在MyBean框架核心容器注册的JavaBean，否则无法注入。
   
-2、@SetBean有一个属性值，如果属性值为空，则使用类型注入模式，如果属性值不为空，则使用id名称注入方式。
+3、@SetBean有一个属性值，如果属性值为空，则使用类型注入模式，如果属性值不为空，则使用id名称注入方式。
 
-3、MyBean框架的注解注入方式是默认开启的，如果在一个属性中，既使用了@SetBean注解注入，又使用了xml配置文件注入，默认使用@SetBean注解注入的方式，xml配置方式默认放弃注入。
+4、MyBean框架的注解注入方式是默认开启的，如果在一个属性中，既使用了@SetBean注解注入，又使用了xml配置文件注入，默认使用@SetBean注解注入的方式，xml配置方式默认放弃注入。
 
  例：
  ```java
@@ -87,8 +79,6 @@ public class Person {
 
 
 - xml配置
- 
- **注意事项：**
  
  1、注入属性的Java类必须是已经在xml配置文件中配置过的JavaBean，否则无法注入。
  
@@ -111,11 +101,9 @@ public class Person {
 
 如果使用@MyBean注解的方式注册Bean实例，必须配置包扫描范围，这样MyBean框架核心容器才能够扫描被注解的Bean实例。
 
-包扫描方式分为两种，注解和配置方式。
+包扫描方式分为三种，注解和xml配置文件和properties配置文件方式。
 
 - 注解
-
-**注意事项：**
 
  1、在启动类或者测试类上添加@PackageScan注解，即可扫描对应包下的所有@MyBean注解实例。
  
@@ -138,8 +126,6 @@ public class ApplicationTest {
 }
 ```
  - xml配置
- 
- **注意事项：**
   
  1、在application.xml配置文件中配置package-scan标签即可，range属性即为包扫描范围值。
  
@@ -153,8 +139,6 @@ public class ApplicationTest {
 ```
  
  - properties配置
- 
- **注意事项：**
  
  1、在application.properties配置文件中配置package.scan属性即可。
  
