@@ -1,7 +1,5 @@
 package org.mybeanframework.web.mvc;
 
-import org.mybeanframework.core.Application;
-import org.mybeanframework.core.context.support.PropertiesApplication;
 import org.mybeanframework.core.context.support.XmlApplication;
 import org.mybeanframework.web.mvc.annotation.RequestPath;
 import org.mybeanframework.web.mvc.request.AbstractRequestResolver;
