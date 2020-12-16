@@ -1,9 +1,8 @@
 package org.mybeanframework.web.mvc.servlet;
 
-import org.mybeanframework.core.Application;
-import org.mybeanframework.core.context.support.XmlApplication;
 import org.mybeanframework.web.mvc.MvcApplication;
-import org.mybeanframework.web.mvc.view.ViewResolver;
+import org.mybeanframework.web.mvc.request.BeanAndMethod;
+import org.mybeanframework.web.mvc.response.ResolverHandler;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -22,22 +21,9 @@ import java.lang.reflect.Method;
 public class ServiceServlet implements Servlet {
 
     /**
-     * 路径分隔符
+     * Mvc核心启动器
      */
-    private static final String URL_SEPARATE = "/";
-    /**
-     * 常量，静态资源路径包
-     */
-    private static final String STATIC = "static";
-    /**
-     * 常量：tomcat页面标签的小图标请求路径
-     */
-    private static final String ICO = "/favicon.ico";
-
-    /**
-     * 类成员变量，框架的核心容器
-     */
-    private Application application;
+    MvcApplication mvcApplication;
 
     @Override
     public ServletConfig getServletConfig() {
@@ -50,21 +36,19 @@ public class ServiceServlet implements Servlet {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String uri = request.getRequestURI();
         try {
-            if (!uri.contains(STATIC) && !uri.contains(ICO)) {
-                String projectName = request.getContextPath();
-                if (projectName != null && projectName.length() > 0) {
-                    uri = uri.substring(uri.indexOf(projectName) + projectName.length());
-                }
-                String className = uri.substring(uri.indexOf(URL_SEPARATE) + 1, uri.lastIndexOf(URL_SEPARATE));
-                String methodName = uri.substring(uri.lastIndexOf(URL_SEPARATE) + 1);
-                Object applicationBean = application.getBean(className);
-                Method method = applicationBean.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
-                Object object = method.invoke(applicationBean, request, response);
-                if (object instanceof String) {
-                    String viewName = (String) object;
-                    ViewResolver.resolver(response, viewName);
-                }
+            // 去掉请求中的项目名称
+            String projectName = request.getContextPath();
+            if (projectName != null && projectName.length() > 0) {
+                uri = uri.substring(uri.indexOf(projectName) + projectName.length());
             }
+            // 获取请求路径对应的类和方法
+            BeanAndMethod beanAndMethod = mvcApplication.requestResolver(uri);
+            Object bean = beanAndMethod.getBean();
+            Method method = beanAndMethod.getMethod();
+            // 执行对应的方法
+            Object object = method.invoke(bean, request, response);
+            // 处理返回结果
+            ResolverHandler.resolver(object, method, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,7 +61,7 @@ public class ServiceServlet implements Servlet {
 
     @Override
     public void init(ServletConfig servletConfig) {
-        MvcApplication mvcApplication = new MvcApplication();
+        mvcApplication = new MvcApplication();
         mvcApplication.start();
     }
 

@@ -1,5 +1,7 @@
 package org.mybeanframework.web.mvc.annotation;
 
+import org.mybeanframework.web.mvc.response.enums.ResponseTypeEnum;
+
 import java.lang.annotation.*;
 
 /**
@@ -18,8 +20,15 @@ public @interface RequestPath {
      * 有该属性则访问路径为属性值
      * 没有该属性则默认为空
      *
-     * @return id名称
+     * @return 访问路径
      */
     String value() default "";
+
+    /**
+     * 返回类型，默认为视图
+     *
+     * @return 响应类型
+     */
+    ResponseTypeEnum type() default ResponseTypeEnum.VIEW;
 
 }
