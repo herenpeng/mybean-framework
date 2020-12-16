@@ -43,13 +43,13 @@ public class MvcApplication extends AbstractRequestResolver {
                 if (!path.startsWith(URL_SEPARATE)) {
                     path = URL_SEPARATE + path;
                 }
-                Method[] methods = beanClass.getMethods();
+                Method[] methods = beanClass.getDeclaredMethods();
                 for (Method method : methods) {
                     String requestPath = "";
                     if (method.isAnnotationPresent(REQUEST_PATH_CLASS)) {
                         RequestPath methodRequestPath = method.getAnnotation(REQUEST_PATH_CLASS);
                         String methodPath = methodRequestPath.value();
-                        if (!methodPath.startsWith(URL_SEPARATE)) {
+                        if (methodPath != null && methodPath.length() > 0 & !methodPath.startsWith(URL_SEPARATE)) {
                             methodPath = URL_SEPARATE + methodPath;
                         }
                         requestPath = path + methodPath;
