@@ -20,7 +20,6 @@ public class UserController {
     @RequestPath("index")
     public String index(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
-        System.out.println(username);
         return "index.html";
     }
 

@@ -16,12 +16,20 @@ public class ViewResolver {
     /**
      * 常量，默认的视图解析前缀
      */
-    private static final String DEFAULT_VIEW_PREFIX = "static/";
+    private static final String DEFAULT_VIEW_PREFIX = "static";
+
+    /**
+     * URI路径分隔符
+     */
+    public static final String URI_SEPARATION = "/";
 
     public static void resolver(Object object, HttpServletResponse response) {
         try {
             if (object instanceof String) {
                 String viewName = (String) object;
+                if (!viewName.startsWith(URI_SEPARATION)) {
+                    viewName = URI_SEPARATION + viewName;
+                }
                 ServletOutputStream out = response.getOutputStream();
                 InputStream is = ViewResolver.class.getClassLoader().getResourceAsStream(DEFAULT_VIEW_PREFIX + viewName);
                 byte[] bytes = new byte[1024];

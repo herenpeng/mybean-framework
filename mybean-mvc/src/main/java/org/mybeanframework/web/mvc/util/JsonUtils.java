@@ -5,6 +5,9 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
+ * 将Java对象转换为JSON格式的字符串
+ * 目前支持String类型，简单的JavaBean类型，List类型，Map类型
+ *
  * @author herenpeng
  * @since 2020-12-21 11:42
  */
@@ -67,8 +70,8 @@ public class JsonUtils {
     /**
      * 将List转换为转换为json格式的字符串
      *
-     * @param list
-     * @return
+     * @param list List集合
+     * @return json格式的字符串
      */
     private static String toListJson(List list) {
         StringBuffer listJson = new StringBuffer();
