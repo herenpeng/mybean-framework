@@ -61,4 +61,8 @@ public class MvcApplication extends AbstractRequestResolver {
         }
     }
 
+    public MvcApplication() {
+        start();
+    }
+
 }

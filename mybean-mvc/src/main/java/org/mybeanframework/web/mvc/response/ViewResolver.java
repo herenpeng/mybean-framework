@@ -23,6 +23,12 @@ public class ViewResolver {
      */
     public static final String URI_SEPARATION = "/";
 
+    /**
+     * 解析视图路径的方法
+     *
+     * @param object   视图路径
+     * @param response HttpServletResponse对象
+     */
     public static void resolver(Object object, HttpServletResponse response) {
         try {
             if (object instanceof String) {

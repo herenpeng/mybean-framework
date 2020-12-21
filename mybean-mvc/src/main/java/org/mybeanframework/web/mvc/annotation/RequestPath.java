@@ -8,7 +8,7 @@ import java.lang.annotation.*;
  * 注解，作用于类和方法上，用于指定被访问路径
  *
  * @author herenpeng
- * @since 2020-2-4 8:23
+ * @since 2020-12-15 8:23
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

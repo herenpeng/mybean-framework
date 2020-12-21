@@ -56,4 +56,13 @@ public class BeanAndMethod {
 
     public BeanAndMethod() {
     }
+
+    @Override
+    public String toString() {
+        return "BeanAndMethod{" +
+                "bean=" + bean +
+                ", method=" + method +
+                '}';
+    }
+
 }

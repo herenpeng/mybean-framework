@@ -8,13 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 数据解析器
+ * 文本数据解析器
  *
  * @author herenpeng
  * @since 2020-12-16 13:42
  */
-public class ObjectResolver {
+public class TextResolver {
 
+    /**
+     * 解析文本字符串数据的方法
+     *
+     * @param object   文本对象
+     * @param response HttpServletResponse对象
+     */
     public static void resolver(Object object, HttpServletResponse response) {
         try {
             response.setContentType(ContentTypeEnum.TEXT_HTML_UTF_8.getValue());

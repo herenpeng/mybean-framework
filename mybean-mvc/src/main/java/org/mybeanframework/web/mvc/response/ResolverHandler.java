@@ -14,6 +14,9 @@ import java.lang.reflect.Method;
  */
 public class ResolverHandler {
 
+    /**
+     * 注解@RequestPath的字节码对象
+     */
     public static final Class<RequestPath> REQUEST_PATH_CLASS = RequestPath.class;
 
     public static void resolver(Object object, Method method, HttpServletResponse response) {
@@ -25,7 +28,7 @@ public class ResolverHandler {
                     ViewResolver.resolver(object, response);
                     break;
                 case TEXT:
-                    ObjectResolver.resolver(object, response);
+                    TextResolver.resolver(object, response);
                     break;
                 case JSON:
                     JsonResolver.resolver(object, response);

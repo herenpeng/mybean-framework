@@ -19,31 +19,31 @@ public class JsonUtils {
     public static final String GET = "get";
 
     /**
-     * 双引号
+     * 英文双引号
      */
     public static final String DOUBLE_QUOTE = "\"";
     /**
-     * 冒号
+     * 英文冒号
      */
     public static final String COLON = ":";
     /**
-     * 逗号
+     * 英文逗号
      */
     public static final String COMMA = ",";
     /**
-     * 前大括号
+     * 大括号开始
      */
-    public static final String BIG_PARANTHESES_PREFIX = "{";
+    public static final String BIG_BRACKETS_PREFIX = "{";
     /**
-     * 后大括号
+     * 大括号结束
      */
-    public static final String BIG_PARANTHESES_SUFFIX = "}";
+    public static final String BIG_BRACKETS_SUFFIX = "}";
     /**
-     * 前中括号
+     * 中括号开始
      */
     public static final String BRACKETS_PREFIX = "[";
     /**
-     * 后大括号
+     * 中括号结束
      */
     public static final String BRACKETS_SUFFIX = "]";
 
@@ -98,7 +98,7 @@ public class JsonUtils {
     private static String toObjectJson(Object object) {
         try {
             StringBuffer objectJson = new StringBuffer();
-            objectJson.append(BIG_PARANTHESES_PREFIX);
+            objectJson.append(BIG_BRACKETS_PREFIX);
             if (object instanceof Map) {
                 Map map = (Map) object;
                 Set<Map.Entry> entrySet = map.entrySet();
@@ -123,7 +123,7 @@ public class JsonUtils {
                 }
             }
             objectJson.deleteCharAt(objectJson.length() - 1);
-            objectJson.append(BIG_PARANTHESES_SUFFIX);
+            objectJson.append(BIG_BRACKETS_SUFFIX);
             return objectJson.toString();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
