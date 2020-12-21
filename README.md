@@ -97,7 +97,7 @@ public class Person {
 </mybean>
 ```
 
-# 包扫描
+## 包扫描
 
 如果使用@MyBean注解的方式注册Bean实例，必须配置包扫描范围，这样MyBean框架核心容器才能够扫描被注解的Bean实例。
 
@@ -147,3 +147,83 @@ public class ApplicationTest {
  ```java
 package.scan=com.mybean.test
 ```
+
+
+## MyBeanMVC
+
+MyBeanMVC是MyBean框架的Web开发部分，能够简化原生的Servlet开发。
+
+### @RequestPath
+
+@RequestPath为一个MVC层的注解，可以注解在类和方法上，有两个属性：
+- value：value属性为请求路径，使用该属性可以将对应的类或方法映射到注解的类和方法上。
+- type：type属性为一个ResponseTypeEnum枚举类型，该属性在类上无效，在方法上可以映射为响应数据的类型，该属性默认为ResponseTypeEnum.VIEW，默认解析返回值为视图。
+
+例：
+```java
+@MyBean
+@RequestPath("user")
+public class UserController {
+
+    @RequestPath("index")
+    public String index(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        return "index.html";
+    }
+}
+```
+
+### 静态资源解析
+
+1、MyBeanMVC目前只支持静态资源文件，对于`.jsp`，`.ftl`等动态文件暂不支持。
+
+2、在MyBeanMVC中，所有的静态资源文件都需要放在resources包下的static文件夹中，否则无法解析。例如上述的案例代码中，返回的inex.html会默认解析为resources/static包下的index.html文件。
+
+3、在MyBeanMVC的静态文件中，如果需要引入其他静态文件，请使用绝对路径，MyBeanMVC专属的`@`符号解析路径。使用相对路径引入静态文件，会无法解析静态文件。
+
+4、其中的@符号为MyBean框架的静态资源解析符号，能够直接解析到resources/static文件下面。
+
+例：
+
+```java
+resources
+    |__static
+        |__index.css
+        |__index.html
+```
+
+在上述的文件目录层级中，在index.html文件中，应该使用如下方式引入index.css文件。
+
+正确：
+```html
+<link rel="stylesheet" type="text/css" href="/index.css"/>
+<link rel="stylesheet" type="text/css" href="@index.css"/>
+```
+
+错误：
+```html
+<link rel="stylesheet" type="text/css" href="index.css"/>
+```
+
+### ResponseTypeEnum枚举类型
+
+@RequestPath注解的type属性为ResponseTypeEnum枚举类型，该枚举有三个属性值。
+
+- VIEW：该值为@RequestPath注解type属性的默认值，默认为视图解析，会将返回值作为路径解析，会自动寻找resources/static包下的静态文件。
+
+例：
+```html
+@MyBean
+@RequestPath("user")
+public class UserController {
+
+    @RequestPath("index")
+    public String index(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        // 会跳转到resources/static包的index.html文件
+        return "index.html";
+    }
+}
+```
+
+- TEXT：该值会将方法返回值作为普通文本解析，

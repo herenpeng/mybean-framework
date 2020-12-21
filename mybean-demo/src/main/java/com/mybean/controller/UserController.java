@@ -23,14 +23,14 @@ public class UserController {
         return "index.html";
     }
 
-    @RequestPath(value = "string", type = ResponseTypeEnum.OBJECT)
+    @RequestPath(value = "string", type = ResponseTypeEnum.TEXT)
     public String string(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
         return username;
     }
 
-    @RequestPath(value = "object", type = ResponseTypeEnum.OBJECT)
-    public User object(HttpServletRequest request, HttpServletResponse response) {
+    @RequestPath(value = "text", type = ResponseTypeEnum.TEXT)
+    public User text(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         user.setUsername("池总");
         user.setPassword("123456");

@@ -24,7 +24,7 @@ public class ResolverHandler {
                 case VIEW:
                     ViewResolver.resolver(object, response);
                     break;
-                case OBJECT:
+                case TEXT:
                     ObjectResolver.resolver(object, response);
                     break;
                 case JSON:
