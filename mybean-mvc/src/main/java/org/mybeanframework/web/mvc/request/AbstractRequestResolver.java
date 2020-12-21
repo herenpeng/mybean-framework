@@ -18,7 +18,12 @@ public abstract class AbstractRequestResolver extends BeanFactory {
      */
     public static final Map<String, BeanAndMethod> requestResolver = new HashMap<>();
 
-
+    /**
+     * 请求解析
+     *
+     * @param requestPath 请求路径
+     * @return 返回路径对应的类和方法
+     */
     public BeanAndMethod requestResolver(String requestPath) {
         return requestResolver.get(requestPath);
     }
