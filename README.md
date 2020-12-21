@@ -44,7 +44,7 @@ public class Student {
  1、在application.properties配置文件中进行容器id值和Java全限定类名的对应配置，即可将JavaBean注入核心容器。
  
  例：
- ```java
+ ```properties
 student=com.mybean.test.Student
 ```
 
@@ -144,7 +144,7 @@ public class ApplicationTest {
  
  例：
  
- ```java
+ ```properties
 package.scan=com.mybean.test
 ```
 
@@ -185,7 +185,7 @@ public class UserController {
 
 例：
 
-```java
+```text
 resources
     |__static
         |__index.css
@@ -212,7 +212,7 @@ resources
 - VIEW：该值为@RequestPath注解type属性的默认值，默认为视图解析，会将返回值作为路径解析，会自动寻找resources/static包下的静态文件。
 
 例：
-```html
+```java
 @MyBean
 @RequestPath("user")
 public class UserController {
@@ -226,4 +226,78 @@ public class UserController {
 }
 ```
 
-- TEXT：该值会将方法返回值作为普通文本解析，
+- TEXT：该值会将方法返回值作为普通文本解析，如果返回值为String类型，会直接输出字符串，如果返回值为其他类型，会默认调用该方法的toString()方法输出字符串。
+
+例：
+```java
+@MyBean
+@RequestPath("user")
+public class UserController {
+
+    @RequestPath(value = "string", type = ResponseTypeEnum.TEXT)
+    public String string(HttpServletRequest request, HttpServletResponse response) {
+        String username = request.getParameter("username");
+        return username;
+    }
+
+    @RequestPath(value = "text", type = ResponseTypeEnum.TEXT)
+    public User text(HttpServletRequest request, HttpServletResponse response) {
+        User user = new User();
+        user.setUsername("池总");
+        user.setPassword("123456");
+        return user;
+    }
+}
+```
+
+
+- JSON：该值会将方法返回值作为JSON格式解析。MyBean框架的JSON解析方式为MyBean框架自带的JSON解析工具，不依赖第三方JSON解析库，由于自带的JSON解析工具比较简单，目前JSON格式只支持String类型，简单的JavaBean类型，List类型，Map类型。其中JavaBean类型默认为遵循规范的简单JavaBean，如果JavaBean中有其他复杂类型，比如List，Map等等，只会输出对应属性的toString()字符串，目前不支持递归输出JSON格式。
+
+例：
+```java
+@MyBean
+@RequestPath("user")
+public class UserController {
+
+    @RequestPath(value = "json", type = ResponseTypeEnum.JSON)
+    public User json(HttpServletRequest request, HttpServletResponse response) {
+        User user = new User("池总", "123456");
+        return user;
+    }
+
+    @RequestPath(value = "map", type = ResponseTypeEnum.JSON)
+    public Map<String, Object> map(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", "池总");
+        map.put("password", "123456");
+        map.put("enabled", true);
+        return map;
+    }
+
+    @RequestPath(value = "list", type = ResponseTypeEnum.JSON)
+    public List<User> list(HttpServletRequest request, HttpServletResponse response) {
+        List<User> list = new ArrayList<>();
+        list.add(new User("池总", "123456"));
+        list.add(new User("刘老板", "111111"));
+        list.add(new User("波波", "bbbbbb"));
+        return list;
+    }
+
+    @RequestPath(value = "listMap", type = ResponseTypeEnum.JSON)
+    public List<Map<String, Object>> listMap(HttpServletRequest request, HttpServletResponse response) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("username", "池总");
+        map1.put("password", "123456");
+        map1.put("enabled", true);
+        list.add(map1);
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("username", "刘老板");
+        map2.put("password", "111111");
+        map2.put("enabled", false);
+        map2.put("birthday", new Date());
+        list.add(map2);
+        return list;
+    }
+}
+```
