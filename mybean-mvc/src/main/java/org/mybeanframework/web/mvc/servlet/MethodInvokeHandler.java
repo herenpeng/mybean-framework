@@ -39,11 +39,27 @@ public class MethodInvokeHandler {
         Object bean = beanAndMethod.getBean();
         Method method = beanAndMethod.getMethod();
         // 执行对应的方法
-        Object object = method.invoke(bean, request, response);
+        Object object = invoke(bean, method, request, response);
         // 处理返回结果
         if (object != null) {
             ResolverHandler.resolver(object, method, response);
         }
+    }
+
+    /**
+     * 执行方法
+     *
+     * @param bean     类对象
+     * @param method   方法
+     * @param request  HttpServletRequest对象
+     * @param response HttpServletResponse对象
+     * @return
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    public static Object invoke(Object bean, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {
+        Object object = method.invoke(bean, request, response);
+        return object;
     }
 
 }
