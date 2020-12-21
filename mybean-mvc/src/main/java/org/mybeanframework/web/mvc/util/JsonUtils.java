@@ -1,16 +1,8 @@
 package org.mybeanframework.web.mvc.util;
 
-import jdk.nashorn.internal.objects.annotations.SpecializedFunction;
-import org.omg.CORBA.OBJ_ADAPTER;
-
-import javax.management.ObjectName;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.sql.PseudoColumnUsage;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author herenpeng
@@ -23,12 +15,33 @@ public class JsonUtils {
      */
     public static final String GET = "get";
 
+    /**
+     * 双引号
+     */
     public static final String DOUBLE_QUOTE = "\"";
+    /**
+     * 冒号
+     */
     public static final String COLON = ":";
+    /**
+     * 逗号
+     */
     public static final String COMMA = ",";
+    /**
+     * 前大括号
+     */
     public static final String BIG_PARANTHESES_PREFIX = "{";
+    /**
+     * 后大括号
+     */
     public static final String BIG_PARANTHESES_SUFFIX = "}";
+    /**
+     * 前中括号
+     */
     public static final String BRACKETS_PREFIX = "[";
+    /**
+     * 后大括号
+     */
     public static final String BRACKETS_SUFFIX = "]";
 
     /**
@@ -74,7 +87,7 @@ public class JsonUtils {
 
 
     /**
-     * 将普通的JavaBean转换为json格式的字符串，默认为普通的JavaBean
+     * 将普通的JavaBean转换为json格式的字符串，默认为普通的JavaBean或者Map
      *
      * @param object 对象
      * @return json格式字符串
@@ -83,15 +96,28 @@ public class JsonUtils {
         try {
             StringBuffer objectJson = new StringBuffer();
             objectJson.append(BIG_PARANTHESES_PREFIX);
-            Class<?> objectClass = object.getClass();
-            List<Method> getMethodList = getGetMethodList(objectClass);
-            Iterator<Method> iterator = getMethodList.iterator();
-            while (iterator.hasNext()) {
-                Method method = iterator.next();
-                String fieldName = getFieldName(method);
-                Object value = method.invoke(object);
-                splicingJsonAttributes(objectJson, fieldName, value);
-                objectJson.append(COMMA);
+            if (object instanceof Map) {
+                Map map = (Map) object;
+                Set<Map.Entry> entrySet = map.entrySet();
+                Iterator<Map.Entry> iterator = entrySet.iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry entry = iterator.next();
+                    Object key = entry.getKey();
+                    Object value = entry.getValue();
+                    splicingJsonAttributes(objectJson, key.toString(), value);
+                    objectJson.append(COMMA);
+                }
+            } else {
+                Class<?> objectClass = object.getClass();
+                List<Method> getMethodList = getGetMethodList(objectClass);
+                Iterator<Method> iterator = getMethodList.iterator();
+                while (iterator.hasNext()) {
+                    Method method = iterator.next();
+                    String fieldName = getFieldName(method);
+                    Object value = method.invoke(object);
+                    splicingJsonAttributes(objectJson, fieldName, value);
+                    objectJson.append(COMMA);
+                }
             }
             objectJson.deleteCharAt(objectJson.length() - 1);
             objectJson.append(BIG_PARANTHESES_SUFFIX);
