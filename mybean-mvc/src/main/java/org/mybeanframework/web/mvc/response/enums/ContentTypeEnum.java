@@ -6,7 +6,8 @@ package org.mybeanframework.web.mvc.response.enums;
  */
 public enum ContentTypeEnum {
 
-    TEXT_HTML_UTF_8("text/html;charset=UTF-8");
+    TEXT_HTML_UTF_8("text/html;charset=UTF-8"),
+    APPLICATION_JSON_UTF_8("application/json;charset=UTF-8");
 
     private String value;
 

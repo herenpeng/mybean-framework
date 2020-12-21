@@ -13,18 +13,16 @@ import java.io.IOException;
  * @author herenpeng
  * @since 2020-12-16 13:42
  */
-public class DataResolver {
+public class ObjectResolver {
 
     public static void resolver(Object object, HttpServletResponse response) {
         try {
-            if (object instanceof String) {
-                response.setContentType(ContentTypeEnum.TEXT_HTML_UTF_8.getValue());
-                String data = (String) object;
-                ServletOutputStream out = response.getOutputStream();
-                out.write(data.getBytes(CharSetEnum.UTF_8.getValue()));
-                out.flush();
-                out.close();
-            }
+            response.setContentType(ContentTypeEnum.TEXT_HTML_UTF_8.getValue());
+            String text = object.toString();
+            ServletOutputStream out = response.getOutputStream();
+            out.write(text.getBytes(CharSetEnum.UTF_8.getValue()));
+            out.flush();
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

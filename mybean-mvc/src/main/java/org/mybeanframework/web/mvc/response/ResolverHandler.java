@@ -24,11 +24,12 @@ public class ResolverHandler {
                 case VIEW:
                     ViewResolver.resolver(object, response);
                     break;
-                case DATA:
-                    DataResolver.resolver(object, response);
+                case OBJECT:
+                    ObjectResolver.resolver(object, response);
                     break;
-                // case JSON:
-                //     break;
+                case JSON:
+                    JsonResolver.resolver(object, response);
+                    break;
                 default:
             }
         } else {

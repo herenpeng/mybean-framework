@@ -9,7 +9,7 @@ package org.mybeanframework.web.mvc.response.enums;
 public enum ResponseTypeEnum {
 
     VIEW,
-    // JSON,
-    DATA;
+    OBJECT,
+    JSON;
 
 }
