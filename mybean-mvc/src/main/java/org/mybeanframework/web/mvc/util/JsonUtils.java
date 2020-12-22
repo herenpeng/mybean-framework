@@ -2,6 +2,7 @@ package org.mybeanframework.web.mvc.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -54,12 +55,10 @@ public class JsonUtils {
      * @return json格式字符串
      */
     public static String toJson(Object object) {
-        String json = null;
-        if (object instanceof String) {
-            json = object.toString();
-        } else if (object instanceof List) {
-            List list = (List) object;
-            json = toListJson(list);
+        String json;
+        if (object instanceof Collection) {
+            Collection collection = (Collection) object;
+            json = toCollectionJson(collection);
         } else {
             json = toObjectJson(object);
         }
@@ -68,15 +67,15 @@ public class JsonUtils {
 
 
     /**
-     * 将List转换为转换为json格式的字符串
+     * 将Collection类型转换为转换为json格式的字符串
      *
-     * @param list List集合
+     * @param Collection Collection集合
      * @return json格式的字符串
      */
-    private static String toListJson(List list) {
+    private static String toCollectionJson(Collection Collection) {
         StringBuffer listJson = new StringBuffer();
         listJson.append(BRACKETS_PREFIX);
-        Iterator iterator = list.iterator();
+        Iterator iterator = Collection.iterator();
         while (iterator.hasNext()) {
             Object obj = iterator.next();
             String objectJson = toObjectJson(obj);
@@ -98,6 +97,16 @@ public class JsonUtils {
     private static String toObjectJson(Object object) {
         try {
             StringBuffer objectJson = new StringBuffer();
+            if (object instanceof String || object instanceof Long || object instanceof Character
+                    || object instanceof Date || object instanceof BigDecimal) {
+                objectJson.append(DOUBLE_QUOTE).append(object.toString()).append(DOUBLE_QUOTE);
+                return objectJson.toString();
+            } else if (object instanceof Boolean || object instanceof Short
+                    || object instanceof Integer || object instanceof Float
+                    || object instanceof Double) {
+                objectJson.append(object.toString());
+                return objectJson.toString();
+            }
             objectJson.append(BIG_BRACKETS_PREFIX);
             if (object instanceof Map) {
                 Map map = (Map) object;
@@ -142,12 +151,7 @@ public class JsonUtils {
      */
     private static void splicingJsonAttributes(StringBuffer objectJson, String name, Object value) {
         objectJson.append(DOUBLE_QUOTE).append(name).append(DOUBLE_QUOTE)
-                .append(COLON);
-        if (value instanceof Boolean) {
-            objectJson.append(value);
-        } else {
-            objectJson.append(DOUBLE_QUOTE).append(value).append(DOUBLE_QUOTE);
-        }
+                .append(COLON).append(toJson(value));
     }
 
 

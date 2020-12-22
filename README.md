@@ -226,7 +226,7 @@ public class UserController {
 }
 ```
 
-- TEXT：该值会将方法返回值作为普通文本解析，如果返回值为String类型，会直接输出字符串，如果返回值为其他类型，会默认调用该方法的toString()方法输出字符串。
+- TEXT：该值会将方法返回值作为普通文本解析，如果返回值为String类型，会直接输出字符串，如果返回值为其他类型，会默认调用返回对象的toString()方法输出字符串。
 
 例：
 ```java
@@ -251,7 +251,14 @@ public class UserController {
 ```
 
 
-- JSON：该值会将方法返回值作为JSON格式解析。MyBean框架的JSON解析方式为MyBean框架自带的JSON解析工具，不依赖第三方JSON解析库，由于自带的JSON解析工具比较简单，目前JSON格式只支持String类型，简单的JavaBean类型，List类型，Map类型。其中JavaBean类型默认为遵循规范的简单JavaBean，如果JavaBean中有其他复杂类型，比如List，Map等等，只会输出对应属性的toString()字符串，目前不支持递归输出JSON格式。
+- JSON：该值会将方法返回值作为JSON格式解析。MyBean框架的JSON解析方式为MyBean框架自带的JSON解析工具，不依赖第三方JSON解析库，由于自带的JSON解析工具比较简单，目前JSON格式支持的类型有：
+  
+  - Java八大基本数据类型以及对应的包装类型
+  - Date类型
+  - BigDecimal类型
+  - Map类型
+  - Collection类型
+  - 遵循规范的JavaBean类型
 
 例：
 ```java
@@ -283,6 +290,15 @@ public class UserController {
         return list;
     }
 
+    @RequestPath(value = "set", type = ResponseTypeEnum.JSON)
+    public Set<User> set(HttpServletRequest request, HttpServletResponse response) {
+        Set<User> Set = new HashSet<>();
+        Set.add(new User("池总", "set:123456"));
+        Set.add(new User("刘老板", "set:111111"));
+        Set.add(new User("波波", "set:bbbbbb"));
+        return Set;
+    }
+
     @RequestPath(value = "listMap", type = ResponseTypeEnum.JSON)
     public List<Map<String, Object>> listMap(HttpServletRequest request, HttpServletResponse response) {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -297,6 +313,18 @@ public class UserController {
         map2.put("enabled", false);
         map2.put("birthday", new Date());
         list.add(map2);
+        Map<String, Object> map3 = new HashMap<>();
+        map3.put("username", "刘老板");
+        map3.put("password", "111111");
+        map3.put("money", new BigDecimal(100000000));
+        map3.put("enabled", false);
+        map3.put("person", new User("员工1", "123456"));
+        List<User> list2 = new ArrayList<>();
+        list2.add(new User("池总", "123456"));
+        list2.add(new User("刘老板", "111111"));
+        list2.add(new User("波波", "bbbbbb"));
+        map3.put("list2", list2);
+        list.add(map3);
         return list;
     }
 }
