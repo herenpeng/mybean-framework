@@ -6,8 +6,13 @@ import java.math.BigDecimal;
 import java.util.*;
 
 /**
- * 将Java对象转换为JSON格式的字符串
- * 目前支持String类型，简单的JavaBean类型，List类型，Map类型
+ * 将Java对象转换为JSON格式的字符串，目前支持的类型有：
+ * - Java八大基本数据类型以及对应的包装类型
+ * - Date类型
+ * - BigDecimal类型
+ * - Map类型
+ * - Collection类型
+ * - 遵循规范的JavaBean类型
  *
  * @author herenpeng
  * @since 2020-12-21 11:42
@@ -18,6 +23,10 @@ public class JsonUtils {
      * get方法前缀
      */
     public static final String GET = "get";
+    /**
+     * is方法前缀
+     */
+    public static final String IS = "is";
 
     /**
      * 英文双引号
@@ -120,7 +129,7 @@ public class JsonUtils {
                 }
             } else {
                 Class<?> objectClass = object.getClass();
-                List<Method> getMethodList = getGetMethodList(objectClass);
+                List<Method> getMethodList = getGetOrIsMethodList(objectClass);
                 Iterator<Method> iterator = getMethodList.iterator();
                 while (iterator.hasNext()) {
                     Method method = iterator.next();
@@ -160,12 +169,12 @@ public class JsonUtils {
      * @param objectClass 类字节码对象
      * @return 所有get方法
      */
-    private static List<Method> getGetMethodList(Class objectClass) {
+    private static List<Method> getGetOrIsMethodList(Class objectClass) {
         List<Method> getMethodList = new ArrayList<>();
         // 获取本类的所有方法
         Method[] declaredMethods = objectClass.getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
-            if (declaredMethod.getName().startsWith(GET)) {
+            if (declaredMethod.getName().startsWith(GET) || declaredMethod.getName().startsWith(IS)) {
                 getMethodList.add(declaredMethod);
             }
         }
@@ -180,7 +189,14 @@ public class JsonUtils {
      */
     private static String getFieldName(Method getMethod) {
         String getMethodName = getMethod.getName();
-        String fieldName = getMethodName.substring(GET.length());
+        String fieldName;
+        if (getMethodName.startsWith(GET)) {
+            fieldName = getMethodName.substring(GET.length());
+        } else if (getMethodName.startsWith(IS)) {
+            fieldName = getMethodName.substring(IS.length());
+        } else {
+            return null;
+        }
         // 如果首字母为小写，默认返回即可
         if (Character.isLowerCase(fieldName.charAt(0))) {
             return fieldName;
