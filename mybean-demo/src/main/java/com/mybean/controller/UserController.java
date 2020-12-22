@@ -2,6 +2,7 @@ package com.mybean.controller;
 
 import com.mybean.domain.User;
 import org.mybeanframework.core.annotation.MyBean;
+import org.mybeanframework.web.mvc.annotation.RequestParam;
 import org.mybeanframework.web.mvc.annotation.RequestPath;
 import org.mybeanframework.web.mvc.response.enums.ResponseTypeEnum;
 
@@ -19,19 +20,37 @@ import java.util.*;
 public class UserController {
 
     @RequestPath("index")
-    public String index(HttpServletRequest request, HttpServletResponse response) {
-        String username = request.getParameter("username");
+    public String index(@RequestParam("username") String username) {
         return "index.html";
     }
 
     @RequestPath(value = "string", type = ResponseTypeEnum.JSON)
-    public String string(HttpServletRequest request, HttpServletResponse response) {
-        String username = request.getParameter("username");
+    public String string(@RequestParam("username") String username) {
         return username;
     }
 
+    @RequestPath(value = "number", type = ResponseTypeEnum.JSON)
+    public Integer number(HttpServletRequest request, HttpServletResponse response, @RequestParam("number") Integer number) {
+        return number;
+    }
+
+    @RequestPath(value = "double", type = ResponseTypeEnum.JSON)
+    public Double dou(@RequestParam("number") Double number) {
+        return number;
+    }
+
+    @RequestPath(value = "character", type = ResponseTypeEnum.JSON)
+    public Character character(@RequestParam("character") Character character) {
+        return character;
+    }
+
+    @RequestPath(value = "bool", type = ResponseTypeEnum.JSON)
+    public Boolean bool(@RequestParam("bool") Boolean bool) {
+        return bool;
+    }
+
     @RequestPath(value = "text", type = ResponseTypeEnum.TEXT)
-    public User text(HttpServletRequest request, HttpServletResponse response) {
+    public User text() {
         User user = new User();
         user.setUsername("池总");
         user.setPassword("123456");
@@ -39,13 +58,13 @@ public class UserController {
     }
 
     @RequestPath(value = "json", type = ResponseTypeEnum.JSON)
-    public User json(HttpServletRequest request, HttpServletResponse response) {
+    public User json() {
         User user = new User("池总", "123456");
         return user;
     }
 
     @RequestPath(value = "map", type = ResponseTypeEnum.JSON)
-    public Map<String, Object> map(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> map() {
         Map<String, Object> map = new HashMap<>();
         map.put("username", "池总");
         map.put("password", "123456");
@@ -54,7 +73,7 @@ public class UserController {
     }
 
     @RequestPath(value = "list", type = ResponseTypeEnum.JSON)
-    public List<User> list(HttpServletRequest request, HttpServletResponse response) {
+    public List<User> list() {
         List<User> list = new ArrayList<>();
         list.add(new User("池总", "123456"));
         list.add(new User("刘老板", "111111"));
@@ -63,7 +82,7 @@ public class UserController {
     }
 
     @RequestPath(value = "set", type = ResponseTypeEnum.JSON)
-    public Set<User> set(HttpServletRequest request, HttpServletResponse response) {
+    public Set<User> set() {
         Set<User> Set = new HashSet<>();
         Set.add(new User("池总", "set:123456"));
         Set.add(new User("刘老板", "set:111111"));
@@ -72,7 +91,7 @@ public class UserController {
     }
 
     @RequestPath(value = "listMap", type = ResponseTypeEnum.JSON)
-    public List<Map<String, Object>> listMap(HttpServletRequest request, HttpServletResponse response) {
+    public List<Map<String, Object>> listMap() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map1 = new HashMap<>();
         map1.put("username", "池总");

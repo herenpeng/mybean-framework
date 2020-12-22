@@ -173,6 +173,38 @@ public class UserController {
 }
 ```
 
+### @RequestParam
+
+@RequestParam是一个MVC层注解，用于解析HTTP请求上的参数，该注解只能标注在方法参数上。
+
+1、@RequestParam注解有一个value属性值，该值为对应的参数名称，如果请求中有对应名称和类型的参数值，该注解会自动将参数解析到方法参数中。
+
+2、@RequestParam注解目前只支持解析Java的八种基本数据类型和对应的包装类，其余类型无法解析。
+
+3、MyBeanMVC的控制层方法参数注入只支持10个参数，超过10个参数，框架会出现解析异常。
+
+4、如果控制层方法参数中有HttpServletRequest和HttpServletResponse类型，对应的参数会自动注入。
+
+例：
+
+```java
+@MyBean
+@RequestPath("user")
+public class UserController {
+
+    @RequestPath(value = "string", type = ResponseTypeEnum.JSON)
+    public String string(@RequestParam("username") String username) {
+        return username;
+    }
+
+    @RequestPath(value = "number", type = ResponseTypeEnum.JSON)
+    public Integer number(HttpServletRequest request, HttpServletResponse response, @RequestParam("number") Integer number) {
+        return number;
+    }
+
+}
+```
+
 ### 静态资源解析
 
 1、MyBeanMVC目前只支持静态资源文件，对于`.jsp`，`.ftl`等动态文件暂不支持。

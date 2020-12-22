@@ -97,13 +97,12 @@ public class JsonUtils {
     private static String toObjectJson(Object object) {
         try {
             StringBuffer objectJson = new StringBuffer();
-            if (object instanceof String || object instanceof Long || object instanceof Character
+            if (object instanceof Character || object instanceof Long || object instanceof String
                     || object instanceof Date || object instanceof BigDecimal) {
                 objectJson.append(DOUBLE_QUOTE).append(object.toString()).append(DOUBLE_QUOTE);
                 return objectJson.toString();
-            } else if (object instanceof Boolean || object instanceof Short
-                    || object instanceof Integer || object instanceof Float
-                    || object instanceof Double) {
+            } else if (object instanceof Byte || object instanceof Short || object instanceof Integer
+                    || object instanceof Float || object instanceof Double || object instanceof Boolean) {
                 objectJson.append(object.toString());
                 return objectJson.toString();
             }

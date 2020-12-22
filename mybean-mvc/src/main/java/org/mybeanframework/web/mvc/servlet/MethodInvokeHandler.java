@@ -1,13 +1,21 @@
 package org.mybeanframework.web.mvc.servlet;
 
 import org.mybeanframework.web.mvc.MvcApplication;
+import org.mybeanframework.web.mvc.annotation.RequestParam;
+import org.mybeanframework.web.mvc.annotation.RequestPath;
 import org.mybeanframework.web.mvc.request.BeanAndMethod;
 import org.mybeanframework.web.mvc.response.ResolverHandler;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 执行方法的处理器
@@ -57,9 +65,160 @@ public class MethodInvokeHandler {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static Object invoke(Object bean, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {
-        Object object = method.invoke(bean, request, response);
+    private static Object invoke(Object bean, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {
+        Object object;
+        switch (methodParameterHandler(method, request, response)) {
+            case 1:
+                object = method.invoke(bean, invokeParameterMap.get(0));
+                break;
+            case 2:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1));
+                break;
+            case 3:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2));
+                break;
+            case 4:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3));
+                break;
+            case 5:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4));
+                break;
+            case 6:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
+                        invokeParameterMap.get(5));
+                break;
+            case 7:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
+                        invokeParameterMap.get(5), invokeParameterMap.get(6));
+                break;
+            case 8:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
+                        invokeParameterMap.get(5), invokeParameterMap.get(6), invokeParameterMap.get(7));
+                break;
+            case 9:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
+                        invokeParameterMap.get(5), invokeParameterMap.get(6), invokeParameterMap.get(7),
+                        invokeParameterMap.get(8));
+                break;
+            case 10:
+                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
+                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
+                        invokeParameterMap.get(5), invokeParameterMap.get(6), invokeParameterMap.get(7),
+                        invokeParameterMap.get(8), invokeParameterMap.get(9));
+                break;
+            default:
+                throw new RuntimeException(method + "方法参数溢出");
+        }
         return object;
     }
+
+    /**
+     * 字节码对象
+     */
+    public static final Class<ServletRequest> SERVLET_REQUEST_CLASS = ServletRequest.class;
+    public static final Class<ServletResponse> SERVLET_RESPONSE_CLASS = ServletResponse.class;
+    public static final Class<RequestParam> REQUEST_PARAM_CLASS = RequestParam.class;
+    public static final Class<String> STRING_CLASS = String.class;
+    public static final Class<Byte> BYTE_CLASS = Byte.class;
+    public static final Class<Short> SHORT_CLASS = Short.class;
+    public static final Class<Integer> INTEGER_CLASS = Integer.class;
+    public static final Class<Long> LONG_CLASS = Long.class;
+    public static final Class<Float> FLOAT_CLASS = Float.class;
+    public static final Class<Double> DOUBLE_CLASS = Double.class;
+    public static final Class<Boolean> BOOLEAN_CLASS = Boolean.class;
+    public static final Class<Character> CHARACTER_CLASS = Character.class;
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
+
+    /**
+     * 参数拦截器，获取参数并将参数放入invokeParameterMap中
+     *
+     * @param method   方法对象
+     * @param request  HttpServletRequest对象
+     * @param response HttpServletResponse对象
+     * @return 参数个数
+     */
+    private static int methodParameterHandler(Method method, HttpServletRequest request, HttpServletResponse response) {
+        Parameter[] invokeParameters = method.getParameters();
+        for (int i = 0; i < invokeParameters.length; i++) {
+            Parameter invokeParameter = invokeParameters[i];
+            Class<?> invokeParameterType = invokeParameter.getType();
+            // HttpServletRequest和HttpServletResponse的参数注入
+            if (SERVLET_REQUEST_CLASS.isAssignableFrom(invokeParameterType) || invokeParameterType == SERVLET_REQUEST_CLASS) {
+                invokeParameterMap.put(i, request);
+            } else if (SERVLET_RESPONSE_CLASS.isAssignableFrom(invokeParameterType) || invokeParameterType == SERVLET_RESPONSE_CLASS) {
+                invokeParameterMap.put(i, response);
+            } else {
+                // 普通参数，如果有@RequestParam注解，取值注入
+                String parameterValue = null;
+                RequestParam requestParam = invokeParameter.getAnnotation(REQUEST_PARAM_CLASS);
+                if (requestParam != null) {
+                    parameterValue = request.getParameter(requestParam.value());
+                }
+                invokeParameterMap.put(i, assignment(invokeParameterType, parameterValue));
+            }
+        }
+        return invokeParameters.length;
+    }
+
+    /**
+     * 匹配纯数字的正则表达式
+     */
+    public static final String NUMBER_REGEX = "\\d+";
+    /**
+     * 匹配浮点型的正则表达式
+     */
+    public static final String DOUBLE_REGEX = "\\d+.?\\d+";
+    /**
+     * 空字符串
+     */
+    public static final String EMPTY_STRING = "";
+
+    /**
+     * 将String类型的参数转换为对应的参数类型
+     *
+     * @param invokeParameterType 参数类型字节码对象
+     * @param parameterValue      String类型参数值
+     * @return
+     */
+    private static Object assignment(Class<?> invokeParameterType, String parameterValue) {
+        if (parameterValue == null || EMPTY_STRING.equals(parameterValue)) {
+            return null;
+        }
+        if (invokeParameterType == STRING_CLASS) {
+            return parameterValue;
+        } else if (invokeParameterType == BYTE_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+            return Byte.valueOf(parameterValue);
+        } else if (invokeParameterType == SHORT_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+            return Short.valueOf(parameterValue);
+        } else if (invokeParameterType == INTEGER_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+            return Integer.valueOf(parameterValue);
+        } else if (invokeParameterType == LONG_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+            return Long.valueOf(parameterValue);
+        } else if (invokeParameterType == FLOAT_CLASS && parameterValue.matches(DOUBLE_REGEX)) {
+            return Float.valueOf(parameterValue);
+        } else if (invokeParameterType == DOUBLE_CLASS && parameterValue.matches(DOUBLE_REGEX)) {
+            return Double.valueOf(parameterValue);
+        } else if (invokeParameterType == BOOLEAN_CLASS && TRUE.equals(parameterValue)) {
+            return true;
+        } else if (invokeParameterType == BOOLEAN_CLASS && FALSE.equals(parameterValue)) {
+            return false;
+        } else if (invokeParameterType == CHARACTER_CLASS && parameterValue.length() == 1) {
+            return parameterValue.charAt(0);
+        }
+        return null;
+    }
+
+    /**
+     * 执行方法的参数容器
+     */
+    private static final Map<Integer, Object> invokeParameterMap = new HashMap<>(16);
 
 }
