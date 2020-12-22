@@ -24,7 +24,7 @@
         <mybean-framework.version>1.0.0-SNAPSHOT</mybean-framework.version>
         <servlet.version>4.0.0</servlet.version>
         <jsp.version>2.2</jsp.version>
-        <dom4j.version>2.0.0</dom4j.version>
+        <dom4j.version>2.0.3</dom4j.version>
     </properties>
 
     <dependencies>
