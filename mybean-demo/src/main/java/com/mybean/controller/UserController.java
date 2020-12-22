@@ -119,4 +119,10 @@ public class UserController {
         return list;
     }
 
+
+    @RequestPath(value = "mapParam", type = ResponseTypeEnum.JSON)
+    public Map<String, Object> mapParam(Map<String, Object> map) {
+        return map;
+    }
+
 }

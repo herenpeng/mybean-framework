@@ -179,7 +179,7 @@ public class UserController {
 
 1、@RequestParam注解有一个value属性值，该值为对应的参数名称，如果请求中有对应名称和类型的参数值，该注解会自动将参数解析到方法参数中。
 
-2、@RequestParam注解目前只支持解析Java的八种基本数据类型和对应的包装类，其余类型无法解析。
+2、@RequestParam注解目前只支持解析Java的八种基本数据类型和对应的包装类，以及Map类型，其余类型无法解析。Map类型入参，会将布尔类型参数和数字类型参数进行解析，并转换为Boolean，Integer，Long等类型。
 
 3、MyBeanMVC的控制层方法参数注入只支持10个参数，超过10个参数，框架会出现解析异常。
 

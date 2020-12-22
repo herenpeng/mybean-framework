@@ -15,7 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 执行方法的处理器
@@ -134,8 +136,7 @@ public class MethodInvokeHandler {
     public static final Class<Double> DOUBLE_CLASS = Double.class;
     public static final Class<Boolean> BOOLEAN_CLASS = Boolean.class;
     public static final Class<Character> CHARACTER_CLASS = Character.class;
-    public static final String TRUE = "true";
-    public static final String FALSE = "false";
+    public static final Class<Map> MAP_CLASS = Map.class;
 
     /**
      * 参数拦截器，获取参数并将参数放入invokeParameterMap中
@@ -155,6 +156,31 @@ public class MethodInvokeHandler {
                 invokeParameterMap.put(i, request);
             } else if (SERVLET_RESPONSE_CLASS.isAssignableFrom(invokeParameterType) || invokeParameterType == SERVLET_RESPONSE_CLASS) {
                 invokeParameterMap.put(i, response);
+                // 使用Map传参
+            } else if (MAP_CLASS == invokeParameterType) {
+                Map<String, Object> map = new HashMap<>(16);
+                Map<String, String[]> parameterMap = request.getParameterMap();
+                for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+                    String[] param = entry.getValue();
+                    if (param.length == 1) {
+                        String value = param[0];
+                        if (TRUE.equals(value) || FALSE.equals(value)) {
+                            map.put(entry.getKey(), Boolean.valueOf(value));
+                        } else if (value.matches(NUMBER_REGEX)) {
+                            Long longValue = Long.valueOf(value);
+                            if (longValue > Integer.MIN_VALUE && longValue < Integer.MAX_VALUE) {
+                                map.put(entry.getKey(), Integer.valueOf(value));
+                            } else {
+                                map.put(entry.getKey(), longValue);
+                            }
+                        } else {
+                            map.put(entry.getKey(), value);
+                        }
+                    } else {
+                        map.put(entry.getKey(), param);
+                    }
+                }
+                invokeParameterMap.put(i, map);
             } else {
                 // 普通参数，如果有@RequestParam注解，取值注入
                 String parameterValue = null;
@@ -180,6 +206,8 @@ public class MethodInvokeHandler {
      * 空字符串
      */
     public static final String EMPTY_STRING = "";
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
 
     /**
      * 将String类型的参数转换为对应的参数类型
