@@ -1,6 +1,6 @@
 # mybean-framework
 
-> MyBean框架是一个类似于Spring的简化版本的轻量级框架，拥有IOC和DI两种功能。
+> MyBean框架是一个类似于Spring的简化版本的轻量级框架，拥有IOC和DI功能，兼容Web开发。
 
 
 ## Bean实例注册
@@ -149,11 +149,11 @@ package.scan=com.mybean.test
 ```
 
 
-## MyBeanMVC
+# MyBeanMVC
 
 MyBeanMVC是MyBean框架的Web开发部分，能够简化原生的Servlet开发。
 
-### @RequestPath
+## @RequestPath
 
 @RequestPath为一个MVC层的注解，可以注解在类和方法上，有两个属性：
 - value：value属性为请求路径，使用该属性可以将对应的类或方法映射到注解的类和方法上。
@@ -173,7 +173,7 @@ public class UserController {
 }
 ```
 
-### @RequestParam
+## @RequestParam
 
 @RequestParam是一个MVC层注解，用于解析HTTP请求上的参数，该注解只能标注在方法参数上。
 
@@ -205,7 +205,7 @@ public class UserController {
 }
 ```
 
-### 静态资源解析
+## 静态资源解析
 
 1、MyBeanMVC目前只支持静态资源文件，对于`.jsp`，`.ftl`等动态文件暂不支持。
 
@@ -237,7 +237,7 @@ resources
 <link rel="stylesheet" type="text/css" href="index.css"/>
 ```
 
-### ResponseTypeEnum枚举类型
+## ResponseTypeEnum枚举类型
 
 @RequestPath注解的type属性为ResponseTypeEnum枚举类型，该枚举有三个属性值。
 
