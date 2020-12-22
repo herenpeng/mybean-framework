@@ -1,16 +1,11 @@
 package org.mybeanframework.web.mvc.servlet;
 
 import org.mybeanframework.web.mvc.MvcApplication;
-import org.mybeanframework.web.mvc.request.BeanAndMethod;
-import org.mybeanframework.web.mvc.response.ResolverHandler;
-import org.mybeanframework.web.mvc.response.ViewResolver;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Method;
 
 /**
  * 服务Servlet负责分发HTTP请求任务
