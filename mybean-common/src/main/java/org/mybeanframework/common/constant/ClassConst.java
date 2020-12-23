@@ -27,7 +27,4 @@ public class ClassConst {
     public static final Class<Map> MAP_CLASS = Map.class;
     public static final Class<Collection> COLLECTION_CLASS = Collection.class;
 
-
-
-
 }

@@ -26,12 +26,6 @@ import java.util.*;
 public class JsonUtils extends JsonConst {
 
     /**
-     * 注解@JsonDateFormat字节码对象
-     */
-    public static final Class<JsonDateFormat> JSON_DATE_FORMAT_CLASS = JsonDateFormat.class;
-    public static final Class<JsonNullIgnore> JSON_NULL_IGNORE_CLASS = JsonNullIgnore.class;
-
-    /**
      * 将一个对象转换为json格式
      *
      * @param object 对象
@@ -113,12 +107,12 @@ public class JsonUtils extends JsonConst {
                     String fieldName = getFieldName(method);
                     Object value = method.invoke(object);
                     Field field = objectClass.getDeclaredField(fieldName);
-                    if (value == null && field.getAnnotation(JSON_NULL_IGNORE_CLASS) != null) {
+                    if (value == null && field.getAnnotation(JsonNullIgnore.class) != null) {
                         continue;
                     }
                     if (value instanceof Date && value != null) {
                         Date date = (Date) value;
-                        JsonDateFormat jsonDateFormat = field.getAnnotation(JSON_DATE_FORMAT_CLASS);
+                        JsonDateFormat jsonDateFormat = field.getAnnotation(JsonDateFormat.class);
                         if (jsonDateFormat != null) {
                             SimpleDateFormat sdf = new SimpleDateFormat(jsonDateFormat.value());
                             value = sdf.format(date);
