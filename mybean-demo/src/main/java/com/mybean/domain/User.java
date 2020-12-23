@@ -1,7 +1,7 @@
 package com.mybean.domain;
 
-import org.mybeanframework.common.json.annotation.JsonDateFormat;
-import org.mybeanframework.common.json.annotation.JsonNullIgnore;
+import org.mybeanframework.common.annotation.JsonDateFormat;
+import org.mybeanframework.common.annotation.JsonNullIgnore;
 
 import java.util.Date;
 

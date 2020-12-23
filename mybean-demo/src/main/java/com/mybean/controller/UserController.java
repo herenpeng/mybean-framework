@@ -57,7 +57,7 @@ public class UserController {
 
     @RequestPath(value = "json", type = ResponseTypeEnum.JSON)
     public User json() {
-        User user = new User("池总", "123456", new Date());
+        User user = new User("池总", null, new Date());
         return user;
     }
 
