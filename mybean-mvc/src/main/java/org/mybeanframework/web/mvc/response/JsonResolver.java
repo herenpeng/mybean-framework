@@ -2,7 +2,7 @@ package org.mybeanframework.web.mvc.response;
 
 import org.mybeanframework.web.mvc.response.enums.CharSetEnum;
 import org.mybeanframework.web.mvc.response.enums.ContentTypeEnum;
-import org.mybeanframework.common.json.util.JsonUtils;
+import org.mybeanframework.common.util.JsonUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;

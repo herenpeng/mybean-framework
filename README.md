@@ -149,7 +149,7 @@ package.scan=com.mybean.test
 ```
 
 
-# MyBeanMVC
+# mybean-mvc
 
 MyBeanMVC是MyBean框架的Web开发部分，能够简化原生的Servlet开发。
 
@@ -362,7 +362,9 @@ public class UserController {
 }
 ```
 
-## JSON工具类
+# mybean-common
+
+## JsonUtils
 
 MyBean框架没有依赖于第三方的Json解析框架，而是MyBean框架自己实现了一个JsonUtils，用于解析Json数据。
 
@@ -376,7 +378,7 @@ MyBean框架没有依赖于第三方的Json解析框架，而是MyBean框架自�
   
 - @JsonNullIgnore
 
-@JsonNullIgnore可以注解在JavaBean的属性上，被注解的属性如果值为null，在格式化Json字符串的时候会自动忽略该属性。
+    @JsonNullIgnore可以注解在JavaBean的属性上，被注解的属性如果值为null，在格式化Json字符串的时候会自动忽略该属性。
 
 例：
 ```java
@@ -392,7 +394,7 @@ public class User {
 
 - @JsonDateFormat
 
-@JsonDateFormat可以注解在JavaBean的Date类型的属性上，被注解的属性会按照注解的value值的格式，对日期格式进行Json格式化，如果value属性值为null，则会使用默认的`yyyy-MM-dd HH:mm:ss`格式进行日期格式化。
+    @JsonDateFormat可以注解在JavaBean的Date类型的属性上，被注解的属性会按照注解的value值的格式，对日期格式进行Json格式化，如果value属性值为null，则会使用默认的`yyyy-MM-dd HH:mm:ss`格式进行日期格式化。
 
 
 例：
@@ -406,3 +408,7 @@ public class User {
     // 省略get/set方法
 }
 ```
+
+## StringUtils
+
+StringUtils是MyBean框架封装的字符串工具类，包含了对于字符串的处理方法。

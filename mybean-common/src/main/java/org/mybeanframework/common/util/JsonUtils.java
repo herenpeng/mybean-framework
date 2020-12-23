@@ -1,7 +1,8 @@
-package org.mybeanframework.common.json.util;
+package org.mybeanframework.common.util;
 
-import org.mybeanframework.common.json.annotation.JsonDateFormat;
-import org.mybeanframework.common.json.annotation.JsonNullIgnore;
+import org.mybeanframework.common.annotation.JsonDateFormat;
+import org.mybeanframework.common.annotation.JsonNullIgnore;
+import org.mybeanframework.common.constant.JsonConst;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -22,49 +23,8 @@ import java.util.*;
  * @author herenpeng
  * @since 2020-12-21 11:42
  */
-public class JsonUtils {
+public class JsonUtils extends JsonConst {
 
-    /**
-     * get方法前缀
-     */
-    public static final String GET = "get";
-    /**
-     * is方法前缀
-     */
-    public static final String IS = "is";
-
-    /**
-     * 英文双引号
-     */
-    public static final String DOUBLE_QUOTE = "\"";
-    /**
-     * 英文冒号
-     */
-    public static final String COLON = ":";
-    /**
-     * 英文逗号
-     */
-    public static final String COMMA = ",";
-    /**
-     * 大括号开始
-     */
-    public static final String BIG_BRACKETS_PREFIX = "{";
-    /**
-     * 大括号结束
-     */
-    public static final String BIG_BRACKETS_SUFFIX = "}";
-    /**
-     * 中括号开始
-     */
-    public static final String BRACKETS_PREFIX = "[";
-    /**
-     * 中括号结束
-     */
-    public static final String BRACKETS_SUFFIX = "]";
-    /**
-     * 空字符串
-     */
-    public static final String EMPTY_STRING = "";
     /**
      * 注解@JsonDateFormat字节码对象
      */

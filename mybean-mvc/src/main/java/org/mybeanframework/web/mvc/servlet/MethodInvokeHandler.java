@@ -1,13 +1,13 @@
 package org.mybeanframework.web.mvc.servlet;
 
+import org.mybeanframework.common.util.ClassUtils;
+import org.mybeanframework.common.util.NumberUtils;
+import org.mybeanframework.common.util.StringUtils;
 import org.mybeanframework.web.mvc.MvcApplication;
 import org.mybeanframework.web.mvc.annotation.RequestParam;
-import org.mybeanframework.web.mvc.annotation.RequestPath;
 import org.mybeanframework.web.mvc.request.BeanAndMethod;
 import org.mybeanframework.web.mvc.response.ResolverHandler;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
@@ -122,23 +122,6 @@ public class MethodInvokeHandler {
     }
 
     /**
-     * 字节码对象
-     */
-    public static final Class<ServletRequest> SERVLET_REQUEST_CLASS = ServletRequest.class;
-    public static final Class<ServletResponse> SERVLET_RESPONSE_CLASS = ServletResponse.class;
-    public static final Class<RequestParam> REQUEST_PARAM_CLASS = RequestParam.class;
-    public static final Class<String> STRING_CLASS = String.class;
-    public static final Class<Byte> BYTE_CLASS = Byte.class;
-    public static final Class<Short> SHORT_CLASS = Short.class;
-    public static final Class<Integer> INTEGER_CLASS = Integer.class;
-    public static final Class<Long> LONG_CLASS = Long.class;
-    public static final Class<Float> FLOAT_CLASS = Float.class;
-    public static final Class<Double> DOUBLE_CLASS = Double.class;
-    public static final Class<Boolean> BOOLEAN_CLASS = Boolean.class;
-    public static final Class<Character> CHARACTER_CLASS = Character.class;
-    public static final Class<Map> MAP_CLASS = Map.class;
-
-    /**
      * 参数拦截器，获取参数并将参数放入invokeParameterMap中
      *
      * @param method   方法对象
@@ -152,27 +135,24 @@ public class MethodInvokeHandler {
             Parameter invokeParameter = invokeParameters[i];
             Class<?> invokeParameterType = invokeParameter.getType();
             // HttpServletRequest和HttpServletResponse的参数注入
-            if (SERVLET_REQUEST_CLASS.isAssignableFrom(invokeParameterType) || invokeParameterType == SERVLET_REQUEST_CLASS) {
+            if (ClassUtils.isOrFromServletRequest(invokeParameterType)) {
                 invokeParameterMap.put(i, request);
-            } else if (SERVLET_RESPONSE_CLASS.isAssignableFrom(invokeParameterType) || invokeParameterType == SERVLET_RESPONSE_CLASS) {
+            } else if (ClassUtils.isOrFromServletResponse(invokeParameterType)) {
                 invokeParameterMap.put(i, response);
                 // 使用Map传参
-            } else if (MAP_CLASS == invokeParameterType) {
+            } else if (ClassUtils.isOrFromMap(invokeParameterType)) {
                 Map<String, Object> map = new HashMap<>(16);
                 Map<String, String[]> parameterMap = request.getParameterMap();
                 for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
                     String[] param = entry.getValue();
                     if (param.length == 1) {
                         String value = param[0];
-                        if (TRUE.equals(value) || FALSE.equals(value)) {
+                        if (StringUtils.isBooleanString(value)) {
                             map.put(entry.getKey(), Boolean.valueOf(value));
-                        } else if (value.matches(NUMBER_REGEX)) {
-                            Long longValue = Long.valueOf(value);
-                            if (longValue > Integer.MIN_VALUE && longValue < Integer.MAX_VALUE) {
-                                map.put(entry.getKey(), Integer.valueOf(value));
-                            } else {
-                                map.put(entry.getKey(), longValue);
-                            }
+                        } else if (NumberUtils.inIntegerRange(value)) {
+                            map.put(entry.getKey(), Integer.valueOf(value));
+                        } else if (StringUtils.isNumber(value)) {
+                            map.put(entry.getKey(), Long.valueOf(value));
                         } else {
                             map.put(entry.getKey(), value);
                         }
@@ -184,7 +164,7 @@ public class MethodInvokeHandler {
             } else {
                 // 普通参数，如果有@RequestParam注解，取值注入
                 String parameterValue = null;
-                RequestParam requestParam = invokeParameter.getAnnotation(REQUEST_PARAM_CLASS);
+                RequestParam requestParam = invokeParameter.getAnnotation(RequestParam.class);
                 if (requestParam != null) {
                     parameterValue = request.getParameter(requestParam.value());
                 }
@@ -194,20 +174,6 @@ public class MethodInvokeHandler {
         return invokeParameters.length;
     }
 
-    /**
-     * 匹配纯数字的正则表达式
-     */
-    public static final String NUMBER_REGEX = "\\d+";
-    /**
-     * 匹配浮点型的正则表达式
-     */
-    public static final String DOUBLE_REGEX = "\\d+.?\\d+";
-    /**
-     * 空字符串
-     */
-    public static final String EMPTY_STRING = "";
-    public static final String TRUE = "true";
-    public static final String FALSE = "false";
 
     /**
      * 将String类型的参数转换为对应的参数类型
@@ -217,28 +183,28 @@ public class MethodInvokeHandler {
      * @return
      */
     private static Object assignment(Class<?> invokeParameterType, String parameterValue) {
-        if (parameterValue == null || EMPTY_STRING.equals(parameterValue)) {
+        if (StringUtils.isEmpty(parameterValue)) {
             return null;
         }
-        if (invokeParameterType == STRING_CLASS) {
+        if (ClassUtils.isString(invokeParameterType)) {
             return parameterValue;
-        } else if (invokeParameterType == BYTE_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+        } else if (ClassUtils.isByte(invokeParameterType) && StringUtils.isNumber(parameterValue)) {
             return Byte.valueOf(parameterValue);
-        } else if (invokeParameterType == SHORT_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+        } else if (ClassUtils.isShort(invokeParameterType) && StringUtils.isNumber(parameterValue)) {
             return Short.valueOf(parameterValue);
-        } else if (invokeParameterType == INTEGER_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+        } else if (ClassUtils.isInteger(invokeParameterType) && StringUtils.isNumber(parameterValue)) {
             return Integer.valueOf(parameterValue);
-        } else if (invokeParameterType == LONG_CLASS && parameterValue.matches(NUMBER_REGEX)) {
+        } else if (ClassUtils.isLong(invokeParameterType) && StringUtils.isNumber(parameterValue)) {
             return Long.valueOf(parameterValue);
-        } else if (invokeParameterType == FLOAT_CLASS && parameterValue.matches(DOUBLE_REGEX)) {
+        } else if (ClassUtils.isFloat(invokeParameterType) && StringUtils.isDecimal(parameterValue)) {
             return Float.valueOf(parameterValue);
-        } else if (invokeParameterType == DOUBLE_CLASS && parameterValue.matches(DOUBLE_REGEX)) {
+        } else if (ClassUtils.isDouble(invokeParameterType) && StringUtils.isDecimal(parameterValue)) {
             return Double.valueOf(parameterValue);
-        } else if (invokeParameterType == BOOLEAN_CLASS && TRUE.equals(parameterValue)) {
+        } else if (ClassUtils.isBoolean(invokeParameterType) && StringUtils.equalsTrue(parameterValue)) {
             return true;
-        } else if (invokeParameterType == BOOLEAN_CLASS && FALSE.equals(parameterValue)) {
+        } else if (ClassUtils.isBoolean(invokeParameterType) && StringUtils.equalsFalse(parameterValue)) {
             return false;
-        } else if (invokeParameterType == CHARACTER_CLASS && parameterValue.length() == 1) {
+        } else if (ClassUtils.isCharacter(invokeParameterType) && parameterValue.length() == 1) {
             return parameterValue.charAt(0);
         }
         return null;

@@ -1,4 +1,4 @@
-package org.mybeanframework.common.json.annotation;
+package org.mybeanframework.common.annotation;
 
 import java.lang.annotation.*;
 
