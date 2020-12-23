@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>mybean-core</module>
-        <module>mybean-demo</module>
         <module>mybean-mvc</module>
         <module>mybean-common</module>
+        <module>mybean-demo</module>
     </modules>
 
     <properties>
@@ -34,11 +34,13 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>javax.servlet.jsp</groupId>
                 <artifactId>jsp-api</artifactId>
                 <version>${jsp.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.dom4j</groupId>
