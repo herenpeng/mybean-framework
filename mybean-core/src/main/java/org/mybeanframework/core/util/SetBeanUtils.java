@@ -14,11 +14,6 @@ import java.util.Set;
 public class SetBeanUtils {
 
     /**
-     * 常量：GetBean.class
-     */
-    private static final Class<SetBean> SET_BEAN_CLASS = SetBean.class;
-
-    /**
      * 扫描所有一个类上的被@SetBean注解的属性
      *
      * @param beanClass 传入一个类的字节码对象
@@ -29,7 +24,7 @@ public class SetBeanUtils {
         Set<Field> set = new HashSet<>();
         for (Field field : fields) {
             field.setAccessible(true);
-            if (field.isAnnotationPresent(SET_BEAN_CLASS)) {
+            if (field.isAnnotationPresent(SetBean.class)) {
                 set.add(field);
             }
         }
@@ -44,7 +39,7 @@ public class SetBeanUtils {
      */
     public static String getAnnotationValue(Field field) {
         field.setAccessible(true);
-        SetBean getBean = field.getAnnotation(SET_BEAN_CLASS);
+        SetBean getBean = field.getAnnotation(SetBean.class);
         return getBean.value();
     }
 

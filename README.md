@@ -2,6 +2,7 @@
 
 > MyBean框架是一个类似于Spring的简化版本的轻量级框架，拥有IOC和DI功能，兼容Web开发。
 
+> github地址：https://github.com/herenpeng/mybean-framework.git
 
 ## Bean实例注册
 

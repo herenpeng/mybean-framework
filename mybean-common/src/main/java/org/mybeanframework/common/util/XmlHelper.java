@@ -1,4 +1,4 @@
-package org.mybeanframework.core.util;
+package org.mybeanframework.common.util;
 
 import org.dom4j.Document;
 import org.dom4j.Element;

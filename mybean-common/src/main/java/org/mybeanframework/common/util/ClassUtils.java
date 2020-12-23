@@ -1,12 +1,15 @@
 package org.mybeanframework.common.util;
 
-import org.mybeanframework.common.constant.ClassConst;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author herenpeng
  * @since 2020-12-23 15:13
  */
-public class ClassUtils extends ClassConst {
+public class ClassUtils {
 
     /**
      * 判断一个字节码对象是否为Byte类型
@@ -15,7 +18,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isByte(Class<?> clazz) {
-        return equals(BYTE_CLASS, clazz);
+        return equals(Byte.class, clazz);
     }
 
     /**
@@ -25,7 +28,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isShort(Class<?> clazz) {
-        return equals(SHORT_CLASS, clazz);
+        return equals(Short.class, clazz);
     }
 
 
@@ -36,7 +39,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isInteger(Class<?> clazz) {
-        return equals(INTEGER_CLASS, clazz);
+        return equals(Integer.class, clazz);
     }
 
 
@@ -47,7 +50,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isLong(Class<?> clazz) {
-        return equals(LONG_CLASS, clazz);
+        return equals(Long.class, clazz);
     }
 
     /**
@@ -57,7 +60,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isFloat(Class<?> clazz) {
-        return equals(FLOAT_CLASS, clazz);
+        return equals(Float.class, clazz);
     }
 
     /**
@@ -67,7 +70,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isDouble(Class<?> clazz) {
-        return equals(DOUBLE_CLASS, clazz);
+        return equals(Double.class, clazz);
     }
 
     /**
@@ -77,7 +80,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isBoolean(Class<?> clazz) {
-        return equals(BOOLEAN_CLASS, clazz);
+        return equals(Boolean.class, clazz);
     }
 
 
@@ -88,7 +91,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isCharacter(Class<?> clazz) {
-        return equals(CHARACTER_CLASS, clazz);
+        return equals(Character.class, clazz);
     }
 
 
@@ -99,7 +102,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isString(Class<?> clazz) {
-        return equals(STRING_CLASS, clazz);
+        return equals(String.class, clazz);
     }
 
     /**
@@ -109,7 +112,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isOrFromMap(Class<?> clazz) {
-        if (equals(MAP_CLASS, clazz) || MAP_CLASS.isAssignableFrom(clazz)) {
+        if (equals(Map.class, clazz) || Map.class.isAssignableFrom(clazz)) {
             return true;
         }
         return false;
@@ -122,7 +125,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isOrFromCollection(Class<?> clazz) {
-        if (equals(COLLECTION_CLASS, clazz) || COLLECTION_CLASS.isAssignableFrom(clazz)) {
+        if (equals(Collection.class, clazz) || Collection.class.isAssignableFrom(clazz)) {
             return true;
         }
         return false;
@@ -135,7 +138,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isOrFromServletRequest(Class<?> clazz) {
-        if (equals(SERVLET_REQUEST_CLASS, clazz) || SERVLET_REQUEST_CLASS.isAssignableFrom(clazz)) {
+        if (equals(ServletRequest.class, clazz) || ServletRequest.class.isAssignableFrom(clazz)) {
             return true;
         }
         return false;
@@ -148,7 +151,7 @@ public class ClassUtils extends ClassConst {
      * @return
      */
     public static boolean isOrFromServletResponse(Class<?> clazz) {
-        if (equals(SERVLET_RESPONSE_CLASS, clazz) || SERVLET_RESPONSE_CLASS.isAssignableFrom(clazz)) {
+        if (equals(ServletResponse.class, clazz) || ServletResponse.class.isAssignableFrom(clazz)) {
             return true;
         }
         return false;

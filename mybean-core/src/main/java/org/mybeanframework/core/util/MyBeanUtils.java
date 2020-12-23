@@ -16,12 +16,6 @@ import java.util.Set;
 public class MyBeanUtils extends AbstractBeanFactory {
 
     /**
-     * 常量：MyBean.class
-     */
-    private static final Class<MyBean> MY_BEAN_CLASS = MyBean.class;
-
-
-    /**
      * 注解@MyBean的过滤器
      *
      * @param packageScanRange 传入包扫描，经过包扫描，MyBean注解过滤
@@ -65,8 +59,8 @@ public class MyBeanUtils extends AbstractBeanFactory {
             String className = beanName.getValue();
             Class<?> beanClass = Class.forName(className);
             // 如果该类上面有@MyBean注解，则将对对应的ID和全限定类型存储进beanNameMap中
-            if (beanClass.isAnnotationPresent(MY_BEAN_CLASS)) {
-                MyBean myBean = beanClass.getAnnotation(MY_BEAN_CLASS);
+            if (beanClass.isAnnotationPresent(MyBean.class)) {
+                MyBean myBean = beanClass.getAnnotation(MyBean.class);
                 String key = myBean.value();
                 if (key != null && key.length() > 0) {
                     id = key;

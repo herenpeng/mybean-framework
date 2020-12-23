@@ -1,5 +1,6 @@
 package org.mybeanframework.core.util;
 
+import org.mybeanframework.common.constant.StringConst;
 import org.mybeanframework.core.annotation.PackageScan;
 
 import java.io.File;
@@ -17,28 +18,8 @@ import java.util.*;
  *
  * @author herenpeng
  */
-public final class PackageScanUtils {
+public final class PackageScanUtils extends StringConst {
 
-    /**
-     * 包之间间隔的符号
-     */
-    private static final String PACKAGE_SEPARATOR = ".";
-    /**
-     * .class文件的后缀名
-     */
-    private static final String CLASS_FILE_SUFFIX = ".class";
-    /**
-     * url中的间隔符号
-     */
-    private static final String URL_SEPARATOR = "/";
-    /**
-     * 常量：PackageScan.class
-     */
-    private static final Class<PackageScan> PACKAGE_SCAN_CLASS = PackageScan.class;
-    /**
-     * 字符串file
-     */
-    private static final String FILE = "file";
     /**
      * 全限定类名Set集合
      */
@@ -84,7 +65,7 @@ public final class PackageScanUtils {
      * @throws IOException IO异常
      */
     protected static Map<String, String> getPackageScanMap(Class<?> packageScanClass) throws IOException {
-        PackageScan packageScan = packageScanClass.getAnnotation(PACKAGE_SCAN_CLASS);
+        PackageScan packageScan = packageScanClass.getAnnotation(PackageScan.class);
         if (packageScan != null) {
             String packageScanRange = packageScan.value();
             if (packageScanRange == null || packageScanRange.length() == 0) {

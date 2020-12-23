@@ -20,6 +20,22 @@ public class StringConst {
      * 布尔值false字符串
      */
     protected static final String FALSE = "false";
+    /**
+     * 字符串file
+     */
+    protected static final String FILE = "file";
+    /**
+     * 包之间间隔的符号
+     */
+    protected static final String PACKAGE_SEPARATOR = ".";
+    /**
+     * .class文件的后缀名
+     */
+    protected static final String CLASS_FILE_SUFFIX = ".class";
+    /**
+     * url中的间隔符号
+     */
+    protected static final String URL_SEPARATOR = "/";
 
 
 }

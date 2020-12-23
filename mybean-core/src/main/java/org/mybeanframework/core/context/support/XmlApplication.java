@@ -4,9 +4,9 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.mybeanframework.common.util.XmlHelper;
 import org.mybeanframework.core.context.AbstractApplication;
 import org.mybeanframework.core.util.MyBeanUtils;
-import org.mybeanframework.core.util.XmlHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
