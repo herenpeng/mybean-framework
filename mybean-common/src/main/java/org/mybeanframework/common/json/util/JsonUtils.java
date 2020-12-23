@@ -1,8 +1,13 @@
-package org.mybeanframework.web.mvc.util;
+package org.mybeanframework.common.json.util;
 
+import org.mybeanframework.common.json.annotation.JsonDateFormat;
+import org.mybeanframework.common.json.annotation.JsonNullIgnore;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -56,6 +61,15 @@ public class JsonUtils {
      * 中括号结束
      */
     public static final String BRACKETS_SUFFIX = "]";
+    /**
+     * 空字符串
+     */
+    public static final String EMPTY_STRING = "";
+    /**
+     * 注解@JsonDateFormat字节码对象
+     */
+    public static final Class<JsonDateFormat> JSON_DATE_FORMAT_CLASS = JsonDateFormat.class;
+    public static final Class<JsonNullIgnore> JSON_NULL_IGNORE_CLASS = JsonNullIgnore.class;
 
     /**
      * 将一个对象转换为json格式
@@ -64,6 +78,9 @@ public class JsonUtils {
      * @return json格式字符串
      */
     public static String toJson(Object object) {
+        if (object == null) {
+            return null;
+        }
         String json;
         if (object instanceof Collection) {
             Collection collection = (Collection) object;
@@ -135,6 +152,18 @@ public class JsonUtils {
                     Method method = iterator.next();
                     String fieldName = getFieldName(method);
                     Object value = method.invoke(object);
+                    Field field = objectClass.getDeclaredField(fieldName);
+                    if (value == null && field.getAnnotation(JSON_NULL_IGNORE_CLASS) != null) {
+                        continue;
+                    }
+                    if (value instanceof Date && value != null) {
+                        Date date = (Date) value;
+                        JsonDateFormat jsonDateFormat = field.getAnnotation(JSON_DATE_FORMAT_CLASS);
+                        if (jsonDateFormat != null) {
+                            SimpleDateFormat sdf = new SimpleDateFormat(jsonDateFormat.value());
+                            value = sdf.format(date);
+                        }
+                    }
                     splicingJsonAttributes(objectJson, fieldName, value);
                     objectJson.append(COMMA);
                 }
@@ -146,6 +175,8 @@ public class JsonUtils {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -154,11 +185,11 @@ public class JsonUtils {
      * 拼接json字符串的属性
      *
      * @param objectJson json格式字符串 StringBuffer类型
-     * @param name       属性名称
+     * @param fieldName  属性名称
      * @param value      属性值
      */
-    private static void splicingJsonAttributes(StringBuffer objectJson, String name, Object value) {
-        objectJson.append(DOUBLE_QUOTE).append(name).append(DOUBLE_QUOTE)
+    private static void splicingJsonAttributes(StringBuffer objectJson, String fieldName, Object value) {
+        objectJson.append(DOUBLE_QUOTE).append(fieldName).append(DOUBLE_QUOTE)
                 .append(COLON).append(toJson(value));
     }
 

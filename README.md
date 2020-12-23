@@ -361,3 +361,48 @@ public class UserController {
     }
 }
 ```
+
+## JSON工具类
+
+MyBean框架没有依赖于第三方的Json解析框架，而是MyBean框架自己实现了一个JsonUtils，用于解析Json数据。
+
+- Json工具类可以对以下的Java类型进行解析：
+    - Java八大基本数据类型以及对应的包装类型
+    - Date类型
+    - BigDecimal类型
+    - Map类型
+    - Collection类型
+    - 遵循规范的JavaBean类型
+  
+- @JsonNullIgnore
+
+@JsonNullIgnore可以注解在JavaBean的属性上，被注解的属性如果值为null，在格式化Json字符串的时候会自动忽略该属性。
+
+例：
+```java
+public class User {
+
+    private String username;
+
+    @JsonNullIgnore
+    private String password;
+    // 省略get/set方法
+}
+```
+
+- @JsonDateFormat
+
+@JsonDateFormat可以注解在JavaBean的Date类型的属性上，被注解的属性会按照注解的value值的格式，对日期格式进行Json格式化，如果value属性值为null，则会使用默认的`yyyy-MM-dd HH:mm:ss`格式进行日期格式化。
+
+
+例：
+```java
+public class User {
+
+    private String username;
+
+    @JsonDateFormat
+    private Date birthday;
+    // 省略get/set方法
+}
+```

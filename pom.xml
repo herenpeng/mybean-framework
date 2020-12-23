@@ -12,6 +12,7 @@
         <module>mybean-core</module>
         <module>mybean-demo</module>
         <module>mybean-mvc</module>
+        <module>mybean-common</module>
     </modules>
 
     <properties>

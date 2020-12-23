@@ -67,6 +67,9 @@ public class MethodInvokeHandler {
     private static Object invoke(Object bean, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {
         Object object;
         switch (methodParameterHandler(method, request, response)) {
+            case 0:
+                object = method.invoke(bean);
+                break;
             case 1:
                 object = method.invoke(bean, invokeParameterMap.get(0));
                 break;
