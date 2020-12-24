@@ -13,7 +13,7 @@ public class RegexConst {
      */
     public static final String NUMBER_REGEX = "\\d+";
     /**
-     * 匹配浮点型的正则表达式 Decimal
+     * 匹配浮点型的正则表达式
      */
     public static final String DECIMAL_REGEX = "\\d+.?\\d+";
 

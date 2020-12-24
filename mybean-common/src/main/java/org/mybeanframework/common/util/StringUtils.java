@@ -3,6 +3,8 @@ package org.mybeanframework.common.util;
 import org.mybeanframework.common.constant.RegexConst;
 import org.mybeanframework.common.constant.StringConst;
 
+import java.util.Collections;
+
 /**
  * 字符串工具类
  *
@@ -18,7 +20,7 @@ public class StringUtils extends StringConst {
      * @return 为null或者为""返回true，否则返回false
      */
     public static boolean isEmpty(String string) {
-        if (string == null || EMPTY_STRING.equals(string)) {
+        if (string == null || string.length() == 0 ||  EMPTY_STRING.equals(string)) {
             return true;
         }
         return false;

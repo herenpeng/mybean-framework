@@ -4,8 +4,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.mybeanframework.common.util.XmlHelper;
 import org.mybeanframework.core.context.AbstractApplication;
+import org.mybeanframework.core.util.ApplicationXmlHelper;
 import org.mybeanframework.core.util.MyBeanUtils;
 
 import java.io.IOException;
@@ -24,12 +24,12 @@ public class XmlApplication extends AbstractApplication {
     /**
      * 声明一个输入流
      */
-    protected InputStream inputStream;
+    private InputStream inputStream;
 
     /**
      * 默认加载的配置文件
      */
-    protected static final String DEFAULT_CONFIGURATION_FILE = "application.xml";
+    private static final String DEFAULT_CONFIGURATION_FILE = "application.xml";
 
     public XmlApplication() {
         inputStream = XmlApplication.class.getClassLoader().getResourceAsStream(DEFAULT_CONFIGURATION_FILE);
@@ -43,18 +43,18 @@ public class XmlApplication extends AbstractApplication {
             SAXReader reader = new SAXReader();
             // 解析XML
             Document document = reader.read(inputStream);
-            XmlHelper.initDocument(document);
-            List<Element> beanList = XmlHelper.getBean();
+            ApplicationXmlHelper.initDocument(document);
+            List<Element> beanList = ApplicationXmlHelper.getBean();
             if (beanList != null && beanList.size() > 0) {
                 for (Element bean : beanList) {
-                    String beanId = XmlHelper.getBeanId(bean);
-                    String beanClass = XmlHelper.getBeanClass(bean);
+                    String beanId = ApplicationXmlHelper.getBeanId(bean);
+                    String beanClass = ApplicationXmlHelper.getBeanClass(bean);
                     beanNameMap.put(beanId, beanClass);
                 }
             }
-            Element packageScan = XmlHelper.getPackageScan();
+            Element packageScan = ApplicationXmlHelper.getPackageScan();
             if (packageScan != null) {
-                String packageScanRange = XmlHelper.getPackageScanRange(packageScan);
+                String packageScanRange = ApplicationXmlHelper.getPackageScanRange(packageScan);
                 // 获取所有被@MyBean注解的Bean的ID和对应的全限定类名
                 MyBeanUtils.getBeanName(packageScanRange);
             }
@@ -85,15 +85,15 @@ public class XmlApplication extends AbstractApplication {
                 Object beanObject = entry.getValue();
                 Class<?> beanClass = beanObject.getClass();
                 String beanId = entry.getKey();
-                Element beanElement = XmlHelper.getBean(beanId);
+                Element beanElement = ApplicationXmlHelper.getBean(beanId);
                 if (beanElement != null) {
-                    List<Element> setElementList = XmlHelper.getSet(beanElement);
+                    List<Element> setElementList = ApplicationXmlHelper.getSet(beanElement);
                     for (Element setBean : setElementList) {
-                        String setName = XmlHelper.getSetName(setBean);
+                        String setName = ApplicationXmlHelper.getSetName(setBean);
                         Field field = beanClass.getDeclaredField(setName);
                         field.setAccessible(true);
                         if (field.get(beanObject) == null) {
-                            String setRef = XmlHelper.getSetRef(setBean);
+                            String setRef = ApplicationXmlHelper.getSetRef(setBean);
                             Object setBeanObject = beanCore.get(setRef);
                             field.set(beanObject, setBeanObject);
                         }

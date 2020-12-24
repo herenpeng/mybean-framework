@@ -20,12 +20,12 @@ public class PropertiesApplication extends AbstractApplication {
     /**
      * 声明一个输入流
      */
-    protected InputStream inputStream;
+    private InputStream inputStream;
 
     /**
      * 默认加载的配置文件
      */
-    protected static final String DEFAULT_CONFIGURATION_FILE = "application.properties";
+    private static final String DEFAULT_CONFIGURATION_FILE = "application.properties";
 
     /**
      * 注解包扫描name

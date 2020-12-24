@@ -11,7 +11,7 @@ public class StringConst {
     /**
      * 空字符串
      */
-    protected static final String EMPTY_STRING = "";
+    public static final String EMPTY_STRING = "";
     /**
      * 布尔值true字符串
      */
@@ -35,7 +35,7 @@ public class StringConst {
     /**
      * url中的间隔符号
      */
-    protected static final String URL_SEPARATOR = "/";
+    public static final String URL_SEPARATOR = "/";
 
 
 }
