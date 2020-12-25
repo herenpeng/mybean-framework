@@ -12,7 +12,6 @@
         <module>mybean-core</module>
         <module>mybean-mvc</module>
         <module>mybean-common</module>
-        <module>mybean-demo</module>
         <module>mybean-jdbc</module>
     </modules>
 

@@ -4,6 +4,9 @@
 
 > github地址：https://github.com/herenpeng/mybean-framework.git
 
+>gitee地址：https://gitee.com/herenpeng/mybean-framework.git
+
+
 **mybean-framwork目前支持功能：**
 
 - IOC和DI功能
@@ -512,3 +515,76 @@ public class UserController {
  - insert(String sql, Object[] params)
  
         有参插入方法
+        
+        
+        
+# 框架的使用
+
+如果开发者想要在本地使用MyBean框架进行开发，需要进行如下几个步骤：
+
+1、将项目从github或者gitee上下载下来。
+
+> github地址：https://github.com/herenpeng/mybean-framework.git
+
+>gitee地址：https://gitee.com/herenpeng/mybean-framework.git
+
+2、将项目设置为Maven项目，并使用Maven下载相关依赖。
+
+3、使用Maven将root项目`mybean-framework`安装到本地仓库。
+
+4、使用Maven创建一个新的工程，并在工程中引入mybean-framework的坐标依赖，其中myeban-mvc为MVC模块的依赖，mybean-jdbc为持久层jdbc模块的依赖，这两个依赖均已依赖于mybean-core模块，所以本地无需引入mybean-core模块。
+
+```xml
+<dependencies>
+    <!--mvc模块的依赖-->
+    <dependency>
+        <groupId>org.mybeanframework</groupId>
+        <artifactId>mybean-mvc</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <!--jdbc模块的依赖-->
+    <dependency>
+        <groupId>org.mybeanframework</groupId>
+        <artifactId>mybean-jdbc</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+</dependencies>
+```
+
+5、使用Maven Tomcat插件运行项目。
+
+```xml
+<build>
+    <plugins>
+        <!-- tomcat插件控制 -->
+        <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <!--端口控制-->
+                <port>8080</port>
+                <!--项目路径控制意味着http://localhost:8080/abc-->
+                <path>/</path>
+                <!--编码-->
+                <uriEncoding>UTF-8</uriEncoding>
+            </configuration>
+        </plugin>
+        <!-- maven插件控制 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <encoding>utf-8</encoding>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+6、在新项目中配置application.xml配置文件，并配置包扫描范围或者注册Bean实例。
+
+7、启动项目。
