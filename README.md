@@ -4,7 +4,7 @@
 
 > github地址：https://github.com/herenpeng/mybean-framework.git
 
->gitee地址：https://gitee.com/herenpeng/mybean-framework.git
+> gitee地址：https://gitee.com/herenpeng/mybean-framework.git
 
 
 **mybean-framwork目前支持功能：**
