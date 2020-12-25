@@ -1,8 +1,7 @@
 package org.mybeanframework.core.util;
 
-import org.dom4j.Document;
 import org.dom4j.Element;
-import org.mybeanframework.core.constant.ApplicationXmlConst;
+import org.mybeanframework.common.constant.ApplicationXmlConst;
 
 import java.util.List;
 
@@ -12,18 +11,7 @@ import java.util.List;
  * @author herenpeng
  * @since 2020-12-15 9:50
  */
-public class ApplicationXmlHelper extends ApplicationXmlConst {
-
-    /**
-     * 定义一个私有的document对象
-     */
-    private static Document document = null;
-
-    public static void initDocument(Document document) {
-        if (ApplicationXmlHelper.document == null) {
-            ApplicationXmlHelper.document = document;
-        }
-    }
+public class BeanXmlHelper extends ApplicationXmlConst {
 
     /**
      * 获取所有的bean属性

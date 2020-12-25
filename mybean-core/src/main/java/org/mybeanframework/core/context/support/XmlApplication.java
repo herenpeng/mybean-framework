@@ -5,7 +5,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.mybeanframework.core.context.AbstractApplication;
-import org.mybeanframework.core.util.ApplicationXmlHelper;
+import org.mybeanframework.core.util.BeanXmlHelper;
 import org.mybeanframework.core.util.MyBeanUtils;
 
 import java.io.IOException;
@@ -43,18 +43,19 @@ public class XmlApplication extends AbstractApplication {
             SAXReader reader = new SAXReader();
             // 解析XML
             Document document = reader.read(inputStream);
-            ApplicationXmlHelper.initDocument(document);
-            List<Element> beanList = ApplicationXmlHelper.getBean();
+            // 初始化配置文件，将配置文件转换为document对象
+            BeanXmlHelper.initDocument(document);
+            List<Element> beanList = BeanXmlHelper.getBean();
             if (beanList != null && beanList.size() > 0) {
                 for (Element bean : beanList) {
-                    String beanId = ApplicationXmlHelper.getBeanId(bean);
-                    String beanClass = ApplicationXmlHelper.getBeanClass(bean);
+                    String beanId = BeanXmlHelper.getBeanId(bean);
+                    String beanClass = BeanXmlHelper.getBeanClass(bean);
                     beanNameMap.put(beanId, beanClass);
                 }
             }
-            Element packageScan = ApplicationXmlHelper.getPackageScan();
+            Element packageScan = BeanXmlHelper.getPackageScan();
             if (packageScan != null) {
-                String packageScanRange = ApplicationXmlHelper.getPackageScanRange(packageScan);
+                String packageScanRange = BeanXmlHelper.getPackageScanRange(packageScan);
                 // 获取所有被@MyBean注解的Bean的ID和对应的全限定类名
                 MyBeanUtils.getBeanName(packageScanRange);
             }
@@ -85,15 +86,15 @@ public class XmlApplication extends AbstractApplication {
                 Object beanObject = entry.getValue();
                 Class<?> beanClass = beanObject.getClass();
                 String beanId = entry.getKey();
-                Element beanElement = ApplicationXmlHelper.getBean(beanId);
+                Element beanElement = BeanXmlHelper.getBean(beanId);
                 if (beanElement != null) {
-                    List<Element> setElementList = ApplicationXmlHelper.getSet(beanElement);
+                    List<Element> setElementList = BeanXmlHelper.getSet(beanElement);
                     for (Element setBean : setElementList) {
-                        String setName = ApplicationXmlHelper.getSetName(setBean);
+                        String setName = BeanXmlHelper.getSetName(setBean);
                         Field field = beanClass.getDeclaredField(setName);
                         field.setAccessible(true);
                         if (field.get(beanObject) == null) {
-                            String setRef = ApplicationXmlHelper.getSetRef(setBean);
+                            String setRef = BeanXmlHelper.getSetRef(setBean);
                             Object setBeanObject = beanCore.get(setRef);
                             field.set(beanObject, setBeanObject);
                         }

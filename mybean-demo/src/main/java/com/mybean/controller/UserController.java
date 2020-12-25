@@ -1,7 +1,10 @@
 package com.mybean.controller;
 
 import com.mybean.domain.User;
+import com.mybean.mapper.UserMapper;
 import org.mybeanframework.core.annotation.MyBean;
+import org.mybeanframework.core.annotation.SetBean;
+import org.mybeanframework.jdbc.JdbcTemplate;
 import org.mybeanframework.web.mvc.annotation.RequestParam;
 import org.mybeanframework.web.mvc.annotation.RequestPath;
 import org.mybeanframework.web.mvc.response.enums.ResponseTypeEnum;
@@ -18,6 +21,9 @@ import java.util.*;
 @MyBean
 @RequestPath("user")
 public class UserController {
+
+    @SetBean
+    private JdbcTemplate jdbcTemplate;
 
     @RequestPath("index")
     public String index(@RequestParam("username") String username) {
@@ -72,10 +78,7 @@ public class UserController {
 
     @RequestPath(value = "list", type = ResponseTypeEnum.JSON)
     public List<User> list() {
-        List<User> list = new ArrayList<>();
-        list.add(new User("池总", "123456"));
-        list.add(new User("刘老板", "111111"));
-        list.add(new User("波波", "bbbbbb"));
+        List<User> list = jdbcTemplate.selectList("select * from sys_user", User.class);
         return list;
     }
 

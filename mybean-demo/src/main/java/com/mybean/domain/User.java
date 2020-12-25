@@ -43,6 +43,8 @@ public class User {
         this.birthday = birthday;
     }
 
+    public User() {
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -53,5 +55,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.birthday = birthday;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday=" + birthday +
+                '}';
     }
 }

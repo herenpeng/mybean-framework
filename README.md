@@ -1,8 +1,18 @@
 # mybean-framework
 
-> MyBean框架是一个类似于Spring的简化版本的轻量级框架，拥有IOC和DI功能，兼容Web开发。
+> MyBean框架是一个类似于Spring的简化版本的轻量级框架。
 
 > github地址：https://github.com/herenpeng/mybean-framework.git
+
+**mybean-framwork目前支持功能：**
+
+- IOC和DI功能
+- 兼容Web开发
+- HTTP请求路径映射
+- 控制层注解式绑定请求参数
+- 静态视图解析
+- Json解析工具
+- JDBC封装模板
 
 ## Bean实例注册
 
@@ -413,3 +423,92 @@ public class User {
 ## StringUtils
 
 StringUtils是MyBean框架封装的字符串工具类，包含了对于字符串的处理方法。
+
+## ObjectUtils
+
+对象工具类
+
+## CollectionUtils
+
+集合工具类
+
+# mybean-jdbc
+
+mybean-jdbc是MyBean框架的持久层部分，封装了MyBean框架对持久层的操作。
+其中mybean-jdbc默认使用MySQL驱动，并内置了druid连接池。
+
+## DataSource
+
+在使用mybean-jdbc之前，需要在application.xml配置文件中配置数据源。
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<mybean>
+    <data-source>
+        <driver-name>com.mysql.cj.jdbc.Driver</driver-name>
+        <url>jdbc:mysql://localhost:3306/mybean?serverTimezone=Asia/Shanghai&amp;useSSL=false&amp;characterEncoding=UTF-8</url>
+        <username>root</username>
+        <password>admin</password>
+    </data-source>
+</mybean>
+```
+
+## JdbcTemplate
+
+1、在使用JdbcTemplate之前，需要在application.xml配置文件中配置该Bean实例。
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<mybean>
+    <beans>
+        <bean id="jdbcTemplate" class="org.mybeanframework.jdbc.JdbcTemplate"></bean>
+    </beans>
+</mybean>
+```
+
+2、然后就直接在Java类中注入即可使用。
+
+```java
+@MyBean
+@RequestPath("user")
+public class UserController {
+
+    @SetBean
+    private JdbcTemplate jdbcTemplate;
+
+    @RequestPath(value = "list", type = ResponseTypeEnum.JSON)
+    public List<User> list() {
+        List<User> list = jdbcTemplate.selectList("select * from sys_user", User.class);
+        return list;
+    }
+
+}
+```
+
+ - List<E> selectList(String sql, Object[] params, Class<E> clazz)
+    
+        有参查询所有，并返回一个泛型对应的List集合
+ 
+ - List<E> selectList(String sql, Class<E> clazz)
+    
+        无参查询所有，并返回一个泛型对应的List集合
+ 
+ - selectOne(String sql, Object[] params, Class<E> clazz)
+    
+        有参查询一个泛型对象，多条记录时，默认返回第一条记录
+ 
+ - selectOne(String sql, Class<E> clazz)
+ 
+        无参查询一个泛型对象，多条记录时，默认返回第一条记录
+ 
+ - int update(String sql, Object[] params)
+ 
+        有参更新方法
+ 
+ - delete(String sql, Object[] params)
+ 
+        有参删除方法
+ 
+ - insert(String sql, Object[] params)
+ 
+        有参插入方法

@@ -34,7 +34,7 @@ public abstract class AbstractApplication extends BeanFactory implements Applica
     protected void initBeanCore() {
         initBeanNameMap();
         // 通过Bean的ID和全限定类名实例化Bean
-        instanceBean();
+        produceBean();
         // 依赖注入，最后返回已完成依赖注入的BeanMap
         setBean();
     }

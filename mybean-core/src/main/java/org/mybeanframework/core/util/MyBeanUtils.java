@@ -1,5 +1,6 @@
 package org.mybeanframework.core.util;
 
+import org.mybeanframework.common.constant.StringConst;
 import org.mybeanframework.core.annotation.MyBean;
 import org.mybeanframework.core.bean.AbstractBeanFactory;
 

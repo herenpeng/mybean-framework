@@ -13,6 +13,7 @@
         <module>mybean-mvc</module>
         <module>mybean-common</module>
         <module>mybean-demo</module>
+        <module>mybean-jdbc</module>
     </modules>
 
     <properties>
@@ -46,6 +47,16 @@
                 <groupId>org.dom4j</groupId>
                 <artifactId>dom4j</artifactId>
                 <version>${dom4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.18</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.1.17</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

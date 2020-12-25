@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <mybean>
+
+    <beans>
+        <bean id="jdbcTemplate" class="org.mybeanframework.jdbc.JdbcTemplate"></bean>
+    </beans>
+
     <package-scan range="com.mybean"></package-scan>
+
+    <data-source>
+        <driver-name>com.mysql.cj.jdbc.Driver</driver-name>
+        <url>jdbc:mysql://localhost:3306/mybean?useSSL=false&amp;serverTimezone=Asia/Shanghai</url>
+        <username>root</username>
+        <password>admin</password>
+    </data-source>
+
 </mybean>

@@ -3,6 +3,7 @@ package org.mybeanframework.common.util;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -103,6 +104,10 @@ public class ClassUtils {
      */
     public static boolean isString(Class<?> clazz) {
         return equals(String.class, clazz);
+    }
+
+    public static boolean isDate(Class<?> clazz) {
+        return equals(Date.class, clazz);
     }
 
     /**

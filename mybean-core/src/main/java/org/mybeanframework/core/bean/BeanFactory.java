@@ -1,6 +1,16 @@
 package org.mybeanframework.core.bean;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.mybeanframework.common.constant.StringConst;
+import org.mybeanframework.core.context.support.XmlApplication;
+import org.mybeanframework.core.util.BeanXmlHelper;
+
+import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +23,7 @@ public class BeanFactory extends AbstractBeanFactory {
     /**
      * BeanFactory的生产方法，实例化Bean
      */
-    protected static void instanceBean() {
+    protected static void produceBean() {
         try {
             // 循环所有的beanName，实例化每一个Bean对象
             for (Map.Entry<String, String> entry : beanNameMap.entrySet()) {
