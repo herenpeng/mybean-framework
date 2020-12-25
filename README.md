@@ -1,9 +1,7 @@
 # mybean-framework
 
 > MyBean框架是一个类似于Spring的简化版本的轻量级框架。
-
 > github地址：https://github.com/herenpeng/mybean-framework.git
-
 > gitee地址：https://gitee.com/herenpeng/mybean-framework.git
 
 
@@ -525,7 +523,6 @@ public class UserController {
 1、将项目从github或者gitee上下载下来。
 
 > github地址：https://github.com/herenpeng/mybean-framework.git
-
 > gitee地址：https://gitee.com/herenpeng/mybean-framework.git
 
 2、将项目设置为Maven项目，并使用Maven下载相关依赖。
