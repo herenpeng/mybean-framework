@@ -526,7 +526,7 @@ public class UserController {
 
 > github地址：https://github.com/herenpeng/mybean-framework.git
 
->gitee地址：https://gitee.com/herenpeng/mybean-framework.git
+> gitee地址：https://gitee.com/herenpeng/mybean-framework.git
 
 2、将项目设置为Maven项目，并使用Maven下载相关依赖。
 
