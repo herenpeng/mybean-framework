@@ -588,3 +588,14 @@ public class UserController {
 6、在新项目中配置application.xml配置文件，并配置包扫描范围或者注册Bean实例。
 
 7、启动项目。
+
+
+> **如果开发者不想自己搭建项目，也可以使用MyBean框架自带的一个mybean-demo项目。**
+        
+1、将项目从github或者gitee上下载下来。
+
+2、将项目设置为Maven项目，并使用Maven下载相关依赖。
+
+3、使用Maven将root项目`mybean-framework`安装到本地仓库。
+
+4、使用Maven Tomcat插件运行项目即可。
