@@ -13,6 +13,7 @@
         <module>mybean-mvc</module>
         <module>mybean-common</module>
         <module>mybean-jdbc</module>
+        <module>mybean-demo</module>
     </modules>
 
     <properties>

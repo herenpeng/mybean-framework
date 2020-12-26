@@ -15,6 +15,8 @@ public class ApplicationTest {
         Application application = new PropertiesApplication();
         Person person = application.getBean("person");
         person.getStudent().study();
+        Student student = application.getBean("student");
+        student.study();
     }
 
     @Test
@@ -34,8 +36,8 @@ public class ApplicationTest {
     @Test
     public void test4() {
         Application application = new XmlApplication();
-        // Student student = application.getBean("student");
-        // student.study();
+        Student student = application.getBean("student");
+        student.study();
         Person person = application.getBean("person");
         person.getStudent().study();
     }

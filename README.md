@@ -162,6 +162,31 @@ public class ApplicationTest {
 package.scan=com.mybean.test
 ```
 
+## Bean实例获取
+
+MyBean框架可以通过注解、xml配置文件、properties配置文件三种方式注册一个Bean实例，也可以通过三种不同的方式获取一个Bean实例对象。
+
+- 注解
+ 
+ ```java
+Application application = new AnnotationApplication(this.getClass());
+Student student = application.getBean("student");
+student.study();
+```
+- xml配置
+
+ ```java
+Application application = new XmlApplication();
+Student student = application.getBean("student");
+student.study();
+```
+- properties配置
+
+ ```java
+Application application = new PropertiesApplication();
+Student student = application.getBean("student");
+student.study();
+```
 
 # mybean-mvc
 
