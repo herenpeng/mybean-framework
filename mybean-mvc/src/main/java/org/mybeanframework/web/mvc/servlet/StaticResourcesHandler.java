@@ -27,12 +27,13 @@ public class StaticResourcesHandler {
      * 静态资源路径标识
      */
     public static final String STATIC_RESOURCES_FLAG = "@";
+    public static final String STATIC_RESOURCES_ICO = ".ico";
 
     static {
         staticResourcesSuffixList.add(".html");
         staticResourcesSuffixList.add(".css");
         staticResourcesSuffixList.add(".js");
-        staticResourcesSuffixList.add(".ico");
+        staticResourcesSuffixList.add(STATIC_RESOURCES_ICO);
     }
 
     /**
@@ -47,6 +48,9 @@ public class StaticResourcesHandler {
     }
 
     public static void handler(String uri, HttpServletResponse response) {
+        if(uri.contains(STATIC_RESOURCES_ICO)) {
+            return;
+        }
         if (uri.contains(STATIC_RESOURCES_FLAG)) {
             String viewName = uri.substring(uri.indexOf(STATIC_RESOURCES_FLAG) + 1);
             ViewResolver.resolver(viewName, response);

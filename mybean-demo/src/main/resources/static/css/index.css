@@ -1,0 +1,9 @@
+.content {
+    margin: auto auto;
+    border-collapse: collapse
+}
+
+.content tr td {
+    border: 1px solid black;
+    margin: 0px;
+}

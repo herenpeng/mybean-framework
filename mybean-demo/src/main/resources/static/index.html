@@ -3,13 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="stylesheet" type="text/css" href="@index.css"/>
+    <link rel="stylesheet" type="text/css" href="@css/index.css"/>
+    <script type="text/javascript" src="@js/vue.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="@js/axios.min.js" charset="utf-8"></script>
 </head>
 <body>
 
-<div style="text-align: center">
-    <h1 id="main">首页</h1>
-    <h1>WelCome to MyBean FrameWork!</h1>
+<div id="app">
+    <table class="content">
+        <tr>
+            <td>用户名</td>
+            <td>是否启用</td>
+            <td>是否锁定</td>
+            <td>状态</td>
+            <td>操作</td>
+        </tr>
+        <tr v-for="user in users">
+            <td>{{ user.username }}</td>
+            <td>{{ user.enabled | enabledFilter }}</td>
+            <td>{{ user.locked | lockedFilter }}</td>
+            <td>{{ user.deleted | deletedFilter }}</td>
+            <td>
+                <span v-if="!user.deleted" @click="logicDeleteUser(user.id)">逻辑删除</span>
+                <span v-if="user.deleted" @click="logicRecover(user.id)">数据恢复</span>
+                <span @click="deleteUser(user.id)">彻底删除</span>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            users: []
+        },
+        filters: {
+            enabledFilter(enabledValue) {
+                if (enabledValue) {
+                    return '启用'
+                } else {
+                    return '禁用'
+                }
+            },
+            lockedFilter(lockedValue) {
+                if (lockedValue) {
+                    return '锁定'
+                } else {
+                    return '未锁定'
+                }
+            },
+            deletedFilter(deletedValue) {
+                if (deletedValue) {
+                    return '逻辑删除'
+                } else {
+                    return '正常'
+                }
+            }
+        },
+        created() {
+            this.loadData();
+        },
+        methods: {
+            loadData: function () {
+                axios.get('/user/list').then(res => {
+                    this.users = res.data;
+                }).catch(res => {
+                    alert('系统错误');
+                });
+            },
+            logicDeleteUser: function (id) {
+                axios.get('/user/logic/delete?id=' + id).then(res => {
+                    this.loadData();
+                }).catch(res => {
+                    alert('系统错误');
+                });
+            },
+            logicRecover: function (id) {
+                axios.get('/user/logic/recover?id=' + id).then(res => {
+                    this.loadData();
+                }).catch(res => {
+                    alert('系统错误');
+                });
+            },
+            deleteUser: function (id) {
+                axios.get('/user/delete?id=' + id).then(res => {
+                    this.loadData();
+                }).catch(res => {
+                    alert('系统错误');
+                });
+            }
+        }
+    })
+</script>
 </html>

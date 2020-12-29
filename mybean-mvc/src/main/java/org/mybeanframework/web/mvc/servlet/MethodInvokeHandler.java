@@ -43,6 +43,7 @@ public class MethodInvokeHandler {
         }
         // 获取请求路径对应的类和方法
         BeanAndMethod beanAndMethod = mvcApplication.requestResolver(uri);
+        System.out.println(uri);
         Object bean = beanAndMethod.getBean();
         Method method = beanAndMethod.getMethod();
         // 执行对应的方法

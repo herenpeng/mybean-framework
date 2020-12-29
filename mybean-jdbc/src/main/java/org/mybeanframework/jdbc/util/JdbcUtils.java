@@ -3,7 +3,6 @@ package org.mybeanframework.jdbc.util;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import javax.sql.DataSource;
-import javax.sql.PooledConnection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,19 +16,14 @@ public class JdbcUtils {
 
     private static DruidDataSource druidDataSource;
 
-    private static PooledConnection pooledConnection;
 
     static {
-        try {
-            druidDataSource = new DruidDataSource();
-            druidDataSource.setDriverClassName(JdbcXmlHelper.getDriverName());
-            druidDataSource.setUrl(JdbcXmlHelper.getUrl());
-            druidDataSource.setUsername(JdbcXmlHelper.getUsername());
-            druidDataSource.setPassword(JdbcXmlHelper.getPassword());
-            pooledConnection = druidDataSource.getPooledConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        druidDataSource = new DruidDataSource();
+        druidDataSource.setDriverClassName(JdbcXmlHelper.getDriverName());
+        druidDataSource.setUrl(JdbcXmlHelper.getUrl());
+        druidDataSource.setUsername(JdbcXmlHelper.getUsername());
+        druidDataSource.setPassword(JdbcXmlHelper.getPassword());
     }
 
 
@@ -49,7 +43,7 @@ public class JdbcUtils {
      * @throws SQLException
      */
     public static Connection getConnection() throws SQLException {
-        return pooledConnection.getConnection();
+        return druidDataSource.getConnection().getConnection();
     }
 
 
