@@ -1,7 +1,7 @@
 package com.mybean.controller;
 
 import com.mybean.domain.User;
-import com.mybean.mapper.UserMapper;
+import com.mybean.service.UserService;
 import org.mybeanframework.core.annotation.MyBean;
 import org.mybeanframework.core.annotation.SetBean;
 import org.mybeanframework.web.mvc.annotation.RequestParam;
@@ -19,7 +19,7 @@ import java.util.*;
 public class UserController {
 
     @SetBean
-    private UserMapper userMapper;
+    private UserService userService;
 
     @RequestPath("index")
     public String index() {
@@ -28,23 +28,23 @@ public class UserController {
 
     @RequestPath(value = "list", type = ResponseTypeEnum.JSON)
     public List<User> list() {
-        List<User> list = userMapper.list();
+        List<User> list = userService.list();
         return list;
     }
 
     @RequestPath(value = "logic/delete", type = ResponseTypeEnum.JSON)
     public void logicDelete(@RequestParam("id") Integer id) {
-        userMapper.logicDelete(id);
+        userService.logicDelete(id);
     }
 
     @RequestPath(value = "logic/recover", type = ResponseTypeEnum.JSON)
     public void logicRecover(@RequestParam("id") Integer id) {
-        userMapper.logicRecover(id);
+        userService.logicRecover(id);
     }
 
     @RequestPath(value = "delete", type = ResponseTypeEnum.JSON)
     public void delete(@RequestParam("id") Integer id) {
-        userMapper.delete(id);
+        userService.delete(id);
     }
 
 
