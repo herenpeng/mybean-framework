@@ -9,19 +9,6 @@ package org.mybeanframework.common.constant;
 public class JsonConst {
 
     /**
-     * get方法前缀
-     */
-    protected static final String GET = "get";
-    /**
-     * is方法前缀
-     */
-    protected static final String IS = "is";
-    /**
-     * set方法前缀
-     */
-    protected static final String SET = "set";
-
-    /**
      * 英文双引号
      */
     protected static final String DOUBLE_QUOTE = "\"";

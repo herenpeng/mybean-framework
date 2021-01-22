@@ -4,6 +4,7 @@ import org.mybeanframework.common.annotation.JsonDateFormat;
 import org.mybeanframework.common.annotation.JsonNullIgnore;
 import org.mybeanframework.common.constant.JsonConst;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -100,17 +101,18 @@ public class JsonUtils extends JsonConst {
                 }
             } else {
                 Class<?> objectClass = object.getClass();
-                List<Method> getMethodList = MethodUtils.getGetMethodList(objectClass);
-                Iterator<Method> iterator = getMethodList.iterator();
+                List<MethodUtils.BeanContent> readMethodList = MethodUtils.getReadMethodList(objectClass);
+                Iterator<MethodUtils.BeanContent> iterator = readMethodList.iterator();
                 while (iterator.hasNext()) {
-                    Method method = iterator.next();
-                    String fieldName = MethodUtils.getFieldName(method);
+                    MethodUtils.BeanContent beanContent = iterator.next();
+                    Method method = beanContent.getMethod();
+                    String fieldName = beanContent.getProperties();
                     Object value = method.invoke(object);
                     Field field = objectClass.getDeclaredField(fieldName);
-                    if (value == null && field.getAnnotation(JsonNullIgnore.class) != null) {
+                    if (ObjectUtils.isEmpty(value) && field.getAnnotation(JsonNullIgnore.class) != null) {
                         continue;
                     }
-                    if (value instanceof Date && value != null) {
+                    if (ObjectUtils.isNotEmpty(value) && value instanceof Date) {
                         Date date = (Date) value;
                         JsonDateFormat jsonDateFormat = field.getAnnotation(JsonDateFormat.class);
                         if (jsonDateFormat != null) {
@@ -130,6 +132,8 @@ public class JsonUtils extends JsonConst {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IntrospectionException e) {
             e.printStackTrace();
         }
         return null;

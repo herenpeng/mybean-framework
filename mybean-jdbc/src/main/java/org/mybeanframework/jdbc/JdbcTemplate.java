@@ -6,6 +6,7 @@ import org.mybeanframework.core.annotation.MyBean;
 import org.mybeanframework.jdbc.entity.JdbcObject;
 import org.mybeanframework.jdbc.util.JdbcUtils;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -188,11 +189,12 @@ public class JdbcTemplate<E> {
      * @throws InstantiationException
      * @throws NoSuchFieldException
      */
-    private E getObject(ResultSet resultSet, Class<E> clazz) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
+    private E getObject(ResultSet resultSet, Class<E> clazz) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException, IntrospectionException {
         E object = clazz.newInstance();
-        List<Method> setMethodList = MethodUtils.getSetMethodList(clazz);
-        for (Method method : setMethodList) {
-            String fieldName = MethodUtils.getFieldName(method);
+        List<MethodUtils.BeanContent> writeMethodList = MethodUtils.getWriteMethodList(clazz);
+        for (MethodUtils.BeanContent beanContent : writeMethodList) {
+            String fieldName = beanContent.getProperties();
+            Method method = beanContent.getMethod();
             Field field = clazz.getDeclaredField(fieldName);
             Class<?> fieldType = field.getType();
             Object result;
