@@ -25,11 +25,11 @@ public class NumberUtils {
     /**
      * 判断Long类型的数据范围是否在Integer范围之内
      *
-     * @param longValue Long类型的数据
+     * @param numberLong Long类型的数据
      * @return 在Integer的范围之内，返回true，其他情况返回false
      */
-    public static boolean inIntegerRange(Long longValue) {
-        if (longValue > Integer.MIN_VALUE && longValue < Integer.MAX_VALUE) {
+    public static boolean inIntegerRange(Long numberLong) {
+        if (numberLong > Integer.MIN_VALUE && numberLong < Integer.MAX_VALUE) {
             return true;
         }
         return false;
