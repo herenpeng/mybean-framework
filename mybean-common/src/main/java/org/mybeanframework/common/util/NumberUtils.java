@@ -29,10 +29,7 @@ public class NumberUtils {
      * @return 在Integer的范围之内，返回true，其他情况返回false
      */
     public static boolean inIntegerRange(Long longValue) {
-        if (longValue > Integer.MIN_VALUE && longValue < Integer.MAX_VALUE) {
-            return true;
-        }
-        return false;
+        return longValue > Integer.MIN_VALUE && longValue < Integer.MAX_VALUE;
     }
 
 

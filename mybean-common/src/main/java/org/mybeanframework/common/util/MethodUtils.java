@@ -24,7 +24,7 @@ public class MethodUtils {
      */
     public static List<BeanContent> getReadMethodList(Class objectClass) throws IntrospectionException {
         List<BeanContent> readMethodList = new ArrayList<>();
-        // // 获取本类的所有方法
+        // 获取本类的所有方法
         BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
         PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor properties : pds) {
@@ -39,7 +39,7 @@ public class MethodUtils {
 
     public static List<BeanContent> getWriteMethodList(Class objectClass) throws IntrospectionException {
         List<BeanContent> writeMethodList = new ArrayList<>();
-        // // 获取本类的所有方法
+        // 获取本类的所有方法
         BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
         PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor properties : pds) {
