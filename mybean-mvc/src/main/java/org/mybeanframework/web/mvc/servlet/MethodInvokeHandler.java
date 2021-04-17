@@ -66,60 +66,8 @@ public class MethodInvokeHandler {
      * @throws IllegalAccessException
      */
     private static Object invoke(Object bean, Method method, HttpServletRequest request, HttpServletResponse response) throws InvocationTargetException, IllegalAccessException {
-        Object object;
-        switch (methodParameterHandler(method, request, response)) {
-            case 0:
-                object = method.invoke(bean);
-                break;
-            case 1:
-                object = method.invoke(bean, invokeParameterMap.get(0));
-                break;
-            case 2:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1));
-                break;
-            case 3:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2));
-                break;
-            case 4:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3));
-                break;
-            case 5:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4));
-                break;
-            case 6:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
-                        invokeParameterMap.get(5));
-                break;
-            case 7:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
-                        invokeParameterMap.get(5), invokeParameterMap.get(6));
-                break;
-            case 8:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
-                        invokeParameterMap.get(5), invokeParameterMap.get(6), invokeParameterMap.get(7));
-                break;
-            case 9:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
-                        invokeParameterMap.get(5), invokeParameterMap.get(6), invokeParameterMap.get(7),
-                        invokeParameterMap.get(8));
-                break;
-            case 10:
-                object = method.invoke(bean, invokeParameterMap.get(0), invokeParameterMap.get(1),
-                        invokeParameterMap.get(2), invokeParameterMap.get(3), invokeParameterMap.get(4),
-                        invokeParameterMap.get(5), invokeParameterMap.get(6), invokeParameterMap.get(7),
-                        invokeParameterMap.get(8), invokeParameterMap.get(9));
-                break;
-            default:
-                throw new RuntimeException(method + "方法参数溢出");
-        }
-        return object;
+        Object[] parameters = methodParameterHandler(method, request, response);
+        return method.invoke(bean, parameters);
     }
 
     /**
@@ -130,16 +78,19 @@ public class MethodInvokeHandler {
      * @param response HttpServletResponse对象
      * @return 参数个数
      */
-    private static int methodParameterHandler(Method method, HttpServletRequest request, HttpServletResponse response) {
+    private static Object[] methodParameterHandler(Method method, HttpServletRequest request, HttpServletResponse response) {
         Parameter[] invokeParameters = method.getParameters();
+        // 开辟一个长度为参数个数相同的数组
+        Object[] parameters = new String[invokeParameters.length];
         for (int i = 0; i < invokeParameters.length; i++) {
             Parameter invokeParameter = invokeParameters[i];
             Class<?> invokeParameterType = invokeParameter.getType();
+            Object parameter = null;
             // HttpServletRequest和HttpServletResponse的参数注入
             if (ClassUtils.isOrFromServletRequest(invokeParameterType)) {
-                invokeParameterMap.put(i, request);
+                parameters[i] = request;
             } else if (ClassUtils.isOrFromServletResponse(invokeParameterType)) {
-                invokeParameterMap.put(i, response);
+                parameters[i] = response;
                 // 使用Map传参
             } else if (ClassUtils.isOrFromMap(invokeParameterType)) {
                 Map<String, Object> map = new HashMap<>(16);
@@ -161,7 +112,7 @@ public class MethodInvokeHandler {
                         map.put(entry.getKey(), param);
                     }
                 }
-                invokeParameterMap.put(i, map);
+                parameters[i] = map;
             } else {
                 // 普通参数，如果有@RequestParam注解，取值注入
                 String parameterValue = null;
@@ -169,10 +120,10 @@ public class MethodInvokeHandler {
                 if (requestParam != null) {
                     parameterValue = request.getParameter(requestParam.value());
                 }
-                invokeParameterMap.put(i, assignment(invokeParameterType, parameterValue));
+                parameters[i] = assignment(invokeParameterType, parameterValue);
             }
         }
-        return invokeParameters.length;
+        return parameters;
     }
 
 
