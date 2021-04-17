@@ -14,6 +14,7 @@
         <module>mybean-common</module>
         <module>mybean-jdbc</module>
         <module>mybean-demo</module>
+        <module>mybean-http</module>
     </modules>
 
     <properties>

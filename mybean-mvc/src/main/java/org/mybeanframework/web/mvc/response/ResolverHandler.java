@@ -17,11 +17,10 @@ public class ResolverHandler {
     /**
      * 注解@RequestPath的字节码对象
      */
-    public static final Class<RequestPath> REQUEST_PATH_CLASS = RequestPath.class;
 
     public static void resolver(Object object, Method method, HttpServletResponse response) {
-        if (method.isAnnotationPresent(REQUEST_PATH_CLASS)) {
-            RequestPath requestPath = method.getAnnotation(REQUEST_PATH_CLASS);
+        if (method.isAnnotationPresent(RequestPath.class)) {
+            RequestPath requestPath = method.getAnnotation(RequestPath.class);
             ResponseTypeEnum type = requestPath.type();
             switch (type) {
                 case VIEW:

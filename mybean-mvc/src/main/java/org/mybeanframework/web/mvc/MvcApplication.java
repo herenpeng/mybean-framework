@@ -19,11 +19,6 @@ import java.util.Set;
  */
 public class MvcApplication extends AbstractRequestResolver {
 
-    /**
-     * 定义一个常量，@RequestPath注解的字节码对象
-     */
-    public static final Class<RequestPath> REQUEST_PATH_CLASS = RequestPath.class;
-
 
     public void start() {
         // 启动MyBean框架核心启动器，基于XML配置的方式
@@ -32,8 +27,8 @@ public class MvcApplication extends AbstractRequestResolver {
         for (Map.Entry<String, Object> entry : entries) {
             Object beanObject = entry.getValue();
             Class<?> beanClass = beanObject.getClass();
-            if (beanClass.isAnnotationPresent(REQUEST_PATH_CLASS)) {
-                RequestPath beanRequestPath = beanClass.getAnnotation(REQUEST_PATH_CLASS);
+            if (beanClass.isAnnotationPresent(RequestPath.class)) {
+                RequestPath beanRequestPath = beanClass.getAnnotation(RequestPath.class);
                 String beanPath = beanRequestPath.value();
                 if (!beanPath.startsWith(StringConst.URL_SEPARATOR)) {
                     beanPath = StringConst.URL_SEPARATOR + beanPath;
@@ -41,8 +36,8 @@ public class MvcApplication extends AbstractRequestResolver {
                 Method[] methods = beanClass.getDeclaredMethods();
                 for (Method method : methods) {
                     StringBuffer requestPath = new StringBuffer();
-                    if (method.isAnnotationPresent(REQUEST_PATH_CLASS)) {
-                        RequestPath methodRequestPath = method.getAnnotation(REQUEST_PATH_CLASS);
+                    if (method.isAnnotationPresent(RequestPath.class)) {
+                        RequestPath methodRequestPath = method.getAnnotation(RequestPath.class);
                         String methodPath = methodRequestPath.value();
                         if (StringUtils.isEmpty(methodPath) || StringConst.URL_SEPARATOR.equals(methodPath)) {
                             requestPath.append(beanPath);
