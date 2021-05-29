@@ -9,7 +9,7 @@
 
     <data-source>
         <driver-name>com.mysql.cj.jdbc.Driver</driver-name>
-        <url>jdbc:mysql://localhost:3306/mybean?useSSL=false&amp;serverTimezone=Asia/Shanghai</url>
+        <url>jdbc:mysql://localhost:3306/zero-admin?useSSL=false&amp;serverTimezone=Asia/Shanghai</url>
         <username>root</username>
         <password>admin</password>
     </data-source>

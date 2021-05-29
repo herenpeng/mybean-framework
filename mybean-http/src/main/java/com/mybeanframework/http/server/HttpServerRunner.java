@@ -3,7 +3,6 @@ package com.mybeanframework.http.server;
 import com.mybeanframework.http.annotation.HttpServer;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.net.ServerSocket;
 
 /**
@@ -22,12 +21,16 @@ public class HttpServerRunner {
             HttpServer httpServer = clazz.getAnnotation(HttpServer.class);
             // 获取端口号
             int port = httpServer.port();
-
+            createSocket(port);
         }
     }
 
-    public static void createSocket(int port) throws IOException {
-        ServerSocket socket = new ServerSocket(port);
+    public static void createSocket(int port) {
+        try {
+            ServerSocket socket = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

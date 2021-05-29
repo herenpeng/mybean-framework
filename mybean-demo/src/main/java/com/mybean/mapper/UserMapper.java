@@ -18,23 +18,23 @@ public class UserMapper {
     private JdbcTemplate jdbcTemplate;
 
     public List<User> list() {
-        String sql = "select * from sys_user";
+        String sql = "select * from auth_user";
         List<User> list = jdbcTemplate.selectList(sql, User.class);
         return list;
     }
 
     public void logicDelete(Integer id) {
-        String sql = "update sys_user set deleted = 1 where id = ?";
+        String sql = "update auth_user set deleted = 1 where id = ?";
         jdbcTemplate.update(sql, new Object[]{id});
     }
 
     public void logicRecover(Integer id) {
-        String sql = "update sys_user set deleted = 0 where id = ?";
+        String sql = "update auth_user set deleted = 0 where id = ?";
         jdbcTemplate.update(sql, new Object[]{id});
     }
 
     public void delete(Integer id) {
-        String sql = "delete from sys_user where id = ?";
+        String sql = "delete from auth_user where id = ?";
         jdbcTemplate.delete(sql, new Object[]{id});
     }
 
