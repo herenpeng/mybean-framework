@@ -3,6 +3,7 @@ package org.mybeanframework.jdbc.entity;
 import org.mybeanframework.jdbc.util.JdbcUtils;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Objects;
@@ -15,7 +16,7 @@ public class JdbcObject {
 
     private Connection connection;
 
-    private Statement statement;
+    private PreparedStatement statement;
 
     private ResultSet resultSet;
     
@@ -29,11 +30,11 @@ public class JdbcObject {
         this.connection = connection;
     }
 
-    public Statement getStatement() {
+    public PreparedStatement getStatement() {
         return statement;
     }
 
-    public void setStatement(Statement statement) {
+    public void setStatement(PreparedStatement statement) {
         this.statement = statement;
     }
 
@@ -56,13 +57,18 @@ public class JdbcObject {
     public JdbcObject() {
     }
 
-    public JdbcObject(Connection connection, Statement statement, ResultSet resultSet) {
+    public JdbcObject(Connection connection, PreparedStatement statement) {
+        this.connection = connection;
+        this.statement = statement;
+    }
+
+    public JdbcObject(Connection connection, PreparedStatement statement, ResultSet resultSet) {
         this.connection = connection;
         this.statement = statement;
         this.resultSet = resultSet;
     }
 
-    public JdbcObject(Connection connection, Statement statement, int result) {
+    public JdbcObject(Connection connection, PreparedStatement statement, int result) {
         this.connection = connection;
         this.statement = statement;
         this.result = result;

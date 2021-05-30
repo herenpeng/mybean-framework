@@ -1,10 +1,10 @@
-package com.mybeanframework.http.annotation;
+package com.mybeanframework.server.annotation;
 
 import java.lang.annotation.*;
 
 /**
  * @author herenpeng
- * @since 2021-04-17 17:51
+ * @since 2021-05-30 12:55
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,3 +19,4 @@ public @interface HttpServer {
     int port() default 8888;
 
 }
+

@@ -1,9 +1,11 @@
 package org.mybeanframework.web.mvc.servlet;
 
+import com.mybeanframework.server.annotation.Service;
 import org.mybeanframework.web.mvc.MvcApplication;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,8 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author herenpeng
  * @since 2020-12-02 15:42
  */
+@Service
 @WebServlet("/*")
-public class ServiceServlet implements Servlet {
+public class ServiceServlet extends HttpServlet {
 
     @Override
     public ServletConfig getServletConfig() {
@@ -22,9 +25,7 @@ public class ServiceServlet implements Servlet {
     }
 
     @Override
-    public void service(ServletRequest servletRequest, ServletResponse servletResponse) {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+    public void service(HttpServletRequest request, HttpServletResponse response) {
         try {
             // 如果是静态资源请求
             String uri = request.getRequestURI();

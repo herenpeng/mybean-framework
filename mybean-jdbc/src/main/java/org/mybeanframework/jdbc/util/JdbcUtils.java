@@ -1,12 +1,6 @@
 package org.mybeanframework.jdbc.util;
 
-import com.alibaba.druid.pool.DruidDataSource;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * @author herenpeng
@@ -14,27 +8,18 @@ import java.sql.Statement;
  */
 public class JdbcUtils {
 
-    private static DruidDataSource druidDataSource;
-
+    private static String driverClass = null;
+    private static String url = null;
+    private static String username = null;
+    private static String password = null;
 
     static {
-
-        druidDataSource = new DruidDataSource();
-        druidDataSource.setDriverClassName(JdbcXmlHelper.getDriverName());
-        druidDataSource.setUrl(JdbcXmlHelper.getUrl());
-        druidDataSource.setUsername(JdbcXmlHelper.getUsername());
-        druidDataSource.setPassword(JdbcXmlHelper.getPassword());
+        driverClass = JdbcXmlHelper.getDriverName();
+        url = JdbcXmlHelper.getUrl();
+        username = JdbcXmlHelper.getUsername();
+        password = JdbcXmlHelper.getPassword();
     }
 
-
-    /**
-     * 获取数据源
-     *
-     * @return
-     */
-    public static DataSource getDataSource() {
-        return druidDataSource;
-    }
 
     /**
      * 从链接池中获取链接
@@ -42,8 +27,15 @@ public class JdbcUtils {
      * @return
      * @throws SQLException
      */
-    public static Connection getConnection() throws SQLException {
-        return druidDataSource.getConnection().getConnection();
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            Class.forName(driverClass);
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 
 

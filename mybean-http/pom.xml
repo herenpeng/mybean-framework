@@ -11,5 +11,12 @@
 
     <artifactId>mybean-http</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.mybeanframework</groupId>
+            <artifactId>mybean-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

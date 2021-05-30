@@ -1,6 +1,5 @@
 package com.mybean.service.impl;
 
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlCreateUserStatement;
 import com.mybean.domain.User;
 import com.mybean.mapper.UserMapper;
 import com.mybean.service.UserService;

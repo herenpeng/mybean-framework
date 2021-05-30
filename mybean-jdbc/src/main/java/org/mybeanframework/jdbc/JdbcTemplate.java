@@ -10,10 +10,7 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,22 +24,23 @@ import java.util.List;
 public class JdbcTemplate<E> {
 
     /**
-     * 有参数的SQL预处理方法
+     * 预编译SQL
      *
-     * @param sql    SQL
-     * @param params SQL参数数组
+     * @param sql
+     * @param params
      * @return
      * @throws SQLException
      */
-    private JdbcObject pretreatmentQuerySql(String sql, Object[] params) throws SQLException {
+    private JdbcObject pretreatmentSql(String sql, Object[] params) throws SQLException {
         Connection conn = JdbcUtils.getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
-        for (int i = 0; i < params.length; i++) {
-            String param = String.valueOf(params[i]);
-            ps.setString(i + 1, param);
+        if (params != null && params.length > 0) {
+            for (int i = 0; i < params.length; i++) {
+                String param = String.valueOf(params[i]);
+                ps.setString(i + 1, param);
+            }
         }
-        ResultSet rs = ps.executeQuery();
-        return new JdbcObject(conn, ps, rs);
+        return new JdbcObject(conn, ps);
     }
 
     /**
@@ -53,11 +51,25 @@ public class JdbcTemplate<E> {
      * @throws SQLException
      */
     private JdbcObject pretreatmentQuerySql(String sql) throws SQLException {
-        Connection conn = JdbcUtils.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return new JdbcObject(conn, ps, rs);
+        return pretreatmentQuerySql(sql, null);
     }
+
+    /**
+     * 有参数的SQL预处理方法
+     *
+     * @param sql    SQL
+     * @param params SQL参数数组
+     * @return
+     * @throws SQLException
+     */
+    private JdbcObject pretreatmentQuerySql(String sql, Object[] params) throws SQLException {
+        JdbcObject jdbcObject = pretreatmentSql(sql, params);
+        PreparedStatement statement = jdbcObject.getStatement();
+        ResultSet rs = statement.executeQuery();
+        jdbcObject.setResultSet(rs);
+        return jdbcObject;
+    }
+
 
     /**
      * @param sql
@@ -66,14 +78,11 @@ public class JdbcTemplate<E> {
      * @throws SQLException
      */
     private JdbcObject pretreatmentUpdateSql(String sql, Object[] params) throws SQLException {
-        Connection conn = JdbcUtils.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql);
-        for (int i = 0; i < params.length; i++) {
-            String param = String.valueOf(params[i]);
-            ps.setString(i + 1, param);
-        }
+        JdbcObject jdbcObject = pretreatmentSql(sql, params);
+        PreparedStatement ps = jdbcObject.getStatement();
         int result = ps.executeUpdate();
-        return new JdbcObject(conn, ps, result);
+        jdbcObject.setResult(result);
+        return jdbcObject;
     }
 
     /**
