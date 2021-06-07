@@ -14,11 +14,6 @@ import java.util.*;
  */
 public class Request implements HttpServletRequest {
 
-    /**
-     * HTTP 的请求文本字符串
-     */
-    private String http;
-
     private String method;
 
     private String uri;
@@ -34,28 +29,34 @@ public class Request implements HttpServletRequest {
         // 第一个是请求行
         requestLineResolver(requestLine);
 
-        String requestHead = in.readLine();
-        while (StringUtils.isNotEmpty(requestHead)) {
+        String requestHead;
+        while (StringUtils.isNotEmpty(requestHead = in.readLine())) {
+            System.out.println(requestHead);
             requestHeadResolver(requestHead);
-            requestHead = in.readLine();
         }
-        this.http = httpRequest.toString();
-        System.out.println(http);
+
+        String requestBody;
+        while (StringUtils.isNotEmpty(requestBody = in.readLine())) {
+            System.out.println(requestBody);
+        }
     }
 
+    public static final int REQUEST_LINE_ARR_LENGTH = 3;
 
     private void requestLineResolver(String requestLine) {
         String[] requestAttributes = requestLine.split(" ");
-        if (requestAttributes.length == 3) {
+        if (requestAttributes.length == REQUEST_LINE_ARR_LENGTH) {
             this.method = requestAttributes[0];
             this.uri = requestAttributes[1];
             this.version = requestAttributes[2];
         }
     }
 
+    public static final int REQUEST_HEAD_ARR_LENGTH = 2;
+
     private void requestHeadResolver(String requestHead) {
         String[] requestHeadAttributes = requestHead.split(": ");
-        if (requestHeadAttributes.length == 2) {
+        if (requestHeadAttributes.length == REQUEST_HEAD_ARR_LENGTH) {
             requestHeads.put(requestHeadAttributes[0], requestHeadAttributes[1]);
         }
     }

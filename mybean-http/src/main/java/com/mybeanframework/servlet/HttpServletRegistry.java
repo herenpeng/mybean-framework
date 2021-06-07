@@ -1,17 +1,10 @@
 package com.mybeanframework.servlet;
 
-
-
-import com.mybeanframework.server.annotation.Service;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.ServiceLoader;
 
 /**
  * @author herenpeng
@@ -27,11 +20,7 @@ public class HttpServletRegistry {
         try {
             Class<? extends HttpServlet> httpServletClass = (Class<? extends HttpServlet>) Class.forName(serviceServletFullClassName);
             this.httpServlet = httpServletClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
 
@@ -40,6 +29,24 @@ public class HttpServletRegistry {
 
     public HttpServletRegistry() {
         registry();
+        try {
+            // 执行 servlet 的 init 方法
+            if (httpServlet != null) {
+                httpServlet.init();
+            }
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Servlet 的销毁方法
+     */
+    public void destroy() {
+        if (httpServlet != null) {
+            httpServlet.destroy();
+        }
     }
 
 

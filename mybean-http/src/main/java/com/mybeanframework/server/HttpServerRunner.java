@@ -4,6 +4,7 @@ import com.mybeanframework.http.Request;
 import com.mybeanframework.http.Response;
 import com.mybeanframework.server.annotation.HttpServer;
 import com.mybeanframework.server.util.HttpServerThreadPool;
+import com.mybeanframework.server.util.Logger;
 import com.mybeanframework.servlet.HttpServletRegistry;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,9 @@ import java.net.Socket;
  */
 public class HttpServerRunner {
 
-    public static final HttpServletRegistry httpServletRegistry = new HttpServletRegistry();
+    public static final HttpServletRegistry HTTP_SERVLET_REGISTRY = new HttpServletRegistry();
+
+    public static final Logger LOGGER = Logger.getLogger();
 
 
     public static void run(final Class<?> clazz, final String[] args) {
@@ -51,7 +54,7 @@ public class HttpServerRunner {
                         OutputStream outputStream = socket.getOutputStream();
                         HttpServletResponse response = new Response(outputStream);
 
-                        httpServletRegistry.service(request, response);
+                        HTTP_SERVLET_REGISTRY.service(request, response);
                         socket.close();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -59,8 +62,11 @@ public class HttpServerRunner {
                 });
             }
         } catch (Exception e) {
-            System.err.println("");
+            LOGGER.error("服务启动异常");
             e.printStackTrace();
+        } finally {
+            LOGGER.info("服务销毁");
+            HTTP_SERVLET_REGISTRY.destroy();
         }
 
     }
