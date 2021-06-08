@@ -20,7 +20,7 @@ public class StringUtils extends StringConst {
      * @return 为null或者为""返回true，否则返回false
      */
     public static boolean isEmpty(String string) {
-        if (string == null || string.length() == 0 ||  EMPTY_STRING.equals(string)) {
+        if (string == null || string.length() == 0 || EMPTY_STRING.equals(string)) {
             return true;
         }
         return false;
@@ -36,6 +36,20 @@ public class StringUtils extends StringConst {
         return !isEmpty(string);
     }
 
+
+    public static boolean equalsIgnoreCase(String str1, String str2) {
+        if (str1 == null || str2 == null) {
+            return str1 == str2;
+        }
+        return str1.toLowerCase().equals(str2.toLowerCase());
+    }
+
+
+    public static String[] split(String paramsStr, String split) {
+        String[] arr = paramsStr.split(split);
+        return arr;
+    }
+
     /**
      * 判断是否为布尔类型的字符串
      *
@@ -43,10 +57,7 @@ public class StringUtils extends StringConst {
      * @return 为"true"或"false"返回true，其他类型返回false
      */
     public static boolean isBooleanString(String bool) {
-        if (TRUE.equals(bool) || FALSE.equals(bool)) {
-            return true;
-        }
-        return false;
+        return TRUE.equals(bool) || FALSE.equals(bool);
     }
 
     /**
@@ -56,10 +67,7 @@ public class StringUtils extends StringConst {
      * @return 等于"true"，返回true，否则返回false
      */
     public static boolean equalsTrue(String bool) {
-        if (TRUE.equals(bool)) {
-            return true;
-        }
-        return false;
+        return TRUE.equals(bool);
     }
 
     /**
@@ -69,10 +77,7 @@ public class StringUtils extends StringConst {
      * @return 等于"false"，返回true，否则返回false
      */
     public static boolean equalsFalse(String bool) {
-        if (FALSE.equals(bool)) {
-            return true;
-        }
-        return true;
+        return FALSE.equals(bool);
     }
 
     /**

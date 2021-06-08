@@ -21,6 +21,7 @@ public class Request implements HttpServletRequest {
     private String version;
 
     private Map<String, String> requestHeads = new HashMap<>(8);
+    private Map<String, String> requestParams = new HashMap<>(8);
 
     public Request(InputStream inputStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
@@ -29,16 +30,26 @@ public class Request implements HttpServletRequest {
         // 第一个是请求行
         requestLineResolver(requestLine);
 
+        // 请求头
         String requestHead;
         while (StringUtils.isNotEmpty(requestHead = in.readLine())) {
             System.out.println(requestHead);
             requestHeadResolver(requestHead);
         }
 
-        String requestBody;
-        while (StringUtils.isNotEmpty(requestBody = in.readLine())) {
-            System.out.println(requestBody);
+        // 如果不是 GET 方法，则解析请求体
+        if (!StringUtils.equalsIgnoreCase(Method.GET, getMethod())) {
+            // String requestBody = in.readLine();
+            // int len = requestBody.length();
+            // while (requestBody != null && len <= 280) {
+            //     System.out.println(requestBody);
+            //     requestBody = in.readLine();
+            //     len += requestBody.length();
+            // }
         }
+
+        requestParamsResolver();
+
     }
 
     public static final int REQUEST_LINE_ARR_LENGTH = 3;
@@ -58,6 +69,18 @@ public class Request implements HttpServletRequest {
         String[] requestHeadAttributes = requestHead.split(": ");
         if (requestHeadAttributes.length == REQUEST_HEAD_ARR_LENGTH) {
             requestHeads.put(requestHeadAttributes[0], requestHeadAttributes[1]);
+        }
+    }
+
+    private void requestParamsResolver() {
+        String paramsStr = uri.substring(uri.indexOf("?") + 1);
+        String[] paramArr = StringUtils.split(paramsStr, "&");
+        for (String param : paramArr) {
+            String[] arr = StringUtils.split(param, "=");
+            if (arr.length != 2) {
+                continue;
+            }
+            requestParams.put(arr[0], arr[1]);
         }
     }
 
@@ -263,7 +286,7 @@ public class Request implements HttpServletRequest {
 
     @Override
     public String getParameter(String name) {
-        return null;
+        return requestParams.get(name);
     }
 
     @Override
