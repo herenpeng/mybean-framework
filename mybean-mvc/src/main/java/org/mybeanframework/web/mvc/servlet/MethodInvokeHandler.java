@@ -85,7 +85,6 @@ public class MethodInvokeHandler {
         for (int i = 0; i < invokeParameters.length; i++) {
             Parameter invokeParameter = invokeParameters[i];
             Class<?> invokeParameterType = invokeParameter.getType();
-            Object parameter = null;
             // HttpServletRequest和HttpServletResponse的参数注入
             if (ClassUtils.isOrFromServletRequest(invokeParameterType)) {
                 parameters[i] = request;
