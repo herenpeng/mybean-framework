@@ -5,6 +5,7 @@ import org.mybeanframework.common.util.StringUtils;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
+import java.net.Socket;
 import java.security.Principal;
 import java.util.*;
 
@@ -23,9 +24,9 @@ public class Request implements HttpServletRequest {
     private Map<String, String> requestHeads = new HashMap<>(8);
     private Map<String, String> requestParams = new HashMap<>(8);
 
-    public Request(InputStream inputStream) throws IOException {
+    public Request(Socket socket) throws IOException {
+        InputStream inputStream = socket.getInputStream();
         BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-        StringBuilder httpRequest = new StringBuilder();
         String requestLine = in.readLine();
         // 第一个是请求行
         requestLineResolver(requestLine);
@@ -33,22 +34,19 @@ public class Request implements HttpServletRequest {
         // 请求头
         String requestHead;
         while (StringUtils.isNotEmpty(requestHead = in.readLine())) {
-            System.out.println(requestHead);
             requestHeadResolver(requestHead);
         }
 
-        // 如果不是 GET 方法，则解析请求体
-        if (!StringUtils.equalsIgnoreCase(Method.GET, getMethod())) {
-            // String requestBody = in.readLine();
-            // int len = requestBody.length();
-            // while (requestBody != null && len <= 280) {
-            //     System.out.println(requestBody);
-            //     requestBody = in.readLine();
-            //     len += requestBody.length();
-            // }
+        // 如果是 POST 方法，则解析请求体
+        String requestBody = null;
+        if (StringUtils.equalsIgnoreCase(Method.POST, getMethod())) {
+            char[] chars = new char[this.getContentLength()];
+            int len = in.read(chars, 0, this.getContentLength());
+            if (len > 0) {
+                requestBody = new String(chars);
+            }
         }
-
-        requestParamsResolver();
+        requestParamsResolver(requestBody);
 
     }
 
@@ -72,7 +70,12 @@ public class Request implements HttpServletRequest {
         }
     }
 
-    private void requestParamsResolver() {
+    /**
+     * 解析参数信息
+     *
+     * @param requestBody
+     */
+    private void requestParamsResolver(String requestBody) {
         String paramsStr = uri.substring(uri.indexOf("?") + 1);
         String[] paramArr = StringUtils.split(paramsStr, "&");
         for (String param : paramArr) {
@@ -101,7 +104,14 @@ public class Request implements HttpServletRequest {
 
     @Override
     public String getHeader(String name) {
-        return this.requestHeads.get(name);
+        String header = this.requestHeads.get(name);
+        if (StringUtils.isEmpty(header)) {
+            header = this.requestHeads.get(name.toUpperCase());
+        }
+        if (StringUtils.isEmpty(header)) {
+            header = this.requestHeads.get(name.toLowerCase());
+        }
+        return header;
     }
 
     @Override
@@ -266,12 +276,12 @@ public class Request implements HttpServletRequest {
 
     @Override
     public int getContentLength() {
-        return 0;
+        return Integer.parseInt(getHeader("Content-Length"));
     }
 
     @Override
     public long getContentLengthLong() {
-        return 0;
+        return Long.parseLong(getHeader("Content-Length"));
     }
 
     @Override

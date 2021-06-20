@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -21,7 +22,8 @@ public class Response implements HttpServletResponse {
     public Response() {
     }
 
-    public Response(OutputStream outputStream) {
+    public Response(Socket socket) throws IOException {
+        OutputStream outputStream = socket.getOutputStream();
     }
 
     @Override

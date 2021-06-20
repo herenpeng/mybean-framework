@@ -19,7 +19,8 @@ import java.net.Socket;
  */
 public class HttpServerRunner {
 
-    public static final HttpServletRegistry HTTP_SERVLET_REGISTRY = new HttpServletRegistry();
+    public static final HttpServerRunner runner = new HttpServerRunner();
+    public static final HttpServletRegistry registry = new HttpServletRegistry();
 
     public static final Logger LOGGER = Logger.getLogger();
 
@@ -34,27 +35,25 @@ public class HttpServerRunner {
             // 获取端口号
             int port = httpServer.port();
             try {
-                createSocket(port);
+                runner.createSocket(port);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static void createSocket(final int port) throws IOException {
+    public void createSocket(final int port) throws IOException {
         final ServerSocket server = new ServerSocket(port);
         try {
             while (true) {
                 final Socket socket = server.accept();
                 HttpServerThreadPool.execute(() -> {
                     try {
-                        InputStream inputStream = socket.getInputStream();
-                        HttpServletRequest request = new Request(inputStream);
+                        HttpServletRequest request = new Request(socket);
 
-                        OutputStream outputStream = socket.getOutputStream();
-                        HttpServletResponse response = new Response(outputStream);
+                        HttpServletResponse response = new Response(socket);
 
-                        HTTP_SERVLET_REGISTRY.service(request, response);
+                        registry.service(request, response);
                         socket.close();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -66,7 +65,7 @@ public class HttpServerRunner {
             e.printStackTrace();
         } finally {
             LOGGER.info("服务销毁");
-            HTTP_SERVLET_REGISTRY.destroy();
+            registry.destroy();
         }
 
     }
