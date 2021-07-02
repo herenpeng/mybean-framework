@@ -28,6 +28,9 @@ public class MethodUtils {
         BeanInfo beanInfo = Introspector.getBeanInfo(objectClass);
         PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor properties : pds) {
+            if ("class".equals(properties.getName())) {
+                continue;
+            }
             BeanContent beanContent = new BeanContent();
             beanContent.setProperties(properties.getName());
             beanContent.setMethod(properties.getReadMethod());
